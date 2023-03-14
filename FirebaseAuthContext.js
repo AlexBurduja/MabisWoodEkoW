@@ -33,6 +33,8 @@ export const AuthProvider = ({children}) => {
     }, [user?.uid])
 
     return (
-        <FirebaseAuthContext.Provider value={{ user, conditional }}>{children}</FirebaseAuthContext.Provider>
+        <FirebaseAuthContext.Provider value={{ user, conditional }}>
+            {children}
+        </FirebaseAuthContext.Provider>
     )
 }

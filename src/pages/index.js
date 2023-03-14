@@ -1,4 +1,5 @@
-import Header from './Header';
+import { AuthProvider } from '../../FirebaseAuthContext';
+import { Header } from '../../Header';
 
 export default function Homepage() {
 

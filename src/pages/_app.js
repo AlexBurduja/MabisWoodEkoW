@@ -1,12 +1,13 @@
 import '@/styles/globals.css'
-import { FirebaseAuthContext } from '../../FirebaseAuthContext'
-import { Header } from './Header'
+import {BrowserRouter as Router} from 'react-router-dom';
+import { AuthProvider} from '../../FirebaseAuthContext'
 
 export default function App({ Component, pageProps }) {
   return ( 
-  <FirebaseAuthContext>
-    <Header />
+    <Router>
+  <AuthProvider>
     <Component {...pageProps} /> 
-  </FirebaseAuthContext>
+  </AuthProvider>
+    </Router>
   )
 }

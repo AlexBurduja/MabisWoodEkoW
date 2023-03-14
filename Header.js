@@ -8,18 +8,15 @@ import { NavLink } from 'react-router-dom';
 // import { ShoppingCart } from '../cartPage/ShoppingCart';
 import { useState } from 'react';
 import { signOut } from 'firebase/auth';
-import { auth } from '../../firebase-config';
+import { auth } from './firebase-config';
 import { useEffect } from 'react';
 import { useContext } from 'react';
-import { FirebaseAuthContext } from '../../FirebaseAuthContext';
+import { AuthProvider, FirebaseAuthContext } from './FirebaseAuthContext';
+import { useRouter } from 'next/router';
 // import { ShoppingCartMobile } from '../cartPage/ShoppingCartMobile';
 // import ReactFlagsSelect from 'react-flags-select';
 
 export const Header = () => {
-
-  const {user, conditional} = useContext(FirebaseAuthContext)
-
-  console.log(conditional)
 
   const [language, setLanguage] = useState('GB');
 
@@ -80,34 +77,36 @@ export const Header = () => {
 
   const activeClassHamburger = ({isActiveHamburger}) => isActiveHamburger ? "activeClassHamburger" : "link";
 
-  useEffect(() => {
-    const checkbox = document.querySelector('#navi-toggle');
-    const body = document.querySelector('body');
-  
-    const handleCheckboxClick = () => {
-      if (checkbox.checked) {
-        body.classList.add('no-scroll');
-      } else {
-        body.classList.remove('no-scroll');
-      }
-    };
-  
-    const handleNavLinkClick = () => {
-      body.classList.remove('no-scroll');
-    };
-  
-    checkbox.addEventListener('click', handleCheckboxClick);
-    document.querySelectorAll('.item a').forEach(link => {
-      link.addEventListener('click', handleNavLinkClick);
-    });
-  
-    return () => {
-      checkbox.removeEventListener('click', handleCheckboxClick);
-      document.querySelectorAll('.item a').forEach(link => {
-        link.removeEventListener('click', handleNavLinkClick);
-      });
-    };
-  }, []);
+  // useEffect(() => {
+  //   if (typeof window !== 'undefined') {
+  //     const checkbox = document.querySelector('#navi-toggle');
+  //     const body = document.querySelector('body');
+
+  //     const handleCheckboxClick = () => {
+  //       if (checkbox.checked) {
+  //         body.classList.add('no-scroll');
+  //       } else {
+  //         body.classList.remove('no-scroll');
+  //       }
+  //     };
+
+  //     const handleNavLinkClick = () => {
+  //       body.classList.remove('no-scroll');
+  //     };
+
+  //     checkbox.addEventListener('click', handleCheckboxClick);
+  //     document.querySelectorAll('.item a').forEach(link => {
+  //       link.addEventListener('click', handleNavLinkClick);
+  //     });
+
+  //     return () => {
+  //       checkbox.removeEventListener('click', handleCheckboxClick);
+  //       document.querySelectorAll('.item a').forEach(link => {
+  //         link.removeEventListener('click', handleNavLinkClick);
+  //       });
+  //     };
+  //   }
+  // }, []);
   
 
   return (
