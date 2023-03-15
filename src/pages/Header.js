@@ -18,12 +18,21 @@ import Image from 'next/image';
 export default function Header() {
 
   const { user, conditional } = useContext(FirebaseAuthContext)
+  
+  const [language, setLanguage] = useState("GB");
 
-  const [language, setLanguage] = useState(localStorage.getItem('language') || "GB");
+   useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const storedLanguage = localStorage.getItem('language');
+      if (storedLanguage) {
+        setLanguage(storedLanguage);
+      }
+    }
+  }, []);
 
   const onSelect = (code) => { 
     setLanguage(code)
-    window.location.reload();
+    localStorage.setItem('language', code)
   }
 
   const logOut = async () => {
@@ -44,26 +53,30 @@ export default function Header() {
 
         <div className='headerLoginText'>
         <p>
-        {typeof localStorage !== 'undefined' &&
-    localStorage.getItem('language') === "RO" ? 'Salut' :
-    typeof localStorage !== 'undefined' &&
-    localStorage.getItem('language') === "IT" ? "Ciao" :
-    typeof localStorage !== 'undefined' &&
-    localStorage.getItem('language') === "DE" ? "Hallo" :
-    typeof localStorage !== 'undefined' &&
-    localStorage.getItem('language') === "FR" ? "Salut" :
-    "Hi"}, {conditional.firstName}
+        {localStorage.getItem('language') === "RO" ? 'Salut' :
+        localStorage.getItem('language') === "IT" ? "Ciao" :
+        localStorage.getItem('language') === "DE" ? "Hallo" :
+        localStorage.getItem('language') === "FR" ? "Salut" :
+        "Hi"}, {conditional.firstName}
           
           </p> 
-        <button className='logoutButtonHeader' onClick={logOut}>Delogheaza-te 
-       </button>
+          <button className='logoutButtonHeader' onClick={logOut}>{
+          localStorage.getItem('language') === "RO" ? 'Delogheaza-te' 
+        : localStorage.getItem('language') === "IT" ? "Disconnettersi"
+        : localStorage.getItem('language') === "DE" ? 'Ausloggen'
+        : localStorage.getItem('language') === "FR" ? 'Se déconnecter' 
+        : 'Log Out'} </button>
       </div>
 
         </div>
       )
     } else {
       return (
-        <button className='loginButtonHeader'><Link href="/login">Conecteaza-te</Link></button>
+        <button className='loginButtonHeader'><Link href="/login">{localStorage.getItem('language') === "RO" ? 'Conecteaza-te' :
+        localStorage.getItem('language') === "IT" ? 'Accedi' :
+        localStorage.getItem('language') === "DE" ? 'Anmelden' :
+        localStorage.getItem('language') === "FR" ? 'Connexion' :
+        'Log in'}</Link></button>
       )
     }
   }
@@ -71,13 +84,20 @@ export default function Header() {
   function LogInOrOutMobile(){
     if(user?.uid){
       return(
-        <button className='logoutButtonHamburger' onClick={logOut}>
-        Delogheaza-te
-      </button>
+        <button className='logoutButtonHamburger' onClick={logOut}>{
+          localStorage.getItem('language') === "RO" ? 'Delogheaza-te' 
+        : localStorage.getItem('language') === "IT" ? "Disconnettersi"
+        : localStorage.getItem('language') === "DE" ? 'Ausloggen'
+        : localStorage.getItem('language') === "FR" ? 'Se déconnecter' 
+        : 'Log Out'}</button>
       ) 
     } else {
       return(
-        <button className='logoutButtonHamburger'><Link href="/login"> Conectează-te
+        <button className='logoutButtonHamburger'><Link href="/login"> {localStorage.getItem('language') === "RO" ? 'Conectează-te' :
+        localStorage.getItem('language') === "IT" ? 'Accedi' :
+        localStorage.getItem('language') === "DE" ? 'Anmelden' :
+        localStorage.getItem('language') === "FR" ? 'Connexion' :
+        'Log in'}
          </Link></button>
       )
       }
@@ -128,23 +148,43 @@ export default function Header() {
 
     <div className='desktopAnchors'>
       <div className='nav_anchors '>
-        <Link className={activeClass} href='/'>Acasa
+        <Link className={activeClass} href='/'>{
+          localStorage.getItem('language') === "RO" ? 'Acasa' :
+          localStorage.getItem('language') === "IT" ? 'Home' :
+          localStorage.getItem('language') === "DE" ? 'Zuhause' :
+          localStorage.getItem('language') === "FR" ? "Accueil" : 
+          'Home'}
         </Link>
         
-        <Link className={activeClass} href='/about'>Despre
+        <Link className={activeClass} href='/about'>{localStorage.getItem('language') === "RO" ? 'Despre' :
+          localStorage.getItem('language') === "IT" ? 'Informazioni' :
+          localStorage.getItem('language') === "DE" ? 'Über' :
+          localStorage.getItem('language') === "FR" ? 'À propos' :
+          'About'}
         </Link>
 
         <Link className={activeClass} href='/reviews'>
-          Recenzii
+        {localStorage.getItem('language') === "RO" ? 'Recenzii' :
+          localStorage.getItem('language') === "IT" ? 'Recensioni' :
+          localStorage.getItem('language') === "DE" ? 'Bewertungen' :
+          localStorage.getItem('language') === 'FR' ? 'Commentaires' :
+          'Reviews'}
         </Link>
 
         <Link className={activeClass} href='/contact'>
-          Contact
+        {localStorage.getItem('language') === "RO" || "FR" ? 'Contact' :
+          localStorage.getItem('language') === "IT" ? 'Contatto' :
+          localStorage.getItem('language') === "DE" ? 'Kontakt' :
+          'Contact'}
         </Link>
 
         {conditional.admin === true && (
           <Link className={activeClass} href='/panel'>
-            Panou
+            {localStorage.getItem('language') === "RO" ? 'Panou' :
+            localStorage.getItem('language') === "IT" ? 'Pannello' :
+            localStorage.getItem('language') === "DE" ? 'Panel' :
+            localStorage.getItem('language') === 'FR' ? 'Panneau' :
+            'Panel'}
           </Link>
         )}        
         </div>
@@ -184,21 +224,45 @@ export default function Header() {
         <ul className="list">
 
           <li className="item"> <Link className={activeClassHamburger} href='/'>
-          Acasa</Link> </li>
+          {
+          localStorage.getItem('language') === "RO" ? 'Acasa' :
+          localStorage.getItem('language') === "IT" ? 'Home' :
+          localStorage.getItem('language') === "DE" ? 'Zuhause' :
+          localStorage.getItem('language') === "FR" ? "Accueil" :
+          'Home'}</Link> </li>
 
-          <li className="item"> <Link className={activeClassHamburger} href='/about'>Despre</Link> </li>
+          <li className="item"> <Link className={activeClassHamburger} href='/about'>{localStorage.getItem('language') === "RO" ? 'Despre' :
+          localStorage.getItem('language') === "IT" ? 'Informazioni' :
+          localStorage.getItem('language') === "DE" ? 'Über' :
+          localStorage.getItem('language') === "FR" ? 'À propos' :
+          'About'}</Link> </li>
 
-          <li className="item"> <Link className={activeClassHamburger} href='/reviews'>Recenzii</Link> </li>
+          <li className="item"> <Link className={activeClassHamburger} href='/reviews'>{localStorage.getItem('language') === "RO" ? 'Recenzii' :
+          localStorage.getItem('language') === "IT" ? 'Recensioni' :
+          localStorage.getItem('language') === "DE" ? 'Bewertungen' :
+          localStorage.getItem('language') === 'FR' ? 'Commentaires' :
+          'Reviews'}</Link> </li>
 
-          <li className="item"> <Link className={activeClassHamburger} href='/contact'>Contact</Link> </li>
+          <li className="item"> <Link className={activeClassHamburger} href='/contact'>{localStorage.getItem('language') === "RO" || "FR" ? 'Contact' :
+          localStorage.getItem('language') === "IT" ? 'Contatto' :
+          localStorage.getItem('language') === "DE" ? 'Kontakt' :
+          'Contact'}</Link> </li>
           
           {conditional.admin === true && (
-            <li className='item'><Link className={activeClassHamburger} href='/panel'>Panou</Link> </li>
+            <li className='item'><Link className={activeClassHamburger} href='/panel'>{localStorage.getItem('language') === "RO" ? 'Panou' :
+            localStorage.getItem('language') === "IT" ? 'Pannello' :
+            localStorage.getItem('language') === "DE" ? 'Panel' :
+            localStorage.getItem('language') === 'FR' ? 'Panneau' :
+            'Panel'}</Link> </li>
             )}
 
           {user?.uid && (
             <li className='item'> <Link className={activeClassHamburger} href='/profile'>
-              Profilul lui ${conditional.firstName}
+              {localStorage.getItem('language') === "RO" ? `Profilul lui ${conditional.firstName}` :
+              localStorage.getItem('language') === "IT" ? `Profilo di ${conditional.firstName}` :
+              localStorage.getItem('language') === "DE" ? `${conditional.firstName}'s Profil` :
+              localStorage.getItem('language') === 'FR' ? `Profil d'${conditional.firstName}` :
+              `${conditional.firstName}'s Profile`}
               </Link> </li>
           )}
      

@@ -1,7 +1,8 @@
+import { BigImage } from '@/components/BigImage';
 import { useContext } from 'react';
 import { AuthProvider, FirebaseAuthContext } from '../../FirebaseAuthContext';
 import { Footer } from './Footer';
-import Header  from './Header';
+import Header from './Header';
 
 export default function Homepage() {
 
@@ -12,6 +13,7 @@ export default function Homepage() {
   return (
     <>
     <Header />
+    {/* <BigImage /> */}
     <Footer />
     </>
   );
