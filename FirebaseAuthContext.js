@@ -1,7 +1,7 @@
-import { doc, getDoc } from "@firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import React, { useEffect, useState } from "react";
-import   { auth, db } from "./firebase-config"
+import   { auth, db } from "./firebase-config";
+import { doc, getDoc } from "@firebase/firestore";
 
 export const FirebaseAuthContext = React.createContext();
 
@@ -17,6 +17,7 @@ export const AuthProvider = ({children}) => {
 
             const getDocument = async () => {
                 if (user?.uid) {
+                    
                     const ref = doc(db, 'users', user.uid);
                     const document = await getDoc(ref);
                     setConditional(document.data());

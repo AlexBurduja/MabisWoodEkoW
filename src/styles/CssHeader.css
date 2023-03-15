@@ -1,0 +1,383 @@
+.flex{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    height: 6.25rem;
+    top: 0;
+    z-index: 100;
+    background-color: white;
+}
+
+.logo{
+    width: 30vw;
+    max-width: 250px;
+    /* margin-left: -20px; */
+}
+
+.desktopAnchors{
+    display: none;
+}
+
+/* hamburger css */
+.checkbox {
+  display: none;
+}
+
+.button {
+  background-color: white;
+  height: 3rem;
+  width: 3rem;
+  border-radius: 50%;
+  position: absolute;
+  z-index: 2000;
+  box-shadow: 0 0 5px 3px grey;
+  text-align: center; 
+  cursor: pointer;
+}
+
+.background {
+  height: 3rem;
+  width: 3rem;
+  border-radius: 50%;
+  position: relative;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.9), black);
+  z-index: 1000;
+
+  transition: transform 0.8s cubic-bezier(0.86, 0, 0.07, 1);
+}
+
+.nav {
+  position: absolute;
+  overflow-y: auto;
+  height: 100vh;
+  top: 0;
+  right: -60px;
+  z-index: 1500;
+  opacity: 0;
+  width: 0;
+  transition: all 0.8s;
+}
+
+.no-scroll{
+  overflow: hidden;
+}
+
+
+.list {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  list-style: none;
+  text-align: center;
+  width: 100vw;
+  color: rgba(48, 48, 230,1);
+}
+
+.item {
+  margin: 1rem;
+  font-size: 36px;
+}
+
+
+ 
+.link:link,
+.link:visited {
+  display: inline-block;
+  font-size: 5vh;
+  font-weight: 300;
+  /* padding: 1rem 2rem; */
+  color: black;
+  text-decoration: none;
+  text-transform: uppercase;
+  background-image: linear-gradient(
+    120deg,
+    transparent 0%,
+    transparent 50%,
+    white 50%
+  );
+  background-size: 220%;
+  transition: all 0.4s;
+}
+
+.link:hover,
+.link:active {
+  border-bottom: 5px solid rgba(48, 48, 230,1);
+  cursor: pointer;
+}
+
+.checkbox:checked ~ .background {
+  transform: scale(80);
+}
+
+.checkbox:checked ~ .nav {
+  opacity: 1;
+  width: 100%;  
+  right: 0;
+}
+
+.icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.icon,
+.icon::before,
+.icon::after {
+  width: 1.8rem;
+  height: 2px;
+  background-color: gray;
+  display: inline-block;
+}
+
+.icon::before,
+.icon::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  transition: all 0.2s;
+}
+
+.icon::before {
+  top: -0.8rem;
+}
+.icon::after {
+  top: 0.8rem;
+}
+
+.button:hover icon:before {
+  top: -1rem;
+}
+.button:hover icon::after {
+  top: 1rem;
+}
+
+.checkbox:checked + .button .icon {
+  background-color: transparent;  
+}
+
+.checkbox:checked + .button .icon::before {
+  top: 0;
+  transform: rotate(135deg);
+}
+
+.checkbox:checked + .button .icon::after {
+  top: 0;
+  transform: rotate(-135deg);
+}
+
+.desktopCart{
+  display: none;
+}
+
+.mobileCart{
+  display: flex;
+  justify-content: center;
+}
+
+.mobileCart p,
+.mobileCart svg{
+  color: black;
+  font-size: 2vh;
+}
+
+.shoppingCartHamburger{
+  display: flex;
+  justify-content: center;
+}
+
+.shoppingCartHamburger:hover{
+  border-bottom: 5px solid rgba(48, 48, 230,1)
+}
+
+.loginListP{
+  font-size: 5vh;
+  color: black;
+}
+
+.headerLogin{
+  display: none;
+}
+
+.logoutButtonHamburger{
+  background: linear-gradient(-135deg, white, rgba(45,45,230) );
+  width: 90%;
+  height: 35px;
+  font-family: inherit;
+  font-size: 20px;
+  border-radius: 10px;
+  border: transparent;
+  font-weight: bold;
+}
+
+.loginButtonHeader{
+  display: none;
+}
+
+.flexMobile{
+  display: flex;
+  flex-direction: row;
+}
+
+.logoMobile{
+  width: 100px;
+}
+  
+.selectItemMobile{
+  width: 90%;
+  height: 30px;
+  text-align: center;
+  background-color: transparent;
+  border: 2px solid black;
+}
+
+.selectItemDesktop{
+  display: none;
+}
+
+.selectItemMobile {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: white;
+  background-position: 10px 10px;
+  background-repeat: no-repeat;
+  font-size: 16px;
+  padding: 12px 30px 12px 40px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.selectItemMobile:focus {
+  outline: none;
+}
+
+.ReactFlagsSelect-module_selectOptionValue__vS99-{
+  justify-content: center;
+}
+
+ button#rfs-btn.ReactFlagsSelect-module_selectBtn__19wW7::after {
+  display: none;
+}
+
+button#rfs-btn.ReactFlagsSelect-module_selectBtn__19wW7 {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Greater than 760px (desktop & rest) */
+@media only screen and (min-width: 850px){
+  
+    .selectItemMobile{
+      display: none;
+    }
+
+    .selectItemDesktop{
+      display: block;
+      padding: 5px 10px;
+      border: 2px solid black;
+      background-color: transparent;
+      font-style: inherit;
+      cursor: pointer;
+    }
+
+    .hamburger{
+        display: none;
+    }
+
+    .loginButtonHeader{
+      display: block;
+      width: 10vw;
+      height: 30px;
+      font-size: 1vw;
+      border: transparent;
+      border-radius: 20px;
+      background: linear-gradient(-90deg, white, rgb(45,45,230) );
+      color: black;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .loginButtonHeader a{
+      text-decoration: none;
+    }
+
+    .headerLogin{
+      display: flex;
+      gap: 10px;
+      flex-direction: row-reverse;
+      font-size: 1.2vw;
+    }
+
+    .headerLoginIcons{
+      display: flex;
+      flex-direction: column;
+      font-size: 2.5vw;
+      justify-content: center;
+      margin-top: 5px;
+    }
+
+    .headerLoginText{
+      display: flex;
+      flex-direction: column;
+    }
+
+    .headerLogin button {
+      width: 100%;
+      height: 40px;
+      font-size: 1vw;
+      border: transparent;
+      border-radius: 20px;
+      background: linear-gradient(-90deg, white, rgb(45,45,230) );
+      color: black;
+      cursor: pointer;
+    }
+
+    .mobileCart{
+      display: none;
+    }
+
+    .desktopCart{
+      display: block;
+     
+    }
+
+    .logo {
+        margin-left: 10px;
+    }
+
+    .desktopAnchors{
+        display: block;
+    }
+
+    .nav_anchors{
+        display: flex;
+        justify-content: center;
+        gap: 1vw;
+    }
+    
+    .nav_anchors a{
+        text-decoration: none;
+        color: black;
+        font-weight: bold;
+        font-style: italic;
+        font-size: 1.3vw;
+        margin-right: 20px;
+    }
+    
+    .nav_anchors a:hover{
+        color: firebrick;
+        transition: 500ms cubic-bezier(0.075, 0.82, 0.165, 1);
+      }
+      
+      .activeClassNav{
+        border-bottom: 2px solid rgb(45,45,230)
+      }
+}

@@ -1,13 +1,15 @@
-import '@/styles/globals.css'
-import {BrowserRouter as Router} from 'react-router-dom';
+import { useRouter } from 'next/router' 
 import { AuthProvider} from '../../FirebaseAuthContext'
+import '../styles/CssHeader.css'
+import '../styles/Footer.css'
+import '../styles/globals.css'
 
 export default function App({ Component, pageProps }) {
+  const router = useRouter()
+
   return ( 
-    <Router>
-  <AuthProvider>
-    <Component {...pageProps} /> 
-  </AuthProvider>
-    </Router>
+      <AuthProvider>
+        <Component {...pageProps} key={router.route} /> 
+      </AuthProvider>
   )
 }

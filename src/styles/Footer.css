@@ -1,0 +1,153 @@
+.footerSection {
+    position: relative; /* Add position relative */
+    height: 100%;
+    min-height: 300px;
+    background-color: whitesmoke;
+    background: url(../publicResources/logoMabis.svg);
+    background-repeat: no-repeat;
+    background-size: 500px;
+    background-position:100px;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 100px;
+    padding-bottom: 25px;
+  }
+
+  .footerSection::before {
+    content: '';
+    position: absolute; 
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.7); 
+    backdrop-filter: blur(4px); 
+    z-index: -1; 
+  }
+
+
+.footerSection_flex_row{
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    justify-content: space-around;
+}
+
+
+.footerSection_common{
+    margin-top: 20px;
+    font-size: 20px;
+}
+
+.footerSection_flex_column_1{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.footerSection_flex_column_1 img{
+    width: 90%;
+    max-width: 300px;
+}
+.footerSection_flex_column_1 p{
+    width: 100%;
+    max-width: 400px;
+}
+
+.footerSection_flex_column_4 {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.footerSection_flex_column_5 iframe{
+    width: 90%;
+    max-width: 200px;
+    height: 11vh;
+    min-height: 130px;
+}
+
+.footerSection_flex_column_5_float_left p{
+    width: 250px;
+}
+
+.footerSection_flex_column_5{
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+}
+
+.footerSection_flex_column_5_float_left{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.litigiiDiv{
+    display: flex;
+    flex-direction: row;
+    gap: 50px;
+    align-items: center;
+    justify-content: center;
+}
+
+.socialMediaDiv{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.socialMediaDiv__socials{
+    display: flex;
+    gap: 50px;
+}
+
+.socialMediaDiv__socials div svg {
+    font-size: 35px;
+    color: rgba(48, 48, 230,1);
+}
+
+.socialMediaDiv__socials div svg :hover {
+    transition: ease 200ms;
+    color: red;
+}
+
+.socialMediaDiv__credits {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+
+@media (max-width:1100px){
+
+    .footerSection{
+        background: url(../publicResources/logoMabisCerc.svg);
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+
+    .footerSection_flex_row{
+        flex-direction: column;
+    }
+
+    .footerSection_flex_column_5{
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .litigiiDiv{
+        flex-direction: column;
+    }
+
+}
