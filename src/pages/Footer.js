@@ -1,7 +1,6 @@
 import React from 'react';
-// import "./Footer.css"
-import { BsFillTelephoneFill, BsFillPinMapFill } from 'react-icons/bs';
 import { FiMail } from 'react-icons/fi'
+import { BsFillTelephoneFill, BsFillPinMapFill } from 'react-icons/bs';
 import { HashLink } from 'react-router-hash-link';
 import { FaInstagram } from 'react-icons/fa'
 import { FaTiktok } from 'react-icons/fa'

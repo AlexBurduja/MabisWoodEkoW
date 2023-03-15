@@ -1,8 +1,8 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { CgProfile } from 'react-icons/cg' 
 import logo from '../publicResources/logoMabis.svg';
 // import "../cartPage/ShoppingCart"
 // import { ShoppingCart } from '../cartPage/ShoppingCart';
+import { CgProfile } from 'react-icons/cg' 
 import { useState } from 'react';
 import { signOut } from 'firebase/auth';
 import { auth } from '../../firebase-config';
@@ -17,10 +17,9 @@ import Image from 'next/image';
 
 export default function Header() {
 
-  const {user, conditional} = useContext(FirebaseAuthContext)
+  const { user, conditional } = useContext(FirebaseAuthContext)
 
-  // const [language, setLanguage] = useState(localStorage.getItem('language') || "GB");
-
+  const [language, setLanguage] = useState(localStorage.getItem('language') || "GB");
 
   const onSelect = (code) => { 
     setLanguage(code)
@@ -40,12 +39,20 @@ export default function Header() {
       return (
         <div className='headerLogin'>
       <div className='headerLoginIcons'>
-        <Link href="/profile"></Link>
+        <Link href="/profile"> <CgProfile /> </Link>
         </div>
 
         <div className='headerLoginText'>
         <p>
-            Hi, {conditional.firstName}
+        {typeof localStorage !== 'undefined' &&
+    localStorage.getItem('language') === "RO" ? 'Salut' :
+    typeof localStorage !== 'undefined' &&
+    localStorage.getItem('language') === "IT" ? "Ciao" :
+    typeof localStorage !== 'undefined' &&
+    localStorage.getItem('language') === "DE" ? "Hallo" :
+    typeof localStorage !== 'undefined' &&
+    localStorage.getItem('language') === "FR" ? "Salut" :
+    "Hi"}, {conditional.firstName}
           
           </p> 
         <button className='logoutButtonHeader' onClick={logOut}>Delogheaza-te 
@@ -153,7 +160,7 @@ export default function Header() {
         {/* <ShoppingCartMobile/>   */}
       </div>
 
-      {/* <ReactFlagsSelect
+      <ReactFlagsSelect
                   selected={language}
                   onSelect={onSelect}
                   countries={["RO", "GB", "IT", "DE", "FR"]}
@@ -164,7 +171,7 @@ export default function Header() {
                   placeholder = "S"
                   className='custom-flags-select'
                   customLabels={{ RO: "Romanian", GB: 'English'}}
-      />           */}
+      />          
 
     <div className='hamburger'>
         <input type="checkbox" id="navi-toggle" className="checkbox" />

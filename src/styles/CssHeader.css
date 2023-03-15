@@ -324,6 +324,10 @@ button#rfs-btn.ReactFlagsSelect-module_selectBtn__19wW7 {
       margin-top: 5px;
     }
 
+    .headerLoginIcons svg{
+      color: black;
+    }
+
     .headerLoginText{
       display: flex;
       flex-direction: column;
