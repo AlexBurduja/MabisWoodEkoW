@@ -12,6 +12,7 @@ import { FirebaseAuthContext } from "../../../FirebaseAuthContext";
 import { async } from "@firebase/util";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Image from "next/image";
 
 /// Modal
 
@@ -283,7 +284,7 @@ useEffect(() => {
         <>
     <div id="product" className="cardDiv">
         <h2>{title}</h2>
-        <img src={image} alt="productImage" />
+        <Image src={image} width={100} height={100} alt="productImage" className="productImg"/>
         <p className="kgP">{kg} Kg</p>
         <p className="priceCurrencyP">{price} {currency}</p>
 

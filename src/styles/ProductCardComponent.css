@@ -33,13 +33,6 @@ section header{
     padding-bottom: 20px;
 }
 
-
-.cardDiv img { 
-    width: 50%;
-    height: 50%;
-}
-
-
 .kgP{
     position: absolute;
     font-size: 20px;

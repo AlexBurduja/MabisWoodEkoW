@@ -1,0 +1,195 @@
+.loginWrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+    gap: 20px;
+    background: linear-gradient(-135deg, #000C40, rgb(43,43,230));
+}
+
+.wrapperOfWrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+
+.LoginRightSide{
+    width: 90%;
+    max-width: 400px;
+    height: 95vh;
+    max-height: 500px;
+    background: #fff;
+    box-shadow: 0px 0px 10px  black;
+    border-radius: 20px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 60px;
+    z-index: 1;
+}
+
+.leftRegion{
+    position: relative;
+    box-shadow: 0px 0px 10px  black;
+    width: 500px;
+    height: 100%;
+    background: linear-gradient(-135deg, white, rgb(43,43,230));
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    gap: 50px;
+}
+
+.leftRegion div:nth-of-type(2){
+    font-size: 45px;
+    font-weight: bold;
+}
+
+.leftRegion div:nth-of-type(3){
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.leftRegion div:nth-of-type(4){
+    position: absolute;
+    bottom: 50px;
+    left: 50px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.loginLogo{
+    position: absolute;
+    top: 50px;
+    left: 50px;
+    width: 350px;
+}
+
+.loginForm{
+    display: flex;
+    width: 100%;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.submitButtonLogin {
+    width: 100%;
+    max-width: 350px;
+    color: white;
+}
+
+.inputBoxes{
+    position: relative;
+    width: 100%;
+    max-width: 350px;
+}
+
+.inputBoxes input{
+    width: 100%;
+    height: 50px;
+    padding: 10px;
+    border: 1px solid black;
+    background-color: #fff;
+    border-radius: 5px;
+    color: black;
+    outline: none;
+    font-size: 1em;
+}
+
+.inputBoxes span{
+    position: absolute;
+    left: 0;
+    padding: 10px;
+    pointer-events: none;
+    font-size: 1.5em;
+    color: black;
+    text-transform: uppercase;
+    transition: 100ms ease-in;
+}
+
+.inputBoxes input:valid ~ span,
+.inputBoxes input:focus ~ span {
+    color: black;
+    background-color: white;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+    border-bottom: 1px solid black;
+    border-top: 1px solid black;
+    font-weight: 500;
+    transform: translateX(10px) translateY(-7px);
+    padding: 0px 10px;
+    font-size: 1em;
+}
+
+.error{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    font-size: 100%;
+    word-break: normal;
+    text-align: center;
+    color: red;
+}
+
+
+/* .errorContainer{
+    color: red;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+} */
+
+.errorMsgAccNotFound{
+    color: red;
+    z-index: 1;
+}   
+
+.submitButtonLogin{
+    border-radius: 20px;
+    border: transparent;
+    height: 40px;
+    background: linear-gradient(-135deg, rgb(100,100,230), rgb(43,43,230));
+    font-family: inherit;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.eyeIcon{
+    font-size: 25px;
+    position: absolute;
+    right: 10px;
+    top: 15px;
+    cursor: pointer;
+}
+
+div #tsparticles {
+    z-index: 1;
+}
+
+@media (max-width:1000px) {
+    .leftRegion{
+        display:none;
+    }
+
+    .errorMsgAccNotFound{
+        text-align: center;
+    }
+}
+
+@media (min-width:850){
+
+    .error{
+        font-size: 80%;
+    }
+}

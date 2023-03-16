@@ -13,6 +13,7 @@ import '../styles/ProductCardComponent.css'
 import '../styles/ProductCardComponentModal.css'
 import '../styles/PreFooter.css'
 import '../styles/Loading.css'
+import '../styles/loginCss.css'
 
 export default function App({ Component, pageProps }) {
   const router = useRouter()

@@ -12,6 +12,7 @@ import { loadStripe } from '@stripe/stripe-js';
 import { CountryDropdown, RegionDropdown } from 'react-country-region-selector';
 import emailjs from "emailjs-com"
 import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { isEmpty } from '@firebase/util';
 // import Loading from '../reusableComponents/Loading';
 import {AiFillCreditCard} from 'react-icons/ai'
@@ -20,11 +21,12 @@ import { FaGooglePay } from 'react-icons/fa'
 import { useNavigate } from 'react-router-dom';
 import Link from 'next/link';
 import Image from 'next/image';
-// import * as L from 'leaflet'
+// import L from 'leaflet'
 import "leaflet/dist/leaflet.css";
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import dynamic from 'next/dynamic';
+import { useRouter } from 'next/router';
 
 const MapContainer = dynamic(() => import('react-leaflet').then((mod) => mod.MapContainer), { ssr: false });
 const TileLayer = dynamic(() => import('react-leaflet').then((mod) => mod.TileLayer), { ssr: false });
@@ -41,6 +43,8 @@ const Popup = dynamic(() => import('react-leaflet').then((mod) => mod.Popup), { 
       setLanguage(lang);
     }
   }, []);
+
+  const router = useRouter();
 
   const { user } = useContext( FirebaseAuthContext )
   
@@ -68,6 +72,7 @@ const Popup = dynamic(() => import('react-leaflet').then((mod) => mod.Popup), { 
   const [companyName, setCompanyName] = useState('')
   const [companyCui, setCompanyCui] = useState('')
 
+  
 
   //UseState for checks
 
@@ -610,7 +615,7 @@ const Popup = dynamic(() => import('react-leaflet').then((mod) => mod.Popup), { 
           return true
           }
 
-          if(!emailValid || !firstNameValid || !lastNameValid || !phoneValid || !streetValid || !streetNoValid || !blockValid || !apartamentNoValid || isEmpty(country) || region === "Select region" || isEmpty(selectedMarker)){
+          if(!emailValid || !firstNameValid || !lastNameValid || !phoneValid || !streetValid || !streetNoValid || !blockValid || !apartamentNoValid || isEmpty(country) || region === "Select region" ||  (pickUp && isEmpty(selectedMarker))){
             toast.error("One or more fields are empty!", {
               autoClose: 6000
             })
@@ -667,7 +672,7 @@ const Popup = dynamic(() => import('react-leaflet').then((mod) => mod.Popup), { 
             
             setTimeout(() => {
               deleteCartUponSuccess();
-              navigate('/')
+              router.push('/')
 
           }, 5000)
 
@@ -1125,7 +1130,7 @@ const Popup = dynamic(() => import('react-leaflet').then((mod) => mod.Popup), { 
      return(
        <section key={item.id} className='cartProductShowFlex'>
            <div>
-             <Image src={item.image} width="150vw" alt="product image" />
+             <Image src={item.image} width={150} height={150} alt="product image" />
            </div>
 
          <div className='row'>
@@ -1349,7 +1354,7 @@ language === "IT" ? "Per favore, controlla che tutte le informazioni siano valid
          return (
            <section key={item.id} className='productCheckoutPage'>
                <div className='imageQuantity'>
-                 <Image src={item.image} alt="product image" width="100px"/>
+                 <Image src={item.image} alt="product image" width={100} height={100}/>
                  <p>{item.quantity}</p>
                </div>
              
@@ -1441,31 +1446,19 @@ language === 'IT' ? 'Ritiro presso uno dei nostri negozi' :
                </select>
                )}
 
-               {/* {pickUp && ( */}
+               {pickUp && (
                 <>
                 <div style={{ width: '100%', height: '300px' }}>
                   <MapContainer style={{width: '100%', height: '100%'}} center={center} zoom={zoom} key={center}>
                     <TileLayer
                       url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />
-                    <Marker icon={L.icon({
-                    iconUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png',
-                    iconSize: [25, 41],
-                    iconAnchor: [12, 41],
-                    popupAnchor: [1, -34],
-                    shadowSize: [41, 41],
-                  })} position={[locations[0].latitude, locations[0].longitude]}>
+                    <Marker  position={[locations[0].latitude, locations[0].longitude]}>
                       <Popup >
                         Bucuresti
                       </Popup>
                     </Marker>
-                    <Marker icon={L.icon({
-                    iconUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png',
-                    iconSize: [25, 41],
-                    iconAnchor: [12, 41],
-                    popupAnchor: [1, -34],
-                    shadowSize: [41, 41],
-                  })} position={[locations[1].latitude, locations[1].longitude]}>
+                    <Marker  position={[locations[1].latitude, locations[1].longitude]}>
                       <Popup >
                         Arges
                       </Popup>
@@ -1526,7 +1519,7 @@ language === 'IT' ? 'Ritiro presso uno dei nostri negozi' :
                       </div>
                     
                     </>
-              {/* //  )} */}
+              )} 
 
                <div className='deliveryFooter'> 
                 <p>{language === 'FR' ? 'NOUS ACCEPTONS :' :
@@ -1539,7 +1532,8 @@ language === 'IT' ? 'Ritiro presso uno dei nostri negozi' :
                  <FaCcApplePay /> <FaGooglePay /> <AiFillCreditCard /> <FaCcMastercard /> <FaCcVisa />
                  </div>
                
-               <button className='checkoutButton' onClick={checkout}>{loadingStripe ? 
+               <button className='checkoutButton' onClick={checkout}>
+                {loadingStripe ? 
                 (language === 'Romania' ? 'Se încarcă...' :
                 language === 'France' ? 'Chargement...' :
                 language === 'Germany' ? 'Wird geladen...' :
@@ -1550,7 +1544,8 @@ language === 'IT' ? 'Ritiro presso uno dei nostri negozi' :
                 language === 'France' ? 'Passer à la caisse' :
                 language === 'Germany' ? 'Zur Kasse' :
                 language === 'Italy' ? 'Checkout' :
-                'Checkout')}
+                'Checkout')
+                }
               </button>
                
                </div>
