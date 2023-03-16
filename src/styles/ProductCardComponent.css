@@ -1,0 +1,139 @@
+section header{
+    text-align: center;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.gridUl{
+    display: grid;
+    place-items: center;
+    place-content: center;
+    margin-top: 2%;
+    grid-template-columns: repeat(auto-fit, minmax(450px,1fr));
+    gap: 55px;
+    width: 100%;
+}
+
+.cardDiv{
+    display: flex;
+    flex-direction: column;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px .8125rem, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+    list-style-type: none;
+    position: relative;
+    border-radius: 30px;
+    justify-content: center;
+    align-items: center;
+    width: 65%;
+    height: 105%;
+    background-color: white;
+}
+
+.cardDiv h2{
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+
+.cardDiv img { 
+    width: 50%;
+    height: 50%;
+}
+
+
+.kgP{
+    position: absolute;
+    font-size: 20px;
+    bottom: 20px;
+    left: 20px;
+    font-weight: bold;
+}
+
+.priceCurrencyP{
+    position: absolute;
+    font-size: 20px;
+    bottom: 20px;
+    right: 20px;
+    font-weight: bold;
+}
+
+.cardDivButton{
+    border: 2px black solid;
+    background-color: white;
+    color: rgb(48, 48, 230);
+    font-weight: bold;
+    font-size: 0.9rem;
+    font-family: inherit;
+    width: 30%;
+    height: 10%;
+    cursor: pointer;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    position: relative;
+    bottom: 0;
+}
+
+.cardDiv .viewMoreButton{
+    color: rgb(48, 48, 230);
+    font-weight: bold;
+    border: 2px solid black;
+    width: 30%;
+    font-size: 0.9rem;
+    padding: 3% 0;
+    margin-bottom: 60px;
+    text-align: center;
+    text-decoration: none;
+    opacity : 0;
+    transition: 300ms ease-out
+}
+
+.cardDiv:hover .viewMoreButton:first-of-type {
+    transition: opacity 300ms ease-in;
+    opacity: 1;
+}
+
+
+.cardDiv:hover .viewMoreButton:first-of-type {
+    opacity: 1;
+}
+
+button.edit-btn{
+    position: absolute;
+    cursor: pointer;
+    background-color: transparent;
+    top: 20px;
+    right: 20px;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    text-align: center;
+}
+
+.cardDivButton:hover,
+.viewMoreButton:hover {
+    background-color: rgb(48, 48, 230);
+    color: white;
+    border: 2px solid black;
+}
+
+.listComponent header{
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.editModalSucces{
+    text-align: center;
+    margin-top: 10px;
+    color: rgb(14, 235, 14);
+}
+
+.editModalDeleteSucces{
+    color: red;
+    text-align: center;
+    margin-top: 10px;
+}
+
+@media (max-width: 800px){
+    .cardDiv .viewMoreButton{
+        opacity: 1;
+    }
+}

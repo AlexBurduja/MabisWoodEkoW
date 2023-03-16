@@ -1,0 +1,148 @@
+.btn-modal {
+  padding: 10px 20px;
+  display: block;
+  margin: 100px auto 0;
+  font-size: 18px;
+}
+
+.overlay {
+  height: 100vh;
+  width: 100%;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  position: fixed;
+  z-index: 1;
+}
+.modal{
+  height: 100vh;
+  width: 100%;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  position: fixed;
+  z-index: 1;
+}
+
+.overlay {
+  background: rgba(49,49,49,0.8);
+}
+
+.modal-content {
+  position: absolute;
+  overflow: hidden;
+  top: 50%;
+  right: 50%;
+  transform: translate(50%, -50%);
+  line-height: 1.4;
+  background: white;
+  padding: 14px 28px;
+  border-radius: 3px;
+  max-width: 600px;
+  min-width: 300px;
+  z-index: 2;
+}
+
+
+.close-modal {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 30px;
+  font-size: 20px;
+  color: red;
+  background-color: white;
+  border: transparent;
+  cursor: pointer;
+}
+
+.modal-content-inputs{
+  display: flex;
+  flex-direction: column;
+  gap:15px;
+  margin-top: 30px;
+}
+
+.modal-content h1,
+.modal-content p{
+  margin-top: 10px;
+  text-align: center;
+}
+
+.modal-content-inputs input{
+
+  background-color: transparent;
+  border-radius: 0;
+  border: none;
+
+  height: 40px;
+
+
+  font-family: inherit;
+  font-size: inherit;
+  outline: none;
+  padding: 5px 5px;
+  width: 100%;
+}
+
+.modal-content-inputs label{
+  padding: 5px 5px;
+}
+
+.modal-content-inputs_div label{
+  display: block;
+  cursor: pointer;
+}
+
+.modal-content-inputs_div{
+  border: 1px solid rgba(208, 208, 208, 0.5);
+  cursor: pointer;
+}
+
+.modal-content-inputs_div:nth-child(1):hover,
+.modal-content-inputs_div:nth-child(2):hover,
+.modal-content-inputs_div:nth-child(3):hover,
+.modal-content-inputs_div:nth-child(4):hover,
+.modal-content-inputs_div:nth-child(5):hover{
+  border: 1px solid black; 
+}
+
+.modal-content-buttons{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 30px;
+}
+
+.modal-content-buttons button{
+  border: 1px solid black;
+  color:  rgba(48, 48, 230, 1);
+  background-color: transparent;
+  font-family: inherit;
+  font-weight: bold;
+  font-size: 15px;
+  padding: 5px 5px;
+  cursor: pointer;
+}
+
+.modal-content-buttons button:hover{
+  background-color: rgba(48, 48, 230, 1);
+  color: white;
+}
+
+.modal-content-inputs_div:nth-child(1),
+.modal-content-inputs_div:nth-child(2),
+.modal-content-inputs_div:nth-child(3),
+.modal-content-inputs_div:nth-child(4),
+.modal-content-inputs_div:nth-child(5){
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+}
+
+@media (max-height: 815px) {
+  .modal-content-main{
+    overflow: scroll;
+    height: 90%;
+  }
+}

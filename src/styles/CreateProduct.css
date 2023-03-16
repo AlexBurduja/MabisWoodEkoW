@@ -1,0 +1,40 @@
+.modal-content-button_create button{
+    border: 1px solid black;
+    color:  rgba(48, 48, 230, 1);
+    background-color: transparent;
+    font-family: inherit;
+    font-weight: bold;
+    font-size: 15px;
+    padding: 5px 5px;
+    width: 100%;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+.modal-content-button_create button:hover{
+    background-color: rgba(48, 48, 230, 1);
+    color: white;
+}
+
+.createProductButton {
+    border: 1px solid black;
+    color:  rgba(48, 48, 230, 1);
+    background-color: transparent;
+    width: 50%;
+    height: 60px;
+    font-family: inherit;
+    font-size: 25px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+.createProductButton:hover{
+    background-color: rgba(48, 48, 230, 1);
+    color: white;
+}
+
+.createProductButtonWrapper{
+    display: flex;
+    justify-content: center;
+}

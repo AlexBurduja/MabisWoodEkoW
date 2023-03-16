@@ -6,8 +6,8 @@ import { FaInstagram } from 'react-icons/fa'
 import { FaTiktok } from 'react-icons/fa'
 import { FaFacebook } from 'react-icons/fa'
 import { NavLink } from 'react-router-dom';
-import litigiu from '../publicResources/i_anpc-sal.svg'
-import litigiu2 from '../publicResources/i_anpc-sol.svg'
+import litigiu from '../../publicResources/i_anpc-sal.svg'
+import litigiu2 from '../../publicResources/i_anpc-sol.svg'
 import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
