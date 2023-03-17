@@ -2,6 +2,9 @@ import { useRouter } from 'next/router'
 import { AuthProvider} from '../../FirebaseAuthContext'
 
 import 'react-toastify/dist/ReactToastify.css';
+
+///This part was awfull trust me. Also, hi there stranger!
+
 import '../styles/CssHeader.css'
 import '../styles/Footer.css'
 import '../styles/globals.css'
@@ -17,6 +20,11 @@ import '../styles/Loading.css'
 import '../styles/loginCss.css'
 import '../styles/RegisterMulti.css'
 import '../styles/ForgotPassPage.css'
+import '../styles/BackToTop.css'
+import '../styles/CancelPageCss.css'
+import '../styles/topScrollProgress.css'
+import '../styles/SuccessPageCss.css'
+import '../styles/AboutPage.css'
 
 export default function App({ Component, pageProps }) {
   const router = useRouter()

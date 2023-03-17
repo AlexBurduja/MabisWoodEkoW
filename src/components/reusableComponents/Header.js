@@ -143,6 +143,7 @@ export default function Header() {
       };
   }, []);
   
+  const router = useRouter()
 
   return (
     <>
@@ -154,22 +155,24 @@ export default function Header() {
 
     <div className='desktopAnchors'>
       <div className='nav_anchors '>
-        <Link className={activeClass} href='/'>{
+        <Link href='/' className={router.pathname === '/' ? 'activeClassNav' : ''}>
+          {
           language === "RO" ? 'Acasa' :
           language === "IT" ? 'Home' :
           language === "DE" ? 'Zuhause' :
           language === "FR" ? "Accueil" : 
           'Home'}
+          
         </Link>
         
-        <Link className={activeClass} href='/about'>{language === "RO" ? 'Despre' :
+        <Link className={router.pathname === '/about' ? 'activeClassNav' : ''} href='/about'>{language === "RO" ? 'Despre' :
           language === "IT" ? 'Informazioni' :
           language === "DE" ? 'Über' :
           language === "FR" ? 'À propos' :
           'About'}
         </Link>
 
-        <Link className={activeClass} href='/reviews'>
+        <Link className={router.pathname === '/reviews' ? 'activeClassNav' : ''} href='/reviews'>
         {language === "RO" ? 'Recenzii' :
           language === "IT" ? 'Recensioni' :
           language === "DE" ? 'Bewertungen' :
@@ -177,7 +180,7 @@ export default function Header() {
           'Reviews'}
         </Link>
 
-        <Link className={activeClass} href='/contact'>
+        <Link className={router.pathname === '/contact' ? 'activeClassNav' : ''} href='/contact'>
         {language === "RO" || "FR" ? 'Contact' :
           language === "IT" ? 'Contatto' :
           language === "DE" ? 'Kontakt' :
@@ -185,7 +188,7 @@ export default function Header() {
         </Link>
 
         {conditional && conditional.admin  && (
-          <Link className={activeClass} href='/panel'>
+          <Link className={router.pathname === '/panel' ? 'activeClassNav' : ''} href='/panel'>
             {language === "RO" ? 'Panou' :
             language === "IT" ? 'Pannello' :
             language === "DE" ? 'Panel' :
@@ -229,7 +232,7 @@ export default function Header() {
       <nav className="nav">
         <ul className="list">
 
-          <li className="item"> <Link className={activeClassHamburger} href='/'>
+          <li className="item"> <Link className={router.pathname === '/' ? 'activeClassNav' : ''} href='/'>
           {
           language === "RO" ? 'Acasa' :
           language === "IT" ? 'Home' :
@@ -237,25 +240,25 @@ export default function Header() {
           language === "FR" ? "Accueil" :
           'Home'}</Link> </li>
 
-          <li className="item"> <Link className={activeClassHamburger} href='/about'>{language === "RO" ? 'Despre' :
+          <li className="item"> <Link className={router.pathname === '/about' ? 'activeClassNav' : ''} href='/about'>{language === "RO" ? 'Despre' :
           language === "IT" ? 'Informazioni' :
           language === "DE" ? 'Über' :
           language === "FR" ? 'À propos' :
           'About'}</Link> </li>
 
-          <li className="item"> <Link className={activeClassHamburger} href='/reviews'>{language === "RO" ? 'Recenzii' :
+          <li className="item"> <Link className={router.pathname === '/reviews' ? 'activeClassNav' : ''} href='/reviews'>{language === "RO" ? 'Recenzii' :
           language === "IT" ? 'Recensioni' :
           language === "DE" ? 'Bewertungen' :
           language === 'FR' ? 'Commentaires' :
           'Reviews'}</Link> </li>
 
-          <li className="item"> <Link className={activeClassHamburger} href='/contact'>{language === "RO" || "FR" ? 'Contact' :
+          <li className="item"> <Link className={router.pathname === '/contact' ? 'activeClassNav' : ''} href='/contact'>{language === "RO" || "FR" ? 'Contact' :
           language === "IT" ? 'Contatto' :
           language === "DE" ? 'Kontakt' :
           'Contact'}</Link> </li>
           
           {conditional && conditional.admin === true && (
-            <li className='item'><Link className={activeClassHamburger} href='/panel'>{language === "RO" ? 'Panou' :
+            <li className='item'><Link className={router.pathname === '/panel' ? 'activeClassNav' : ''} href='/panel'>{language === "RO" ? 'Panou' :
             language === "IT" ? 'Pannello' :
             language === "DE" ? 'Panel' :
             language === 'FR' ? 'Panneau' :
@@ -263,7 +266,7 @@ export default function Header() {
             )}
 
           {user?.uid && (
-            <li className='item'> <Link className={activeClassHamburger} href='/profile'>
+            <li className='item'> <Link className={router.pathname === '/profile' ? 'activeClassNav' : ''} href='/profile'>
               {language === "RO" ? `Profilul lui ${conditional.firstName}` :
               language === "IT" ? `Profilo di ${conditional.firstName}` :
               language === "DE" ? `${conditional.firstName}'s Profil` :

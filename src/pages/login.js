@@ -1,10 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
-import logo from "../../src/publicResources/logoMabis.svg"
+import logo from "../publicResources/logoMabis.svg"
 import { AiOutlineEye } from "react-icons/ai"
 import ParticlesBackground from "../components/particlesJS/particleJsComponent";
-import { NavLink } from "react-router-dom";
 import {signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebase-config";
 import Image from "next/image";
@@ -139,7 +138,7 @@ export default function Login(){
         <div className="leftRegion">
 
         <div>
-          <Image className="loginLogo" src={logo} alt="logo" />
+          <Image className="loginLogo" src={logo} width={350} alt="logo" />
         </div>
 
         <div>

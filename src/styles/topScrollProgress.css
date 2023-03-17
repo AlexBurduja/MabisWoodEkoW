@@ -1,0 +1,20 @@
+.progressMainWrapper{
+    background-color: transparent;
+    height: 15px;
+    position: sticky;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    width: 100%;
+}
+
+.progressMainStyle{
+    height: 15px;
+    background-color: rgb(79, 79, 252);
+}
+
+@media (max-width: 850px) {
+    .progressMainWrapper{
+        display: none;
+    }
+}

@@ -1,0 +1,55 @@
+
+#progress {
+    height: 70px;
+    width: 70px;
+    background-color: rgba(48, 48, 230, 0.8);
+    border-radius: 50%;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    box-shadow: 0 0 10px black;
+    display: grid;
+    place-items: center;
+    z-index: 2;
+}
+
+#progress-value {
+    display: block;
+    height: calc(100% - 10px);
+    width: calc(100% - 10px);
+    background-color: white;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    z-index: 1;
+}
+.arrowDiv{
+    width: 70px;
+    height: 70px;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 35px;
+}
+
+
+.scrollProgress {
+    display: none;
+}
+
+/* under 900px */
+
+@media  (max-width: 850px) {
+    .scrollButtonMobile{
+        display: inline;
+    }
+
+    .scrollProgress{
+        display: inline;
+    }
+
+}

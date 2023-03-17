@@ -299,6 +299,7 @@ const Popup = dynamic(() => import('react-leaflet').then((mod) => mod.Popup), { 
       const totalQuantity = cart.reduce((acc,cur) => {
         return acc+ cur.quantity
       }, 0)
+
       const totalPrice = cart.reduce((acc,cur) => {
         return acc + cur.quantity * cur.price
       }, 0)
@@ -635,6 +636,8 @@ const Popup = dynamic(() => import('react-leaflet').then((mod) => mod.Popup), { 
               localStorage.setItem("isCompanyChecked", isCompanyChecked);
               localStorage.setItem("companyName", companyName);
               localStorage.setItem("companyCui", companyCui);
+              localStorage.setItem("total", totalPrice)
+              console.log(totalPrice)
       
           } else if(deliverySelected === "ramburs" || "pickUp") {
 
@@ -678,6 +681,7 @@ const Popup = dynamic(() => import('react-leaflet').then((mod) => mod.Popup), { 
           } 
 
         }
+
 
         const handleEmailChange = e => {
           setEmail(e.target.value)
@@ -1216,7 +1220,7 @@ const Popup = dynamic(() => import('react-leaflet').then((mod) => mod.Popup), { 
   "CLIENT DETAILS"}
   </h1>
      <h3>{language === "FR" ? "Veuillez vérifier que toutes les informations sont valides et correctes, Merci !" :
-language === "RO" ? "Vă rugăm să verificați că toate informațiile sunt valide și corecte, Mulțumim!" :
+language === "RO" ? "Va rugam sa verificati ca toate informatiile sunt valide si corecte, Multumim!" :
 language === "DE" ? "Bitte überprüfen Sie, ob alle Informationen gültig und korrekt sind. Danke!" :
 language === "IT" ? "Per favore, controlla che tutte le informazioni siano valide e corrette, Grazie!" :
 "Please check that all the informations are valid and correct, Thanks!"}
@@ -1260,7 +1264,7 @@ language === "IT" ? "Per favore, controlla che tutte le informazioni siano valid
        <input type="number" defaultValue={phoneNumber} onChange={handlePhoneNumberChange} required="required"></input>
        <span>
         {language === 'FR' ? 'Téléphone' :
-        language === 'RO' ? 'Număr de telefon' :
+        language === 'RO' ? 'Numar de telefon' :
         language === 'DE' ? 'Telefonnummer' :
         language === 'IT' ? 'Telefono' :
         'Phone number'}</span>
@@ -1340,7 +1344,7 @@ language === "IT" ? "Per favore, controlla che tutte le informazioni siano valid
      <section className='checkoutTab'>
        <div className='checkoutTab_header'>
          <h1>3. {language === 'RO' ? 'CUMPARA' : 'CHECKOUT'}</h1>
-         <h3>{language === 'RO' ? 'Sumar comandă' :
+         <h3>{language === 'RO' ? 'Sumar comanda' :
               language === 'FR' ? 'Récapitulatif de commande' :
               language === 'DE' ? 'Bestellübersicht' :
               language === 'IT' ? 'Riepilogo ordine' :

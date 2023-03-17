@@ -272,6 +272,10 @@ button#rfs-btn.ReactFlagsSelect-module_selectBtn__19wW7 {
   align-items: center;
 }
 
+.activeClassNav{
+  border-bottom: 2px solid rgb(45,45,230)
+}
+
 /* Greater than 760px (desktop & rest) */
 @media only screen and (min-width: 850px){
   

@@ -8,14 +8,9 @@ export function PreFooter() {
       <div className="preFooterWrapper">
 
       <div className="preFooter_title">
-        <p>Keep up with our work!</p>
+        <p>Keep up with our work !</p>
       </div>
 
-      <div className="preFooter_newsletter">
-        <label htmlFor="newsletter">Sign up to our newsletter</label>
-        <input type="email" id="newsletter"></input>
-        <button>Submit</button>
-      </div>
 
       <div className="preFooter_icons">
         <div>

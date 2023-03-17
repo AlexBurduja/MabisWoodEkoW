@@ -71,9 +71,15 @@
     min-height: 130px;
 }
 
-.footerSection_flex_column_5_float_left p{
+.footerSection_flex_column_5_float_left a{
     width: 250px;
+    text-decoration: none;
 }
+
+.footerSection_flex_column_5_float_left a:hover{
+    text-decoration: underline;
+}
+
 
 .footerSection_flex_column_5{
     display: flex;

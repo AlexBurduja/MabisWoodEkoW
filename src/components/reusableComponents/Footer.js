@@ -48,9 +48,9 @@ export function Footer() {
         <div className='footerSection_flex_column_5 footerSection_common'>
           
           <div className='footerSection_flex_column_5_float_left'>
-            <p><BsFillTelephoneFill /> +40721648424</p>
-            <p><BsFillPinMapFill /> Sat.Bogati, Comuna. Bogati, Str. Alunis, Nr.190B, Jud. Arges</p>
-            <p><FiMail /> office@mabiswood.ro</p>
+            <a href='tel:+40721648424'><BsFillTelephoneFill /> +40721648424</a>
+            <a href='https://goo.gl/maps/NrauAUNSKYqhu74E8' target='_blank'><BsFillPinMapFill /> Sat.Bogati, Comuna. Bogati, Str. Alunis, Nr.190B, Jud. Arges</a>
+            <a href='mailto:office@mabiswood.ro'><FiMail /> office@mabiswood.ro</a>
           </div>
 
           <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2846.89607672309!2d26.157477515783366!3d44.476302906832935!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40b1f8587b4a01cf%3A0x4e2d19440aa2cbeb!2sMABIS!5e0!3m2!1sro!2sro!4v1672082312133!5m2!1sro!2sro" loading="lazy" referrerPolicy="no-referrer-when-downgrade" title='googleMaps'></iframe>
