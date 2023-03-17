@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import logo from "../../src/publicResources/logoMabis.svg"
 import { AiOutlineEye } from "react-icons/ai"
-// import ParticlesBackground from "../../particlesJS/particleJsComponent";
+import ParticlesBackground from "../components/particlesJS/particleJsComponent";
 import { NavLink } from "react-router-dom";
 import {signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebase-config";
@@ -119,7 +119,7 @@ export default function Login(){
 
     return (
       <>
-      {/* <ParticlesBackground /> */}
+      <ParticlesBackground />
       <section className="loginWrapper">
         <AnimatePresence>
           {errorMsg && (
@@ -187,7 +187,7 @@ export default function Login(){
 
             <div>
                 
-                <p> Don`t have an account? <Link href="/register">Register</Link> </p>
+                <p> Don&apos;t have an account? <Link href="/register">Register</Link> </p>
                 <p>Forgot password ? <Link href="/forgotpassword">Reset password</Link></p>
             </div>
             </div>

@@ -11,11 +11,6 @@ import Link from 'next/link';
 export function ShoppingCart() {
   
 const { user } = useContext( FirebaseAuthContext )
-
-const [total, setTotal] = useState(0)
-const [ cart, setCart ] = useState([])
-const [cartState, setCartState] = useState(cart)
-
 const [language, setLanguage] = useState("GB");
 
 useEffect(() => {
@@ -25,6 +20,8 @@ useEffect(() => {
   }
 }, [])
 
+const [total, setTotal] = useState(0)
+const [ cart, setCart ] = useState([])
 
 const getCart = useCallback(async () =>{
   if(user?.uid){
@@ -48,7 +45,7 @@ useEffect(() => {
     const sum = cart.map(item => item.quantity).reduce((a, b) => a + b, 0);
     setTotal(sum);
   });
-}, [getCart]);
+}, []);
 
 function ProductCount () {
   return <p>

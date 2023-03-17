@@ -284,7 +284,7 @@ useEffect(() => {
         <>
     <div id="product" className="cardDiv">
         <h2>{title}</h2>
-        <Image src={image} width={100} height={100} alt="productImage" className="productImg"/>
+        <Image src={image} width={200} height={200} alt="productImage" className="productImg"/>
         <p className="kgP">{kg} Kg</p>
         <p className="priceCurrencyP">{price} {currency}</p>
 

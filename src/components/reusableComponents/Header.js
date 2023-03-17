@@ -17,8 +17,14 @@ import Image from 'next/image';
 export default function Header() {
 
   const { user, conditional } = useContext(FirebaseAuthContext)
-  
+
   const [language, setLanguage] = useState("GB");
+
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setLoading(false);
+  }, [user, conditional]);
 
   useEffect(() => {
     const storedLanguage = localStorage.getItem("language");
@@ -178,7 +184,7 @@ export default function Header() {
           'Contact'}
         </Link>
 
-        {conditional.admin === true && (
+        {conditional && conditional.admin  && (
           <Link className={activeClass} href='/panel'>
             {language === "RO" ? 'Panou' :
             language === "IT" ? 'Pannello' :
@@ -248,7 +254,7 @@ export default function Header() {
           language === "DE" ? 'Kontakt' :
           'Contact'}</Link> </li>
           
-          {conditional.admin === true && (
+          {conditional && conditional.admin === true && (
             <li className='item'><Link className={activeClassHamburger} href='/panel'>{language === "RO" ? 'Panou' :
             language === "IT" ? 'Pannello' :
             language === "DE" ? 'Panel' :

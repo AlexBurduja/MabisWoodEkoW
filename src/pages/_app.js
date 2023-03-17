@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router' 
 import { AuthProvider} from '../../FirebaseAuthContext'
 
+import 'react-toastify/dist/ReactToastify.css';
 import '../styles/CssHeader.css'
 import '../styles/Footer.css'
 import '../styles/globals.css'
@@ -14,6 +15,8 @@ import '../styles/ProductCardComponentModal.css'
 import '../styles/PreFooter.css'
 import '../styles/Loading.css'
 import '../styles/loginCss.css'
+import '../styles/RegisterMulti.css'
+import '../styles/ForgotPassPage.css'
 
 export default function App({ Component, pageProps }) {
   const router = useRouter()

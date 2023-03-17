@@ -12,7 +12,6 @@ import { loadStripe } from '@stripe/stripe-js';
 import { CountryDropdown, RegionDropdown } from 'react-country-region-selector';
 import emailjs from "emailjs-com"
 import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import { isEmpty } from '@firebase/util';
 // import Loading from '../reusableComponents/Loading';
 import {AiFillCreditCard} from 'react-icons/ai'

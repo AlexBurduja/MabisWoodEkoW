@@ -1,0 +1,149 @@
+.form {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(43,43,230) ;
+    position: fixed;
+  }
+  
+  .form-container {
+    width: 95%;
+    max-width: 400px;
+    height: 95%;
+    max-height: 450px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.4);
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    z-index: 1;
+    position: fixed;
+    overflow: auto;
+  }
+  
+  .form-container .header {
+    flex: 20%;
+    display: grid;
+    place-items: center;
+  }
+  
+  .form-container .body {
+    flex: 60%;
+  }
+  
+  .form-container .footer {
+    flex: 20%;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .form-container .footer button {
+    border-radius: 7px;
+    width: 100px;
+    height: 40px;
+    background-color: rgb(43,43,230);
+    font-weight: bold;
+    color: white;
+    border: 0 none;
+    border-radius: 1px;
+    cursor: pointer;
+    padding: 10px 5px;
+    margin: 10px 5px;
+    margin: 5px;
+    box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.4);
+  }
+  
+  .sign-up-container {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .sign-up-container input {
+    margin: 5px;
+    width: 200px;
+    height: 40px;
+    padding-left: 5px;
+    font-size: 20px;
+  }
+  
+  .personal-info-container {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .personal-info-container input {
+    margin: 5px;
+    width: 200px;
+    height: 40px;
+    padding-left: 5px;
+    font-size: 20px;
+  }
+  
+  /* PROGRESS BAR */
+  .progressbar {
+    width: 90%;
+    max-width: 400px;
+    height: 10px;
+    background-color: white;
+    margin-bottom: 50px;
+    border-radius: 20px;
+    z-index: 1;
+  }
+  
+  .progressbar div {
+    border-radius: 20px;
+    width: 33.3%;
+    height: 100%;
+    background-color: red;
+  }
+
+  .other-info-container {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .other-info-container input {
+    margin: 5px;
+    width: 200px;
+    height: 40px;
+    padding-left: 5px;
+    font-size: 20px;
+  }
+
+.header h1{
+  font-size: 40px;
+}
+
+.wrapperCenter{
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+}
+
+.checkboxDiv{
+  width: 100%;
+  text-align: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
