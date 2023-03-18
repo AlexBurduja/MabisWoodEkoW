@@ -47,7 +47,7 @@ useEffect(() => {
         sessionStorage.setItem("clientId", newClientId);
         setClientId(newClientId);
       }
-    }, []);
+    }, [clientId]);
   }
   useClientId();
   
@@ -284,10 +284,6 @@ useEffect(() => {
   return (
         <>
     <div id="product" className="cardDiv">
-    <div className='checkboxDiv'>
-        <input  type='checkbox' id='check' ></input>
-        <label htmlFor='check'>I have read and I agree to the <Link href='/termsandconditions'>terms and conditions</Link>,<Link href='/cookiepolicy'>cookie policy</Link> ,<Link href='/privacypolicy'>privacy policy</Link>, <Link href='/returnpolicy'>return policy</Link>.</label>
-</div>
         <h2>{title}</h2>
         <Image src={image} width={200} height={200} alt="productImage" className="productImg"/>
         <p className="kgP">{kg} Kg</p>

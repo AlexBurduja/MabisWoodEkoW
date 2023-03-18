@@ -29,6 +29,7 @@ import '../styles/AdminPanelComponent.css'
 import '../styles/ContactForm.css'
 import '../styles/ProfilePage.css'
 import '../styles/PrivacyPolicyCss.css'
+import '../styles/ReviewPageComponent.css'
 
 export default function App({ Component, pageProps }) {
   const router = useRouter()
