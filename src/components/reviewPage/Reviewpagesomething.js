@@ -172,9 +172,6 @@ const settings = {
 <>
         <section className="mainSection">
         
-        {user?.uid ? 
-        
-            <>
         <div className="header">
           {
             language === 'FR' ? 
@@ -230,6 +227,8 @@ const settings = {
             </AnimatePresence>
         </div>
 
+        {user?.uid ? 
+            <>
                 <section>
 
                 <div className="reviewForm">
