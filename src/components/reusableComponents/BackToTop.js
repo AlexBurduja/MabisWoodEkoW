@@ -19,20 +19,16 @@ export function BackToTop(){
     }, [])
 
     const scrollPercentage = () => {
-        
-        let scrollProgress = document.getElementById("progress")
-        
-        // const progressValue = document.getElementById("progress-value")
-        
-        const pos  = document.documentElement.scrollTop
-        
-        const calcHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight
+    let scrollProgress = document.getElementById("progress");
 
-        const scrollValue = Math.round( pos * 100 / calcHeight)
-
-        scrollProgress.style.background = `conic-gradient(#008fff ${scrollValue}%, #c0c0ff ${scrollValue}% `
-
+    if (scrollProgress) {
+        const pos  = document.documentElement.scrollTop;
+        const calcHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrollValue = Math.round(pos * 100 / calcHeight);
+        scrollProgress.style.background = `conic-gradient(#008fff ${scrollValue}%, #c0c0ff ${scrollValue}%)`;
     }
+};
+
 
 
     if(typeof window !== 'undefined'){

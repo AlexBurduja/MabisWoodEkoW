@@ -43,7 +43,6 @@
 }
 
 .carouselMainDiv {
-    display: block;
     text-align: center;
     max-width: 800px;
     margin: 0 auto;
@@ -128,6 +127,10 @@
   
   .next {
     right: 10px;
+  }
+
+  .admin-only{
+    display: block;
   }
 
 /* 900px or less */

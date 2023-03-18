@@ -1,0 +1,225 @@
+
+
+.modal3{
+    height: 420px;
+    width: 90%;
+    text-align: center;
+    position: absolute;
+}
+
+.modal4{
+    height: 20%;
+    width: 90%;
+    min-height: 250px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.modal4Content{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    width: 90%;
+    text-align: center;
+}
+
+.modal4_content_header{
+    text-align: center;
+    font-size: min(4vw,max(20px))
+}
+
+.modal3ButtonsWrapper{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal3Buttons{
+    position: absolute;
+    bottom: 10px;
+    display: flex;
+    gap: 50px;
+}
+
+.modal3Buttons button{
+    border: transparent;
+    background: linear-gradient(-135deg, #000C40, rgb(43,43,230));
+    color: white;
+    width: 8vw;
+    min-width: 100px;
+    height: 4vh;
+    min-height: 50px;
+    cursor: pointer;
+    text-align: center;
+    font-family: inherit;
+    font-size: 20px;
+}
+
+.profileError{
+    color: red;
+    font-weight: bold;
+}
+
+.profilePageSection{
+    display: flex;
+    height: 100%;
+    width: 100%;
+    flex-direction: row;
+    gap: 35px;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+    
+}
+
+.profilePageh1{
+    text-align: center;
+    margin-top: 20px;
+}
+
+.profilePageSection_div{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    border-radius: 20px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+    padding: 30px;
+}
+
+.profilePageSection_div form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.profilePageForm label{
+    position: relative;
+    width: 200px;
+    top: 20px;
+    font-size: 25px;
+}
+
+.profilePageForm input{
+    width: 250px;
+    height: 40px;
+    font-family: inherit;
+    color: black;
+    font-weight: bold;
+    text-align: center;
+    border-top: transparent;
+    border-left: transparent;
+    border-right: transparent;
+    outline: none;
+    padding: 10px 0 0 0;
+}
+
+.modal5{
+    height: 20%;
+    width: 90%;
+    min-height: 250px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* position: absolute;   */
+}
+
+.emailModal {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+.emailModal input {
+    width: 250px;
+    height: 40px;
+    font-family: inherit;
+    color: black;
+    font-weight: bold;
+    text-align: center;
+    border-top: transparent;
+    border-left: transparent;
+    border-right: transparent;
+    outline: none;
+    padding: 10px 0 0 0;
+}
+
+.emailModal label {
+    position: relative;
+    width: 200px;
+    top: 0;
+    font-size: 25;
+}
+
+
+.profilePageSection_div button {
+    border: transparent;
+    border-radius: 20px;
+    background: linear-gradient(-180deg, white, rgb(45,45,230));
+    height: 25px;
+    font-family: inherit;
+    font-weight: bold;
+}
+
+.profilePageSection_divL{
+    width: 25vw;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background: linear-gradient(-135deg, white 2%, rgb(42,42,230) 98%);
+    padding: 30px;
+    border-radius: 20px;
+}
+
+.profilePageSection_divL p{
+    font-size: 20px;
+}
+
+.succesMessage{
+    color: rgb(8, 219, 8);
+    position: fixed;
+    width: 100%;
+    margin-top: 10px;
+    text-align: center;
+    font-size: 40px;
+}
+
+.deleteMessage{
+    color: red;
+    position: fixed;
+    width: 100%;
+    margin-top: 10px;
+    text-align: center;
+    font-size: 40px;
+}
+
+@media (max-width:1000px){
+    .profilePageSection{
+        flex-direction: column;
+    }
+
+    .profilePageSection_divL{
+        width: 70%;
+        min-width: 300px;
+    }
+
+    .profilePageSection_divL p{
+        font-size: 3.5vw;
+    }
+
+    .succesMessage{
+        background-color: rgb(199, 199, 199);
+        z-index: 10;
+    }
+
+    .deleteMessage{
+        background-color: rgba(199, 199, 199, 1);
+        z-index: 10;
+    }
+}
+

@@ -242,7 +242,7 @@ export function AboutComponent (){
         </div>
     )}
 
-    <div className='carouselMainDiv' >
+    <div className={`carouselMainDiv ${conditional.admin ? 'admin-only' : ''}`}>
         
         <h2>{language === "RO" ? 'Poze' : 'Photos'} </h2>
 

@@ -25,6 +25,9 @@ import '../styles/CancelPageCss.css'
 import '../styles/topScrollProgress.css'
 import '../styles/SuccessPageCss.css'
 import '../styles/AboutPage.css'
+import '../styles/AdminPanelComponent.css'
+import '../styles/ContactForm.css'
+import '../styles/ProfilePage.css'
 
 export default function App({ Component, pageProps }) {
   const router = useRouter()
