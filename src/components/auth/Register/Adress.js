@@ -50,7 +50,7 @@ function Adress({formData, setFormData}) {
 
 <div className='checkboxDiv'>
         <input  type='checkbox' id='check' onClick={saveCheck}></input>
-        <label htmlFor='check'>I have read and I agree to the <Link href=''>terms and conditions</Link>, <Link href=''>privacy policy</Link>, <Link href=''>return policy</Link>.</label>
+        <label htmlFor='check'>I have read and I agree to the <Link href='/termsandconditions'>terms and conditions</Link>,<Link href='/cookiepolicy'>cookie policy</Link> ,<Link href='/privacypolicy'>privacy policy</Link>, <Link href='/returnpolicy'>return policy</Link>.</label>
 </div>
 
     
