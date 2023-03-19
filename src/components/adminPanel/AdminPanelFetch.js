@@ -25,7 +25,7 @@ export function AdminPanelFetch(){
               setLoading(false)
             } catch (error) {
               if(error.code === 'permission-denied'){
-                // route.push('/403')
+                route.push('/403')
               } 
             }
         }
