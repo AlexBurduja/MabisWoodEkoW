@@ -54,9 +54,9 @@ section header{
     background-color: white;
     color: rgb(48, 48, 230);
     font-weight: bold;
-    font-size: 0.9rem;
+    font-size: 1rem;
     font-family: inherit;
-    width: 30%;
+    width: 60%;
     height: 10%;
     cursor: pointer;
     margin-top: 30px;
@@ -69,14 +69,15 @@ section header{
     color: rgb(48, 48, 230);
     font-weight: bold;
     border: 2px solid black;
-    width: 30%;
-    font-size: 0.9rem;
+    width: 60%;
+    font-size: 1rem;
     padding: 3% 0;
-    margin-bottom: 60px;
+    margin-bottom: 70px;
     text-align: center;
     text-decoration: none;
     opacity : 0;
-    transition: 300ms ease-out
+    transition: 300ms ease-out;
+    font-family: inherit;
 }
 
 .cardDiv:hover .viewMoreButton:first-of-type {
@@ -103,9 +104,8 @@ button.edit-btn{
 
 .cardDivButton:hover,
 .viewMoreButton:hover {
-    background-color: rgb(48, 48, 230);
-    color: white;
     border: 2px solid black;
+    background-color: rgba(0,0,0, 0.05);
 }
 
 .listComponent header{

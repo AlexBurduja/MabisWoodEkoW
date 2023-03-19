@@ -289,11 +289,14 @@ useEffect(() => {
         <p className="kgP">{kg} Kg</p>
         <p className="priceCurrencyP">{price} {currency}</p>
 
-        <button  className="cardDivButton" onClick={addToCart}>{language === 'FR' ? 'Ajouter au panier' :
- language === 'RO' ? 'Adauga în cos' :
- language === 'DE' ? 'Warenkorb Legen' :
- language === 'IT' ? 'Aggiungi al carrello' :
- 'Add to cart'}</button>
+        <button  className="cardDivButton" onClick={addToCart}>
+          {language === 'FR' ? 'Ajouter au panier' :
+          language === 'RO' ? 'Adauga in cos' :
+          language === 'DE' ? 'Warenkorb Legen' :
+          language === 'IT' ? 'Aggiungi al carrello' :
+          'Add to cart'
+          }
+        </button>
         <ToastContainer />
     
         <Link href={`products/${id}`} className="viewMoreButton"> {language === 'FR' ? 'Voir plus' :

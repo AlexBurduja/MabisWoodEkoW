@@ -4,6 +4,7 @@ import { db } from "../../../firebase-config";
 import { FirebaseAuthContext } from "../../../FirebaseAuthContext";
 import Loading from "../reusableComponents/Loading";
 import { AdminPanelComponent } from "./AdminPanelComponent";
+import CanNavigate from "./CanNavigate";
 
 export function AdminPanelFetch(){
     const [users , setUsers] = useState([])
@@ -23,6 +24,7 @@ export function AdminPanelFetch(){
     }, []) 
     
     return (
+      <CanNavigate>
         <>
         {loading ? <Loading /> : 
         <>
@@ -77,5 +79,6 @@ export function AdminPanelFetch(){
         </>
         }
         </>
+        </CanNavigate>
     )
 }
