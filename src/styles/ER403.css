@@ -1,0 +1,49 @@
+.wrapper403{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+}
+
+.wrapperOfWrapper403{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    padding: 100px 50px;
+    text-align: center;
+    height: 90%;
+    width: 90%;
+    max-height: 400px;
+    max-width: 400px;
+}
+
+.infoErr403{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.infoErr403 p{
+    width: 80vw;
+    max-width: 380px;
+}
+
+.image403 svg{
+    width: 60px;
+    height: 60px;
+    color: red;
+}
+
+.buttonErr403 button{
+    padding: 10px 20px;
+    border: 2px solid black;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+}

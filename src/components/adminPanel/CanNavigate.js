@@ -12,12 +12,15 @@ function CanNavigate({children}) {
 
     if (!conditional.admin) {
         return (
-            <p>
-                You are not allowed to access this page.{' '}
-                <button onClick={() => window.location.href = '/'}>
+            <div style={{ display: 'flex',flexDirection: 'column', justifyContent: 'center', alignItems: 'center',  height: '100vh', maxHeight:'250px', gap:'20px', color: 'red'}}>
+                <p>
+                    You are not allowed to access this page.
+                </p>
+            
+                <button style={{padding: '10px 5px', border: '2px solid black', cursor:'pointer' }} onClick={() => window.location.href = '/'}>
                     Go back to the homepage
                 </button>
-            </p>
+            </div>
         );
     }
 

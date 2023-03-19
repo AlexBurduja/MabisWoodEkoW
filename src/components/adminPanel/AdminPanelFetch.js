@@ -1,5 +1,7 @@
 import { collection, doc, getDoc, getDocs } from "firebase/firestore";
+import { useRouter } from "next/router";
 import React, { useContext, useEffect, useState } from "react";
+import { toast, ToastContainer } from "react-toastify";
 import { db } from "../../../firebase-config";
 import { FirebaseAuthContext } from "../../../FirebaseAuthContext";
 import Loading from "../reusableComponents/Loading";
@@ -10,20 +12,30 @@ export function AdminPanelFetch(){
     const [users , setUsers] = useState([])
     const [loading, setLoading] = useState(true)
 
+    const route = useRouter();
+
     useEffect(() => {
         const getUsers = async () => {
             const userDoc = collection(db, `users`)
 
-            const data = await getDocs(userDoc)
-
-            setUsers(data.docs.map((doc) => ({...doc.data(), id:doc.id})))
-            setLoading(false)
+            try{
+              const data = await getDocs(userDoc)
+  
+              setUsers(data.docs.map((doc) => ({...doc.data(), id:doc.id})))
+              setLoading(false)
+            } catch (error) {
+              if(error.code === 'permission-denied'){
+                // route.push('/403')
+              } 
+            }
         }
         getUsers()
 
     }, []) 
     
     return (
+      <>
+      <ToastContainer />
       <CanNavigate>
         <>
         {loading ? <Loading /> : 
@@ -54,8 +66,8 @@ export function AdminPanelFetch(){
       <h3>Here you can see everyone that created a profile on the site and all informations about their account.</h3>
     </>
 }
-        </div>
         
+        </div>
         <section className="adminPanel">
             {users.map((item) => {
                 return (
@@ -80,5 +92,6 @@ export function AdminPanelFetch(){
         }
         </>
         </CanNavigate>
+        </>
     )
 }
