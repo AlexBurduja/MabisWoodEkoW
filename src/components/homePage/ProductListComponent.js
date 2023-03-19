@@ -43,7 +43,7 @@ export function ProductListComponent() {
         'Products'}
       </header>
       {loading ? <Loading /> :
-      <div className='gridUl' >
+      <div className='gridUl' id="product">
         {products.map((product) => {
           return (
                 <ProductCardComponent

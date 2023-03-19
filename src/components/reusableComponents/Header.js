@@ -149,7 +149,7 @@ export default function Header() {
     <>
     <section id="home" className='flex'>
       <div className='logo'>
-        <Image src={logo} className='logo' alt="logo"/>
+        <Image src={logo} className='logo' alt="logo" width={250} height={250}/>
       </div>
 
 

@@ -283,7 +283,7 @@ useEffect(() => {
 
   return (
         <>
-    <div id="product" className="cardDiv">
+    <div className="cardDiv">
         <h2>{title}</h2>
         <Image src={image} width={200} height={200} alt="productImage" className="productImg"/>
         <p className="kgP">{kg} Kg</p>
@@ -296,11 +296,11 @@ useEffect(() => {
  'Add to cart'}</button>
         <ToastContainer />
     
-        <a href={`products/${id}`} className="viewMoreButton"> {language === 'FR' ? 'Voir plus' :
+        <Link href={`products/${id}`} className="viewMoreButton"> {language === 'FR' ? 'Voir plus' :
  language === 'RO' ? 'Vezi mai multe' :
  language === 'DE' ? 'Mehr anzeigen' :
  language === 'IT' ? 'Vedi di più' :
- 'View more'} </a>
+ 'View more'} </Link>
 
         {conditional?.admin && (
           <button onClick={toggleModalEdit} className="edit-btn">< AiFillEdit /></button>

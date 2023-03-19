@@ -30,6 +30,7 @@ import '../styles/ContactForm.css'
 import '../styles/ProfilePage.css'
 import '../styles/PrivacyPolicyCss.css'
 import '../styles/ReviewPageComponent.css'
+import '../styles/SingleProductPage.css'
 
 export default function App({ Component, pageProps }) {
   const router = useRouter()
