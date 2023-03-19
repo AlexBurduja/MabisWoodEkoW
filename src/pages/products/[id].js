@@ -6,7 +6,6 @@ import { doc, getDoc} from "firebase/firestore";
 import { db } from "../../../firebase-config";
 import Loading from "../../components/reusableComponents/Loading";
 import Link from 'next/link';
-import { HashLink } from 'react-router-hash-link';
 
 function Id() {
 
@@ -29,7 +28,30 @@ function Id() {
         getProduct();
       }, [id])
 
-      
+  const scrollToProduct = () => {
+    const productElement = document.getElementById('product');
+    if (productElement) {
+      productElement.scrollIntoView();
+    }
+  };
+
+  function handleClick(e) {
+    e.preventDefault();
+    router.push('/#product');
+    setTimeout(() => {
+      const productElement = document.getElementById('product');
+      if (productElement) {
+        productElement.scrollIntoView();
+      }
+    }, 300);
+  }
+
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash === '#product') {
+      scrollToProduct();
+    }
+  }, []);
 
   return (
     <>
@@ -53,13 +75,14 @@ function Id() {
             <p>Works best with a thermal plant.</p>
             <h1>{productDetails.title}</h1>
             <p>{productDetails.price} {productDetails.currency}</p>
-              <Link href='/#product' >
+            {/* <Link href='/#product'> */}
               <motion.button
-            whileHover={{scale: 1.1}}
-            whileTap={{scale: 0.9}}>
+              onClick={handleClick}
+                whileHover={{scale: 1.1}}
+                whileTap={{scale: 0.9}}>
                 Back to all products
-            </motion.button>
-              </Link>
+              </motion.button>
+            {/* </Link> */}
         </div>
       
       </div>
