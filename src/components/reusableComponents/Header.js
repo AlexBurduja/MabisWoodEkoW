@@ -7,11 +7,11 @@ import { signOut } from 'firebase/auth';
 import { auth } from '../../../firebase-config';
 import { useEffect } from 'react';
 import { useContext } from 'react';
-import { FirebaseAuthContext, FirebaseContext } from '../../../FirebaseAuthContext';
+import { FirebaseAuthContext } from '../../../FirebaseAuthContext';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { ShoppingCartMobile } from '../cartPage/ShoppingCartMobile';
-// import ReactFlagsSelect from 'react-flags-select';
+import ReactFlagsSelect from 'react-flags-select';
 import Image from 'next/image';
 
 export default function Header() {
@@ -208,7 +208,7 @@ export default function Header() {
     <div className='mobileCart'>
         <ShoppingCartMobile/>  
       </div>
-{/*         
+        
       <div>
         
       <ReactFlagsSelect
@@ -220,7 +220,7 @@ export default function Header() {
                   showSelectedLabel={false}
                   className='custom-flags-select'
       />          
-      </div> */}
+      </div>
 
     <div className='hamburger'>
         <input type="checkbox" id="navi-toggle" className="checkbox" />
