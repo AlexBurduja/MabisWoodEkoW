@@ -11,10 +11,15 @@ import { FirebaseAuthContext } from '../../../FirebaseAuthContext';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { ShoppingCartMobile } from '../cartPage/ShoppingCartMobile';
-import ReactFlagsSelect from 'react-flags-select';
+// import ReactFlagsSelect from 'react-flags-select';
 import Image from 'next/image';
+import dynamic from 'next/dynamic';
 
 export default function Header() {
+
+  const DynamicReactFlagsSelect = dynamic(() => import('react-flags-select'), {
+    ssr: false
+  })
 
   const { user, conditional } = useContext(FirebaseAuthContext)
 
@@ -211,7 +216,7 @@ export default function Header() {
         
       <div>
         
-      <ReactFlagsSelect
+      <DynamicReactFlagsSelect
                   selected={language}
                   onSelect={onSelect}
                   countries={["RO", "GB", "IT", "DE", "FR"]}
