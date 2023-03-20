@@ -1,17 +1,22 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { AnimatePresence, motion } from "framer-motion";
+import React, { useState } from "react";
+import {  motion } from "framer-motion";
 import logo from "../publicResources/logoMabis.svg"
 import { AiOutlineEye } from "react-icons/ai"
-import ParticlesBackground from "../components/particlesJS/particleJsComponent";
 import {signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebase-config";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { toast, ToastContainer } from "react-toastify";
+import dynamic from "next/dynamic";
 
-export default function Login(){
+export function Login(){
+
+  const ParticlesBackground = dynamic(
+    () => import("../components/particlesJS/particleJsComponent"),
+    { ssr: false }
+  );
+
     const [loginEmail, setLoginEmail] = useState('')
     const [loginPassword, setLoginPassword] = useState('')
 
@@ -121,3 +126,5 @@ export default function Login(){
     </>
     )
 }
+
+export default Login

@@ -6,15 +6,20 @@ import { FirebaseAuthContext } from '../../FirebaseAuthContext';
 import SignUpInfo from '../components/auth/Register/SignUpInfo';
 import PersonalInfo from '../components/auth/Register/PersonalInfo';
 import Adress from '../components/auth/Register/Adress';
-import ParticlesBackground from '../components/particlesJS/particleJsComponent';
 import { toast, ToastContainer } from 'react-toastify';
 import { useNavigate } from 'react-router';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 
 
 
-export default function Register() {
+export function Register() {
+
+  const ParticlesBackground = dynamic(
+    () => import("../components/particlesJS/particleJsComponent"),
+    { ssr: false }
+  );
 
 const router = useRouter();
 
@@ -49,8 +54,6 @@ const PageDisplay = () => {
 const today = new Date();
 const date = today.toLocaleDateString();
 const time = today.toLocaleTimeString();
-
-console.log(`${date} ${time}`);
 
 const registerO = async (event) => {
   try{
@@ -411,8 +414,6 @@ function page2(){
   }
 }
 
-console.log(formData)
-
 
   return (
     <>
@@ -454,3 +455,5 @@ console.log(formData)
     </>
   );
 }
+
+export default Register

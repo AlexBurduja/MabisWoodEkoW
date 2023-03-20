@@ -1,24 +1,25 @@
-import React, { useCallback} from "react"
-import Particles from 'react-tsparticles'
-import { loadFull } from "tsparticles";
- 
+import React, { useCallback, lazy, Suspense } from "react";
+// import { loadFull } from "tsparticles";
+
+const Particles = dynamic(() => import('react-tsparticles').then((module) => module.default), {
+  ssr: false,
+});
+const loadFull = dynamic(() => import('tsparticles').then((module) => module.loadFull), {
+  ssr: false,
+});
+
 function ParticlesBackground() {
   const particlesInit = useCallback(async (engine) => {
-    // console.log(engine);
-    // you can initiate the tsParticles instance (engine) here, adding custom shapes or presets
-    // this loads the tsparticles package bundle, it's the easiest method for getting everything ready
-    // starting from v2 you can add only the features you need reducing the bundle size
     await loadFull(engine);
   }, []);
 
   const particlesLoaded = useCallback(async container => {
     await container;
-}, []);
-
+  }, []);
 
   return (
-   
-   <Particles
+    <Suspense fallback={<div>Loading particles...</div>}>
+      <Particles
         id="tsparticles"
         init={particlesInit}
         loaded={particlesLoaded}
@@ -54,10 +55,10 @@ function ParticlesBackground() {
             }
           }
 
-        }
-      }
-      /> 
+        }}
+      />
+    </Suspense>
   );
 }
- 
+
 export default ParticlesBackground;
