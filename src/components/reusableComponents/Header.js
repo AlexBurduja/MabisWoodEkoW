@@ -17,9 +17,9 @@ import dynamic from 'next/dynamic';
 
 export default function Header() {
 
-  const DynamicReactFlagsSelect = dynamic(() => import('react-flags-select'), {
-    ssr: false
-  })
+  // const DynamicReactFlagsSelect = dynamic(() => import('react-flags-select'), {
+  //   ssr: false
+  // })
 
   const { user, conditional } = useContext(FirebaseAuthContext)
 
@@ -214,7 +214,7 @@ export default function Header() {
         <ShoppingCartMobile/>  
       </div>
         
-      <div>
+      {/* <div>
         
       <DynamicReactFlagsSelect
                   selected={language}
@@ -225,7 +225,7 @@ export default function Header() {
                   showSelectedLabel={false}
                   className='custom-flags-select'
       />          
-      </div>
+      </div> */}
 
     <div className='hamburger'>
         <input type="checkbox" id="navi-toggle" className="checkbox" />
