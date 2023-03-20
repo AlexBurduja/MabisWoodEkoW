@@ -8,7 +8,7 @@ export const AdminCanNavigate = React.createContext();
 
 function CanNavigate({children}) {
     
-    const {user, conditional} = useContext(FirebaseAuthContext)
+    const {conditional} = useContext(FirebaseAuthContext)
 
     if (!conditional.admin) {
         return (

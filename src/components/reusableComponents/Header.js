@@ -11,7 +11,7 @@ import { FirebaseAuthContext, FirebaseContext } from '../../../FirebaseAuthConte
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { ShoppingCartMobile } from '../cartPage/ShoppingCartMobile';
-import ReactFlagsSelect from 'react-flags-select';
+// import ReactFlagsSelect from 'react-flags-select';
 import Image from 'next/image';
 
 export default function Header() {
@@ -208,7 +208,9 @@ export default function Header() {
     <div className='mobileCart'>
         <ShoppingCartMobile/>  
       </div>
-
+{/*         
+      <div>
+        
       <ReactFlagsSelect
                   selected={language}
                   onSelect={onSelect}
@@ -216,11 +218,9 @@ export default function Header() {
                   fullWidth={true}
                   showOptionLabel={false}
                   showSelectedLabel={false}
-                  showSecondaryOptionLabel={false}
-                  placeholder = "S"
                   className='custom-flags-select'
-                  customLabels={{ RO: "Romanian", GB: 'English'}}
       />          
+      </div> */}
 
     <div className='hamburger'>
         <input type="checkbox" id="navi-toggle" className="checkbox" />

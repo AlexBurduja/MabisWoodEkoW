@@ -6,7 +6,6 @@ import { FirebaseAuthContext } from "../../../FirebaseAuthContext";
 
 export function ShopCartGet(){
 
-    const { user } = useContext(FirebaseAuthContext)
     const [titles, setTitles] = useState([])
     const ref = collection(db , 'products')
 
@@ -17,7 +16,6 @@ export function ShopCartGet(){
             let data = await getDocs(ref)
             
             setTitles(data.docs.map((doc) => (doc.data())))
-            // setKg(data.docs.map((doc) => (doc.data().kg)))
           }
           
           getProducts()

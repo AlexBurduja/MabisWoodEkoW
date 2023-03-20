@@ -19,8 +19,6 @@ export function AdminPanelComponent(props) {
     const [editModal, setEditModal] = useState(false);
     const [deleteModal, setDeleteModal] = useState(false);
 
-    const [succes, setSucces] = useState('')
-
     const toggleModal = () => {
       setModal(!modal)
     };
@@ -51,11 +49,6 @@ export function AdminPanelComponent(props) {
       document.body.classList.remove('active-modal')
     };
 
-    const [passwordShow, setPasswordShow] = useState(false)
-    const togglePassword = () => {
-      setPasswordShow(!passwordShow)
-    }
-
     function changeFirstName(event){
       setFirstName(event.target.value)
     }
@@ -67,10 +60,6 @@ export function AdminPanelComponent(props) {
     function changeEmail(event){
         setNewEmail(event.target.value)
     }
-
-    // const [email, setEmail] = useState(conditional.email)
-
-    // console.log(conditional.email)
     
     const [ newFirstName, setFirstName] = useState(firstName)
     const [ newLastName, setLastName] = useState(lastName)
@@ -197,15 +186,6 @@ export function AdminPanelComponent(props) {
                             : localStorage.getItem('language') === "IT" ? "Account creato il" 
                             : "Account created at"} {created}</span></p>
 
-                            {succes && (
-                                <motion.p
-                                initial={{opacity:0}}
-                                animate={{opacity:1}}
-                                exit={{opacity:0}}
-                                className='stateMessage'>
-                                    {succes}
-                                </motion.p>
-                            )}
                         <form className="adminPanelForm">
                             <div className="userModalContentEmail">
                                 <p>Email</p>

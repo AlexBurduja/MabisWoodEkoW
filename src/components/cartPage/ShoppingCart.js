@@ -1,7 +1,5 @@
 import { RiShoppingCartLine } from 'react-icons/ri';
 import { useState, useEffect, useContext, useCallback } from 'react';
-// import "./ShoppingCart.css"
-import { NavLink } from 'react-router-dom';
 import { FirebaseAuthContext } from '../../../FirebaseAuthContext';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../../../firebase-config';

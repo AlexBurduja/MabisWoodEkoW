@@ -34,7 +34,6 @@ export function AboutComponent (){
 
     const [imagess, setImages] = useState([])
     const [loading , setLoading] = useState(true)
-    const [country, setCountry] = useState('England')
 
     const [language, setLanguage] = useState("GB");
 
@@ -103,13 +102,6 @@ export function AboutComponent (){
             });
           });
       };
-    
-    const images = [
-        { src: photo1 , alt: "Image 1" },
-        { src: photo2 , alt: "Image 2" },
-        { src: photo3 , width: '300px', height: '300px', alt: "Image 3" },
-      ];
-
 
     const settings = {
         dots: true,
@@ -149,11 +141,6 @@ export function AboutComponent (){
             
             console.log('jobs done')
           }
-
-
-
-          
-  console.log(imagess)
 
     return (
     <section className='aboutSection'>
