@@ -43,7 +43,7 @@ useEffect(() => {
     const sum = cart.map(item => item.quantity).reduce((a, b) => a + b, 0);
     setTotal(sum);
   });
-}, []);
+}, [getCart, cart]);
 
 function ProductCount () {
   return <p>

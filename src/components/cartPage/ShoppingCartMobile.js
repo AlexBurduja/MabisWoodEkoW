@@ -52,7 +52,7 @@ useEffect(() => {
 useEffect(() => {
   const sum = cart.map(item => item.quantity).reduce((a, b) => a + b, 0);
   setTotal(sum);
-}, [cart, total]);
+}, [cart]);
 
 
 
