@@ -5,7 +5,6 @@ import { motion } from "framer-motion";
 import { doc, getDoc} from "firebase/firestore";
 import { db } from "../../../firebase-config";
 import Loading from "../../components/reusableComponents/Loading";
-import Link from 'next/link';
 
 function Id() {
 

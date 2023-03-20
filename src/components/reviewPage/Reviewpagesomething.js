@@ -24,8 +24,6 @@ export function Reviewpagesomething(){
 
     const [ loading, setLoading ] = useState(false)
 
-    const [ succes, setSucces ] = useState('')
-
     const now = new Date();
     let minutes = now.getMinutes()
 
@@ -212,19 +210,6 @@ const settings = {
             </>
           }
 
-            <AnimatePresence>
-                {succes && (
-                <motion.h5
-                initial={{opacity: 0}}
-                animate={{opacity:1}}
-                exit={{opcaity: 0}}
-                transition={{ease: "easeIn", duration:1}}
-                className="reviewSuccesMessage"
-                >
-                    {succes}
-                </motion.h5>
-                )}
-            </AnimatePresence>
         </div>
 
         {user?.uid ? 
@@ -280,7 +265,6 @@ const settings = {
         </section>
 
         
-        {/* <div className="reviewGrid"> */}
         {loading ? (
   <Loading />
 ) : (
@@ -336,7 +320,6 @@ const settings = {
     );
   })
 )}
-  {/* </div> */}
 </>
     )
 }

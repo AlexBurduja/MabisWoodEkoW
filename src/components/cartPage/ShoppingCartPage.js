@@ -1,29 +1,21 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
 import { React, useContext, useEffect, useState } from 'react';
-// import "./ShoppingCartPage.css"
 import { AiOutlineShopping } from 'react-icons/ai'
 import { FaCcVisa, FaCcMastercard, FaCcApplePay } from 'react-icons/fa'
 import { FirebaseAuthContext } from '../../../FirebaseAuthContext';
 import { collection, deleteDoc, doc,getDoc,getDocs, updateDoc, writeBatch } from 'firebase/firestore';
 import { db } from '../../../firebase-config';
 import { RiShoppingCartLine } from 'react-icons/ri';
-import { HashLink } from 'react-router-hash-link';
 import { loadStripe } from '@stripe/stripe-js';
 import { CountryDropdown, RegionDropdown } from 'react-country-region-selector';
 import emailjs from "emailjs-com"
 import { toast, ToastContainer } from 'react-toastify';
 import { isEmpty } from '@firebase/util';
-// import Loading from '../reusableComponents/Loading';
 import {AiFillCreditCard} from 'react-icons/ai'
 import { FaGooglePay } from 'react-icons/fa'
-// import GoogleMapReact from 'google-map-react';
-import { useNavigate } from 'react-router-dom';
 import Link from 'next/link';
 import Image from 'next/image';
-// import L from 'leaflet'
 import "leaflet/dist/leaflet.css";
-import icon from 'leaflet/dist/images/marker-icon.png';
-import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 
@@ -71,8 +63,6 @@ const Popup = dynamic(() => import('react-leaflet').then((mod) => mod.Popup), { 
   const [companyName, setCompanyName] = useState('')
   const [companyCui, setCompanyCui] = useState('')
 
-  
-
   //UseState for checks
 
   const [notifyLastNameNumbers, setNotifyLastNameNumbers] = useState(false);
@@ -87,8 +77,6 @@ const Popup = dynamic(() => import('react-leaflet').then((mod) => mod.Popup), { 
   const [notifyLetterPhone, setNotifyLetterPhone] = useState(false)
   const [notifySpecialCharPhone, setNotifySpecialCharPhone] = useState(false)
 
-  const [emailValidState, setEmailValidState] = useState(false)
-
   const [ notifyStreetNumbers , setNotifyStreetNumbers] = useState(false)
   const [ notifyStreetSpecialChar, setNotifyStreetSpecialChar] = useState(false)
 
@@ -101,9 +89,6 @@ const Popup = dynamic(() => import('react-leaflet').then((mod) => mod.Popup), { 
   const [notifySpecialCharStreetNo, setNotifySpecialStreetNo] = useState(false)
   const [notifyLetterStreetNo, setNotifyLetterStreetNo] = useState(false)
 
-  const [fiirstName , setFiirstName] = useState(conditional.firstName)
-
-  // const navigate = useNavigate()
 
   const handleDeliveryChange = (e) =>{
     setDeliverySelected(e.target.value)
@@ -113,10 +98,6 @@ const Popup = dynamic(() => import('react-leaflet').then((mod) => mod.Popup), { 
     }else {
       setPickUp(false);
     }
-  }
-
-  const handleStoreChange = (e) => {
-    setStore(e.target.value)
   }
 
   const handleRegionChange = (e) => {
@@ -251,41 +232,7 @@ const Popup = dynamic(() => import('react-leaflet').then((mod) => mod.Popup), { 
       }
       
       
-      // const clientId = sessionStorage.getItem("clientId")
-
-      // const handleStorageEvent = (event) => {
-      //   console.log(event)
-      //   if (event.key === clientId && event.newValue === null) {
-      //     // myKey was deleted from sessionStorage
-      //     deleteGuestClientId();
-      //   }
-      // };
-      
-      // window.addEventListener('storage', handleStorageEvent);
-      // return () => {
-      //   window.removeEventListener('storage', handleStorageEvent);
-      // }
-      
     }, [user])
-    
-    
-    
-    
-    const deleteGuestClientId = async () => {
-      const clientId = sessionStorage.getItem("clientId")
-
-      
-      const userDoc = collection(db, `guestCarts/${clientId}/cart`)
-      
-      const q =await getDocs(userDoc)
-            
-      const batch = writeBatch(db)
-      q.forEach(doc => {
-        batch.delete(doc.ref)
-      })
-      
-      batch.commit()
-    }
     
     
     function ProductCount () {
@@ -379,7 +326,6 @@ const Popup = dynamic(() => import('react-leaflet').then((mod) => mod.Popup), { 
           } 
           
            if(specialChars.test(firstName)){
-          //   setFirstNameError("First name can't contain special characters!")
           if(!notifyFirstNameSpecialChar){
             toast.error("First name can't contain special characters!", {
               autoClose: 6000
@@ -391,7 +337,6 @@ const Popup = dynamic(() => import('react-leaflet').then((mod) => mod.Popup), { 
           }
         
           if(/[a-z]/.test(firstName.charAt(0))){
-          //   setFirstNameError("First letter of your last name needs to be uppercase!")
             if(!notifyFirstNameUppercase){
               toast.error("First name's first character needs to be uppercase!", {
                 autoClose: 6000
@@ -860,39 +805,6 @@ const Popup = dynamic(() => import('react-leaflet').then((mod) => mod.Popup), { 
           }, 2000)
           
         }
-      
-
-      function emptyCart(){
-        if(user?.uid){
-            const userDoc = doc(db, `/users/sz7Sdw0wiEhmuVgoJHIOt3pTnZw1/cart`)
-            
-           deleteDoc(userDoc)
-          }
-
-        if(!user?.uid){
-          const clientId = sessionStorage.getItem("clientId")
-
-          const userDoc = doc(db, `guestCarts/${clientId}/cart`)
-        
-          deleteDoc(userDoc)
-        }
-      }
-
-      const handleSuccess = () => {
-        console.log('Hi')
-        emailjs.send('service_eyuz8pg', 'template_xeem2dd', {
-          subject: `Comanda de la ${email} (${firstName} ${lastName})`,
-          metoda: `${firstName} ${lastName} a facut o plata in valoare de 3 RON`,
-          
-          name : `Nume : ${firstName} ${lastName} ( ${email} )`,
-          phone: `Telefon : <b>${phoneNumber}</b>`,
-          street : `Strada :<b>${street}</b>`,
-          streetNo: `Nr. Strazii: <b>${streetNo}</b>`,
-        bloc : `Bloc : <b>${block}</b>`,
-        apartNo : `Apartament : <b>${apartamentNo}</b>`,
-      }, 'crU6K8bQnftB81z-j')
-
-      }
 
       useEffect(() => {
         if(user?.uid){
@@ -1037,7 +949,6 @@ const Popup = dynamic(() => import('react-leaflet').then((mod) => mod.Popup), { 
     
       const [center, setCenter] = useState([45.9442858,25.0094303])
       const [zoom , setZoom] = useState(6)
-      const [bounds, setBounds] = useState({})
     
       const [selectedMarker, setSelectedMarker] = useState('');
     

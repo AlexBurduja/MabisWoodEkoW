@@ -1,8 +1,6 @@
 import Link from 'next/link'
 import React from 'react'
 import { FcCancel } from 'react-icons/fc'
-import { NavLink } from 'react-router-dom'
-// import './CancelPageCss.css'
 
 function CancelPage() {
   return (

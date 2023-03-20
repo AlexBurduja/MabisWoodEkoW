@@ -17,7 +17,6 @@ export function Footer() {
     <section className='footerSection'>
       <div className='footerSection_flex_row'>
         <div className='footerSection_flex_column_1 footerSection_common'>
-          {/* <img src={logo} alt="logo"></img> */}
           <p>Thanks for sticking with us and reaching the end of the page!</p>
         </div>
 

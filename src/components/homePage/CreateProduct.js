@@ -24,7 +24,7 @@ export function CreateProduct(){
 
   const [ succes, setSucces ] = useState('')
 
-  const { user, conditional } = useContext(FirebaseAuthContext)
+  const {conditional } = useContext(FirebaseAuthContext)
 
   const [language, setLanguage] = useState("GB");
 
@@ -61,38 +61,6 @@ useEffect(() => {
   function descriptionChange(event){
     setDescription(event.target.value)
   }
-
-  // function submit(event) {
-  //   event.preventDefault();
-
-  //   const body = {
-  //     title:title,
-  //     kg:kg,
-  //     price:price,
-  //     currency:currency,
-  //     image: image,
-  //     description : description
-  //   }
-
-  //     fetch(productDetailUrl + endpoint, {
-  //       method: "POST",
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //       body: JSON.stringify(body)
-  //     })
-  //     .then(response => {
-  //       if(response.status === 201){
-
-  //         setSucces("Product Created!")          
-  //         setInterval(() => {
-  //           setSucces("")
-  //           window.location.reload()
-        
-  //         }, 1500)
-  //       }
-  //     })
-  //   }
 
   const [ firebaseImg, setFirebaseImg ] = useState(null)
   const [ url , setUrl] = useState(null)
@@ -145,12 +113,6 @@ useEffect(() => {
   const toggleModal2 = () => {
     setModal2(!modal2)
   };
-
-  // if(modal2) {
-  //   document.body.classList.add('active-modal')
-  // } else {
-  //   document.body.classList.remove('active-modal')
-  // };
   
   return (
     
@@ -183,20 +145,6 @@ useEffect(() => {
               language === "FR" ? 'Tous les champs doivent être remplis' :
               'All fields need to be completed.'}
             </p>
-
-              <AnimatePresence>
-                  {succes && (
-                    <motion.h3
-                    initial={{opacity:0}}
-                    animate={{opacity:1}}
-                    exit={{opacity:0}}
-                    transition={{ease: "easeInOut", duration:1.5}}
-                    className="editModalSucces"
-                    >
-                      {succes}
-                    </motion.h3>
-                  )}
-                  </AnimatePresence>
 
                 <div className="modal-content-inputs">
 

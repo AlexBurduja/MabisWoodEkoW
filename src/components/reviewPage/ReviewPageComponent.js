@@ -9,7 +9,6 @@ export function ReviewPageComponent(props) {
 
     const { reviewTitle, reviewText, rating, firstName, lastName, time, id  } = props
 
-
 function deleteHandler(id) {
   deleteDoc(doc(db, 'reviews', id))  
 }

@@ -1,17 +1,11 @@
-import { useCallback, useContext, useEffect, useMemo, useState } from "react";
-// import "./ProductCardComponent.css"
-// import 'animate.css';
+import { useContext, useEffect, useState } from "react";
 import { AiFillEdit } from "react-icons/ai";
-import { motion, AnimatePresence } from "framer-motion";
-import { auth, db } from "../../../firebase-config";
-import { addDoc, collection, deleteDoc, doc, FieldValue, getDoc, getDocs, increment, setDoc, updateDoc } from "firebase/firestore";
+import {  db } from "../../../firebase-config";
+import {  deleteDoc, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { storage } from "../../../firebase-config";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { onAuthStateChanged } from "firebase/auth";
 import { FirebaseAuthContext } from "../../../FirebaseAuthContext";
-import { async } from "@firebase/util";
 import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import Image from "next/image";
 import Link from "next/link";
 
@@ -61,16 +55,6 @@ useEffect(() => {
 
   const [modalEdit, setModalEdit] = useState(false);
 
-  const [isHovering, setIsHovering] = useState(false)
-
-  const handleMouseOver = () => {
-    setIsHovering(true);
-  }
-
-  const handleMouseOut = () => {
-    setIsHovering(false);
-  }
-
   const toggleModalEdit = () => {
     setModalEdit(!modalEdit)
   };
@@ -89,10 +73,6 @@ useEffect(() => {
   const [newImage, setImage] = useState(image)
 
   const [newDescription, setDescription] = useState(description)
-
-  const [succes, setSucces] = useState('')
-  const [ deleteSucces, setDeleteSucces ] = useState('')
-  ///// End of Modal
 
   const [ firebaseImg, setFirebaseImg] = useState(null)
   const [url, setUrl] = useState(image)
@@ -157,41 +137,6 @@ useEffect(() => {
   function imageChange(event){
     setImage(url)
   }
-  /// CART
-
- 
-
-    // fetch(`${cartUrl}/?productId=${id}`)
-    // .then(response => response.json())
-    // .then (cartProducts => {
-    //   const [ cartProduct ] = cartProducts; 
-
-    //   if (cartProduct) {
-
-    //       updateQuantity(cartProduct);
-        
-    //   } else {
-        
-    //     addToCart();
-
-    //   }
-    // })
-  //Firebase api edit
-  // const editProduct = async (id) => {
-  //   const userDoc = doc(db, "products", id)
-  //   await updateDoc(userDoc, {
-  //     title : newTitle,
-  //     price : newPrice,
-  //     currency : newCurrency,
-  //     kg : newKg ,
-  //     image : newImage
-  //   });
-  // }
-
-
-  // function editProductButton() {
-  //   editProduct(id, title, image, kg, price, currency)
-  // }
   
   const [counter, setCounter] = useState(2)
     
