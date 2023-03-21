@@ -11,11 +11,14 @@ import { FirebaseAuthContext } from '../../../FirebaseAuthContext';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { ShoppingCartMobile } from '../cartPage/ShoppingCartMobile';
-// import ReactFlagsSelect from 'react-flags-select';
 import Image from 'next/image';
 import dynamic from 'next/dynamic';
 
-import RO from '../../publicResources/ROFlag.png'
+import RO from '../../publicResources/ro.svg'
+import IT from '../../publicResources/it.svg'
+import DE from '../../publicResources/de.svg'
+import GB from '../../publicResources/gb.svg'
+import FR from '../../publicResources/fr.svg'
 
 export default function Header() {
 
@@ -39,22 +42,12 @@ export default function Header() {
       setLanguage(storedLanguage);
     }
   }, []);
-
-  const onSelect = (code) => { 
-    setLanguage(code)
-    localStorage.setItem('language', code)
-    window.location.reload();
-  }
-
-  console.log(language)
-
+  
   const logOut = async () => {
     await signOut(auth)
 
     window.location.reload()
   }
-
-  // console.log(language)
  
   function LogInOrOut() {
     if (user?.uid){
@@ -151,14 +144,6 @@ export default function Header() {
   }, []);
   
   const router = useRouter()
-
-  const flagOptions = [
-    { value: 'germany', label: 'Germany', flagUrl: 'https://flagcdn.com/16x12/ro.png' },
-    { value: 'italy', label: 'Italy', flagUrl: 'https://www.countryflags.io/IT/shiny/64.png' },
-    { value: 'romania', label: 'Romania', flagUrl: 'https://www.countryflags.io/RO/shiny/64.png' },
-    { value: 'great-britain', label: 'Great Britain', flagUrl: 'https://www.countryflags.io/GB/shiny/64.png' },
-    { value: 'france', label: 'France', flagUrl: 'https://www.countryflags.io/FR/shiny/64.png' },
-  ];
   
     const [selectedFlag, setSelectedFlag] = useState('');
   
@@ -167,6 +152,25 @@ export default function Header() {
       setSelectedFlag(selectedValue);
       localStorage.setItem('language', selectedValue);
     };
+
+    const [open, setOpen] = useState(false)
+
+    const handleOpen = () => {
+      setOpen(!open)
+    }
+
+    const flagComponents = {
+      RO: <Image src={RO} alt='ro' width={26}/>,
+      IT: <Image src={IT} width={26} alt='it'/>,
+      GB: <Image src={GB} width={26} alt='gb' />,
+      DE: <Image src={DE} alt='de' width={26} />,
+      FR: <Image src={FR} alt='fr' width={26} />
+    };
+    
+    const handleLanguageChange = (country) => {
+      localStorage.setItem('language', country)
+      window.location.reload()
+    }
 
   return (
     <>
@@ -230,29 +234,25 @@ export default function Header() {
     <div className='mobileCart'>
         <ShoppingCartMobile/>  
       </div>
-        
-      <div>
-        
-      {/* <DynamicReactFlagsSelect
-                  selected={language}
-                  onSelect={onSelect}
-                  countries={["RO", "GB", "IT", "DE", "FR"]}
-                  fullWidth={true}
-                  showOptionLabel={false}
-                  showSelectedLabel={false}
-                  className='custom-flags-select'
-      />           */}
-      </div>
 
-      <select >
-      <option style={{ backgroundImage: `url(${RO})`, backgroundSize: 'cover'}} value="ro">
-        &nbsp;
-      </option>
-      <option value="de">🇩🇪</option>
-      <option value="it">🇮🇹</option>
-      <option value="fr">🇫🇷</option>
-      <option value="ro">🇷🇴</option>
-    </select>
+      <div onClick={handleOpen} className='languageSelector'>
+        {flagComponents[language]}
+      {open && (
+        <div className='languageList'>
+          <a onClick={() => handleLanguageChange('RO')}><Image src={RO} alt='ro' width={30}/></a>
+          <a onClick={() => handleLanguageChange('IT')}><Image src={IT} width={30} alt='it'/></a>
+          <a onClick={() => handleLanguageChange('GB')}>
+            <Image src={GB} width={30} alt='gb' />
+          </a>
+          <a onClick={() => handleLanguageChange('DE')}>
+            <Image src={DE} alt='de' width={30} />
+            </a>
+          <a onClick={() => handleLanguageChange('FR')}>
+            <Image src={FR} alt='fr' width={30} />
+          </a>
+        </div>
+      )}
+      </div>
 
     <div className='hamburger'>
         <input type="checkbox" id="navi-toggle" className="checkbox" />
