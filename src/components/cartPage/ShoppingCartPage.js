@@ -18,11 +18,17 @@ import Image from 'next/image';
 import "leaflet/dist/leaflet.css";
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
+import 'leaflet/dist/leaflet.css';
+import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css';
+// import * as L from 'leaflet';
+import 'leaflet-defaulticon-compatibility';
+
 
 const MapContainer = dynamic(() => import('react-leaflet').then((mod) => mod.MapContainer), { ssr: false });
 const TileLayer = dynamic(() => import('react-leaflet').then((mod) => mod.TileLayer), { ssr: false });
 const Marker = dynamic(() => import('react-leaflet').then((mod) => mod.Marker), { ssr: false });
 const Popup = dynamic(() => import('react-leaflet').then((mod) => mod.Popup), { ssr: false });
+
 
  export default function ShoppingCartPage() {
 
@@ -34,6 +40,8 @@ const Popup = dynamic(() => import('react-leaflet').then((mod) => mod.Popup), { 
       setLanguage(lang);
     }
   }, []);
+
+  // L.icon({})
 
   const router = useRouter();
 
@@ -978,7 +986,8 @@ const Popup = dynamic(() => import('react-leaflet').then((mod) => mod.Popup), { 
           longitude: 25.137240790315126
         }
       ];
-    
+
+  
   return (
     <div >
     {loading === false && 
