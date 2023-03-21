@@ -15,6 +15,8 @@ import { ShoppingCartMobile } from '../cartPage/ShoppingCartMobile';
 import Image from 'next/image';
 import dynamic from 'next/dynamic';
 
+import RO from '../../publicResources/ROFlag.png'
+
 export default function Header() {
 
   // const DynamicReactFlagsSelect = dynamic(() => import('react-flags-select'), {
@@ -150,13 +152,28 @@ export default function Header() {
   
   const router = useRouter()
 
+  const flagOptions = [
+    { value: 'germany', label: 'Germany', flagUrl: 'https://flagcdn.com/16x12/ro.png' },
+    { value: 'italy', label: 'Italy', flagUrl: 'https://www.countryflags.io/IT/shiny/64.png' },
+    { value: 'romania', label: 'Romania', flagUrl: 'https://www.countryflags.io/RO/shiny/64.png' },
+    { value: 'great-britain', label: 'Great Britain', flagUrl: 'https://www.countryflags.io/GB/shiny/64.png' },
+    { value: 'france', label: 'France', flagUrl: 'https://www.countryflags.io/FR/shiny/64.png' },
+  ];
+  
+    const [selectedFlag, setSelectedFlag] = useState('');
+  
+    const handleChange = (event) => {
+      const selectedValue = event.target.value;
+      setSelectedFlag(selectedValue);
+      localStorage.setItem('language', selectedValue);
+    };
+
   return (
     <>
     <section id="home" className='flex'>
       <div className='logo'>
         <Image src={logo} className='logo' alt="logo" width={250} height={250}/>
       </div>
-
 
     <div className='desktopAnchors'>
       <div className='nav_anchors '>
@@ -214,9 +231,9 @@ export default function Header() {
         <ShoppingCartMobile/>  
       </div>
         
-      {/* <div>
+      <div>
         
-      <DynamicReactFlagsSelect
+      {/* <DynamicReactFlagsSelect
                   selected={language}
                   onSelect={onSelect}
                   countries={["RO", "GB", "IT", "DE", "FR"]}
@@ -224,8 +241,18 @@ export default function Header() {
                   showOptionLabel={false}
                   showSelectedLabel={false}
                   className='custom-flags-select'
-      />          
-      </div> */}
+      />           */}
+      </div>
+
+      <select >
+      <option style={{ backgroundImage: `url(${RO})`, backgroundSize: 'cover'}} value="ro">
+        &nbsp;
+      </option>
+      <option value="de">🇩🇪</option>
+      <option value="it">🇮🇹</option>
+      <option value="fr">🇫🇷</option>
+      <option value="ro">🇷🇴</option>
+    </select>
 
     <div className='hamburger'>
         <input type="checkbox" id="navi-toggle" className="checkbox" />
