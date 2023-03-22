@@ -12,7 +12,6 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { ShoppingCartMobile } from '../cartPage/ShoppingCartMobile';
 import Image from 'next/image';
-import dynamic from 'next/dynamic';
 
 import RO from '../../publicResources/ro.svg'
 import IT from '../../publicResources/it.svg'
@@ -22,9 +21,6 @@ import FR from '../../publicResources/fr.svg'
 
 export default function Header() {
 
-  // const DynamicReactFlagsSelect = dynamic(() => import('react-flags-select'), {
-  //   ssr: false
-  // })
 
   const { user, conditional } = useContext(FirebaseAuthContext)
 
