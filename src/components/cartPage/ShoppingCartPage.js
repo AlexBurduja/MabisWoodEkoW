@@ -15,13 +15,13 @@ import {AiFillCreditCard} from 'react-icons/ai'
 import { FaGooglePay } from 'react-icons/fa'
 import Link from 'next/link';
 import Image from 'next/image';
-import "leaflet/dist/leaflet.css";
+// import "leaflet/dist/leaflet.css";
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
-import 'leaflet/dist/leaflet.css';
-import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css';
+// import 'leaflet/dist/leaflet.css';
+// import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css';
 // import * as L from 'leaflet';
-import 'leaflet-defaulticon-compatibility';
+// import 'leaflet-defaulticon-compatibility';
 
 
 const MapContainer = dynamic(() => import('react-leaflet').then((mod) => mod.MapContainer), { ssr: false });
@@ -31,6 +31,7 @@ const Popup = dynamic(() => import('react-leaflet').then((mod) => mod.Popup), { 
 
 
  export default function ShoppingCartPage() {
+
 
   const [language, setLanguage] = useState("GB");
 
@@ -118,73 +119,92 @@ const Popup = dynamic(() => import('react-leaflet').then((mod) => mod.Popup), { 
     }
   }
   
-  function quantityUp(item){
-    if(user?.uid){
-
-      const userDoc = doc(db, `users/${user?.uid}/cart/${item.title+item.kg}`) 
-      
-      const newFields = {
-        quantity : item.quantity + 1,
+  function quantityUp(item) {
+    if (user?.uid) {
+      const updatedCart = [...cart]; // Create a copy of the cart array
+      const index = updatedCart.findIndex((cartItem) => cartItem.id === item.id); // Find the index of the item in the cart
+  
+      if (index !== -1) {
+        const updatedItem = { ...updatedCart[index] };
+        updatedItem.quantity += 1; // Increase the quantity by 1
+        updatedCart[index] = updatedItem; // Update the item in the copied cart array
+  
+        // Update the cart state with the modified array
+        setCart(updatedCart);
+  
+        // Update the quantity in the Firebase database
+        const userDoc = doc(db, `users/${user?.uid}/cart/${item.title + item.kg}`);
+        const newFields = {
+          quantity: updatedItem.quantity,
+        };
+        updateDoc(userDoc, newFields);
       }
-      
-      updateDoc(userDoc , newFields)
-    }
-
-    if(!user?.uid){
-      const clientId = sessionStorage.getItem("clientId")
-      const userDoc= doc(db, `guestCarts/${clientId}/cart/${item.title+item.kg}`)
-
-      const newFields = {
-        quantity : item.quantity + 1
+    } else {
+      const clientId = sessionStorage.getItem("clientId");
+      const updatedCart = [...cart]; // Create a copy of the cart array
+      const index = updatedCart.findIndex((cartItem) => cartItem.id === item.id); // Find the index of the item in the cart
+  
+      if (index !== -1) {
+        const updatedItem = { ...updatedCart[index] };
+        updatedItem.quantity += 1; // Increase the quantity by 1
+        updatedCart[index] = updatedItem; // Update the item in the copied cart array
+  
+        // Update the cart state with the modified array
+        setCart(updatedCart);
+  
+        // Update the quantity in the Firebase database
+        const userDoc = doc(db, `guestCarts/${clientId}/cart/${item.title + item.kg}`);
+        const newFields = {
+          quantity: updatedItem.quantity,
+        };
+        updateDoc(userDoc, newFields);
       }
-
-      updateDoc(userDoc, newFields)
     }
-
-    setInterval(() => {
-      window.location.reload()
-    }, 500)
-
   }
   
-  function quantityDown(item){
-    if(user?.uid){
-
-      const userDoc = doc(db, `users/${user?.uid}/cart/${item.title+item.kg}`) 
-      
-      const newFields = {
-        quantity : item.quantity - 1,
-      }
-      
-      updateDoc(userDoc , newFields)
-
-      if(item.quantity === 1){
   
-        deleteDoc(userDoc)
-        console.log(`Item is deleted!` )
-      }
-    }
-
-    if(!user?.uid){
-      const clientId = sessionStorage.getItem("clientId")
-      const userDoc= doc(db, `guestCarts/${clientId}/cart/${item.title+item.kg}`)
-
-      const newFields = {
-        quantity : item.quantity - 1
-      }
-
-      updateDoc(userDoc, newFields)
-
-      if(item.quantity === 1){
+  function quantityDown(index) {
+    if (user?.uid) {
+      const updatedCart = [...cart]; // Create a copy of the cart array
+      const item = updatedCart[index]; // Get the item at the specified index
+      const userDoc = doc(db, `users/${user?.uid}/cart/${item.title + item.kg}`);
   
-        deleteDoc(userDoc)
-        console.log(`Item is deleted!` )
+      if (item && item.quantity > 1) {
+        item.quantity -= 1; // Decrease the quantity by 1
+        const newFields = {
+          quantity: item.quantity,
+        };
+        updateDoc(userDoc, newFields); // Update the quantity in the Firebase database
+      } else {
+        updatedCart.splice(index, 1); // Remove the item from the cart if quantity becomes 0
+        deleteDoc(userDoc); // Delete the document from Firestore
       }
+  
+      const filteredCart = updatedCart.filter((item) => item !== null);
+      setCart(filteredCart); // Update the cart state with the modified array
     }
-
-    setInterval(() => {
-      window.location.reload()
-    }, 500)
+  
+    if (!user?.uid) {
+      const clientId = sessionStorage.getItem("clientId");
+      const updatedCart = [...cart]; // Create a copy of the cart array
+      const item = updatedCart[index]; // Get the item at the specified index
+      const userDoc = doc(db, `guestCarts/${clientId}/cart/${item.title + item.kg}`);
+  
+      if (item && item.quantity > 1) {
+        item.quantity -= 1; // Decrease the quantity by 1
+        const newFields = {
+          quantity: item.quantity,
+        };
+        updateDoc(userDoc, newFields);
+      } else {
+        updatedCart.splice(index, 1); // Remove the item from the cart if quantity becomes 0
+        deleteDoc(userDoc)
+      }
+  
+      // Update the cart state with the modified array
+      const filteredCart = updatedCart.filter((item) => item !== null);
+      setCart(filteredCart);
+    }
   }
   
 
@@ -762,6 +782,13 @@ const Popup = dynamic(() => import('react-leaflet').then((mod) => mod.Popup), { 
           const userDoc = doc(db, `users/${user?.uid}/cart/${item.title+item.kg}`) 
           
           deleteDoc(userDoc)
+            .then(() => {
+              const updatedCart = cart.filter((cartItem) => cartItem.id !== item.id)
+              setCart(updatedCart)
+          })
+          .catch((error) => {
+            console.log("Error deleting item from cart:", error)
+          })
         }
         
         if(!user?.uid){
@@ -770,11 +797,14 @@ const Popup = dynamic(() => import('react-leaflet').then((mod) => mod.Popup), { 
           const userDoc= doc(db, `guestCarts/${clientId}/cart/${item.title+item.kg}`)
           
           deleteDoc(userDoc)
+            .then(() => {
+              const updatedCartGuest = cart.filter((cartItem) => cartItem.id !== item.id)
+              setCart(updatedCartGuest)
+            }) .catch ((error) => {
+              console.log("Error deleting item from cart:", error)
+            })
         }
 
-        setInterval(() => {
-          window.location.reload();
-        }, 1000)
       }
 
 
@@ -791,6 +821,9 @@ const Popup = dynamic(() => import('react-leaflet').then((mod) => mod.Popup), { 
             })
             
             batch.commit()
+            .then(() => {
+              setCart([])
+            })
           }
 
           if(!user?.uid){
@@ -806,11 +839,11 @@ const Popup = dynamic(() => import('react-leaflet').then((mod) => mod.Popup), { 
             })
             
             batch.commit()
+            .then(() => {
+              setCart([])
+            })
           }
           
-            setInterval(() => {
-            window.location.reload()
-          }, 2000)
           
         }
 
@@ -875,84 +908,49 @@ const Popup = dynamic(() => import('react-leaflet').then((mod) => mod.Popup), { 
       }
 
 
-      function quantityChange(e, item){
-
-        if(user?.uid){
-          const userDoc = doc(db, `users/${user.uid}/cart/${item.title + item.kg}`)
-          
+      function quantityChange(e, item) {
+        const enteredValue = e.target.value.trim();
+        const newValue = enteredValue === '' ? 0 : parseInt(enteredValue);
+      
+        if (user?.uid) {
+          const userDoc = doc(db, `users/${user.uid}/cart/${item.title + item.kg}`);
           const newFields = {
-              quantity : onChangeQ(e)
-            }
-
-          updateDoc(userDoc, newFields)
-          
-          if(onChangeQ(e) === 0){
-            if(e.target.value === "" || e.target.value === null){
-              return;
-            }else {
-              setTimeout(() => {
-                const userDoc = doc(db, `users/${user?.uid}/cart/${item.title+item.kg}`) 
-                
-                deleteDoc(userDoc)
-
-                window.location.reload();
-              }, 1000)
-            }
-          }
-
-          if(onChangeQ(e) > 0){
-            toast.warn("Cart is being updated!", {
-              autoClose: 500
-            })
-        
-            setInterval(() => {
-              window.location.reload();
-            }, 2000 )
+            quantity: newValue,
+          };
+          updateDoc(userDoc, newFields);
+      
+          if (newValue === 0) {
+            setTimeout(() => {
+              deleteDoc(userDoc);
+              removeItemFromCart(item);
+            }, 2000);
+          } else {
+            clearTimeout(item.deleteTimer);
           }
         }
-        
-        if(!user?.uid){
-
-            const clientId = sessionStorage.getItem("clientId")
-            
-            const guestDoc = doc(db, `guestCarts/${clientId}/cart/${item.title+item.kg}`)
-            
-            const newFields = {
-              quantity : onChangeQ(e)
-            }
-
-            if(onChangeQ(e) > 0 ){
-                toast.warn("Cart is being updated!", {
-                  autoClose: 500
-                })
-            
-                setInterval(() => {
-                  window.location.reload();
-                }, 2000 )
-
-            }
-
-            updateDoc(guestDoc, newFields)
-          
-          if(onChangeQ(e) === 0){
-            if(e.target.value === "" || e.target.value === null){
-              return
-            } else {
-              setTimeout(() => {
-
-                const clientId = sessionStorage.getItem("clientId") 
-                
-                const userDoc= doc(db, `guestCarts/${clientId}/cart/${item.title+item.kg}`)
-                
-                deleteDoc(userDoc)
-
-                window.location.reload();
-              }, 1000)
-            }
-            
+      
+        if (!user?.uid) {
+          const clientId = sessionStorage.getItem("clientId");
+          const guestDoc = doc(db, `guestCarts/${clientId}/cart/${item.title + item.kg}`);
+          const newFields = {
+            quantity: newValue,
+          };
+          updateDoc(guestDoc, newFields);
+      
+          if (newValue === 0) {
+            item.deleteTimer = setTimeout(() => {
+              deleteDoc(guestDoc);
+              removeItemFromCart(item);
+            }, 2000);
+          } else {
+            clearTimeout(item.deleteTimer);
           }
         }
-        
+      
+        const updatedCart = cart.map((cartItem) =>
+          cartItem.id === item.id ? { ...cartItem, quantity: newValue } : cartItem
+        );
+        setCart(updatedCart);
       }
     
       const [center, setCenter] = useState([45.9442858,25.0094303])
@@ -987,7 +985,16 @@ const Popup = dynamic(() => import('react-leaflet').then((mod) => mod.Popup), { 
         }
       ];
 
+      function handleKeyDown(e, item) {
+        if (e.key === 'Backspace' || e.key === 'Delete') {
+          if (e.target.value === '') {
+            // Handle deleting the item from the cart here
+            deleteItemFromCart(item);
+          }
+        }
+      }
   
+      console.log(cart)
   return (
     <div >
     {loading === false && 
@@ -1049,7 +1056,7 @@ const Popup = dynamic(() => import('react-leaflet').then((mod) => mod.Popup), { 
   </h3>
 
 
-   {cart.map((item) => {
+   {cart.map((item, index) => {
      return(
        <section key={item.id} className='cartProductShowFlex'>
            <div>
@@ -1084,8 +1091,8 @@ const Popup = dynamic(() => import('react-leaflet').then((mod) => mod.Popup), { 
 
              <div className='quantityColumn'>
               
-              <button type='button' onClick={() => quantityDown(item)}>-</button>
-              <input type="text" pattern='\d*' defaultValue={item.quantity} onChange={(e) => quantityChange(e, item)} />
+              <button type='button' onClick={() => quantityDown(index)}>-</button>
+              <input type="text" pattern='\d*' value={item.quantity} onChange={(e) => quantityChange(e, item)} />
               <button type='button' onClick={() => quantityUp(item)}>+</button>
               
              </div>

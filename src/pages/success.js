@@ -43,13 +43,6 @@ const SuccessPage = () => {
     const companyCui = localStorage.getItem("companyCui");
     const total = localStorage.getItem("total");
 
-    if(firstName === null){
-      toast.error("You should not be here! Redirecting to home page.")
-    } else {
-      hi(email, firstName, lastName, phoneNumber, street, streetNo, block, apartamentNo, total);
-    }
-
-    localStorage.clear();
 
     let intervalId;
     let timeoutId;
@@ -66,8 +59,6 @@ const SuccessPage = () => {
     
     };
 
-    startCountdown();
-
     const deleteCartUponSuccess = async () => {
       
       if(user?.uid){
@@ -83,10 +74,10 @@ const SuccessPage = () => {
       
       batch.commit()
     }
-
+  
     if(!user?.uid){
       const clientId = sessionStorage.getItem("clientId")
-
+  
       const userDoc = collection(db, `guestCarts/${clientId}/cart`)
       
       const q =await getDocs(userDoc)
@@ -98,10 +89,26 @@ const SuccessPage = () => {
       
       batch.commit()
     }
-
+  
   }
 
-  deleteCartUponSuccess();
+    function confirmationFunction(){
+    
+    if(firstName === null){
+      toast.error("You should not be here! Redirecting to home page.")
+      router.push('/')
+    } else {
+      hi(email, firstName, lastName, phoneNumber, street, streetNo, block, apartamentNo, total);
+
+      startCountdown()
+      deleteCartUponSuccess();
+      localStorage.clear();
+    }
+  }
+
+  confirmationFunction();
+
+
 
     return () => {
       clearInterval(intervalId);
