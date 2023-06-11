@@ -63,15 +63,15 @@ export function Reviewpagesomething(){
     const [selected, setSelected] = useState(options[0]);
     
 function textChange(event){
-setText(event.target.value)
+  setText(event.target.value)
 }
 
 function ratingChange(event){
-setSelected(event.target.value)
+  setSelected(event.target.value)
 }
 
 function titleChange(event){
-setTitle(event.target.value)
+  setTitle(event.target.value)
 }
 
 const postHandler = async (event) =>{

@@ -6,6 +6,7 @@ import { doc, getDoc } from "@firebase/firestore";
 export const FirebaseAuthContext = React.createContext();
 
 export const AuthProvider = ({children}) => {
+    
     const [user,setUser] = useState({});
     const [conditional, setConditional] = useState([])
 

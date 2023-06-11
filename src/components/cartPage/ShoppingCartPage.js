@@ -18,6 +18,7 @@ import Image from 'next/image';
 // import "leaflet/dist/leaflet.css";
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
+import Loading from '../reusableComponents/Loading';
 // import 'leaflet/dist/leaflet.css';
 // import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css';
 // import * as L from 'leaflet';
@@ -130,14 +131,20 @@ const Popup = dynamic(() => import('react-leaflet').then((mod) => mod.Popup), { 
         updatedCart[index] = updatedItem; // Update the item in the copied cart array
   
         // Update the cart state with the modified array
+        
         setCart(updatedCart);
-  
+
         // Update the quantity in the Firebase database
+        setUpdatedIndex(index)
         const userDoc = doc(db, `users/${user?.uid}/cart/${item.title + item.kg}`);
         const newFields = {
-          quantity: updatedItem.quantity,
+          quantity: updatedItem.quantity
         };
         updateDoc(userDoc, newFields);
+        
+        setTimeout(() => {
+          setUpdatedIndex(null);
+        }, 500)
       }
     } else {
       const clientId = sessionStorage.getItem("clientId");
@@ -151,16 +158,26 @@ const Popup = dynamic(() => import('react-leaflet').then((mod) => mod.Popup), { 
   
         // Update the cart state with the modified array
         setCart(updatedCart);
+
+        setUpdatedIndex(index)
   
         // Update the quantity in the Firebase database
         const userDoc = doc(db, `guestCarts/${clientId}/cart/${item.title + item.kg}`);
         const newFields = {
           quantity: updatedItem.quantity,
+          updated: true,
         };
         updateDoc(userDoc, newFields);
+
+        setTimeout(() => {
+          setUpdatedIndex(null);
+        }, 500)
       }
     }
   }
+
+  const [deletedIndex, setDeletedIndex] = useState(null)
+  const [updatedIndex, setUpdatedIndex] = useState(null)
   
   
   function quantityDown(index) {
@@ -173,11 +190,24 @@ const Popup = dynamic(() => import('react-leaflet').then((mod) => mod.Popup), { 
         item.quantity -= 1; // Decrease the quantity by 1
         const newFields = {
           quantity: item.quantity,
+          updated: true
         };
-        updateDoc(userDoc, newFields); // Update the quantity in the Firebase database
+        setDeletedIndex(index)
+        updateDoc(userDoc, newFields); 
+        setTimeout(() => {
+          setDeletedIndex(null)
+        }, 1000)
       } else {
-        updatedCart.splice(index, 1); // Remove the item from the cart if quantity becomes 0
-        deleteDoc(userDoc); // Delete the document from Firestore
+        setDeletedIndex(index); // Set deletedIndex to the current index
+        setTimeout(() => {
+          updatedCart.splice(index, 1); // Remove the item from the cart
+          setDeletedIndex(null); // Reset deletedIndex to null after 1 second
+          deleteDoc(userDoc); // Delete the document from Firestore
+
+          const filteredCart = updatedCart.filter((item) => item !== null);
+      setCart(filteredCart); // Update the cart state with the modified array
+        }, 1000);
+
       }
   
       const filteredCart = updatedCart.filter((item) => item !== null);
@@ -196,9 +226,21 @@ const Popup = dynamic(() => import('react-leaflet').then((mod) => mod.Popup), { 
           quantity: item.quantity,
         };
         updateDoc(userDoc, newFields);
+        setUpdatedIndex(index)
+
+        console.log(index)
+        setTimeout(() => {
+          setUpdatedIndex(null)
+        }, 500)
       } else {
-        updatedCart.splice(index, 1); // Remove the item from the cart if quantity becomes 0
-        deleteDoc(userDoc)
+        setDeletedIndex(index);
+        setTimeout(() => {
+          updatedCart.splice(index, 1);
+          const filteredCart = updatedCart.filter((item) => item !== null);
+          setCart(filteredCart);
+          setDeletedIndex(null);
+          deleteDoc(userDoc)
+        }, 1000)
       }
   
       // Update the cart state with the modified array
@@ -778,31 +820,46 @@ const Popup = dynamic(() => import('react-leaflet').then((mod) => mod.Popup), { 
       }
 
       function removeItemFromCart(item){
+
+        const updatedCart = [...cart]
+        const index = updatedCart.findIndex((cartItem) => cartItem.id === item.id);
+
         if(user?.uid){
           const userDoc = doc(db, `users/${user?.uid}/cart/${item.title+item.kg}`) 
           
-          deleteDoc(userDoc)
+          setDeletedIndex(index)
+
+          setTimeout(() => {
+            setDeletedIndex(null);
+            deleteDoc(userDoc)
             .then(() => {
               const updatedCart = cart.filter((cartItem) => cartItem.id !== item.id)
               setCart(updatedCart)
-          })
-          .catch((error) => {
-            console.log("Error deleting item from cart:", error)
-          })
-        }
+            })
+            .catch((error) => {
+              console.log("Error deleting item from cart:", error)
+            })
+          }, 1000)
+          }
         
         if(!user?.uid){
           const clientId = sessionStorage.getItem("clientId")
           
           const userDoc= doc(db, `guestCarts/${clientId}/cart/${item.title+item.kg}`)
           
-          deleteDoc(userDoc)
-            .then(() => {
-              const updatedCartGuest = cart.filter((cartItem) => cartItem.id !== item.id)
-              setCart(updatedCartGuest)
-            }) .catch ((error) => {
-              console.log("Error deleting item from cart:", error)
-            })
+          setDeletedIndex(index)
+
+          setTimeout(() => {
+            deleteDoc(userDoc)
+              .then(() => {
+                const updatedCartGuest = cart.filter((cartItem) => cartItem.id !== item.id)
+                setCart(updatedCartGuest)
+              }) .catch ((error) => {
+                console.log("Error deleting item from cart:", error)
+              })
+
+              setDeletedIndex(null);
+          }, 1000)
         }
 
       }
@@ -822,7 +879,11 @@ const Popup = dynamic(() => import('react-leaflet').then((mod) => mod.Popup), { 
             
             batch.commit()
             .then(() => {
-              setCart([])
+              setDeletedIndex(true)
+              setTimeout(() => {
+                setCart([])
+                setDeletedIndex(null)
+              }, 1000)
             })
           }
 
@@ -840,7 +901,11 @@ const Popup = dynamic(() => import('react-leaflet').then((mod) => mod.Popup), { 
             
             batch.commit()
             .then(() => {
-              setCart([])
+              setDeletedIndex(true)
+              setTimeout(() => {
+                setDeletedIndex(null)
+                setCart([])
+              }, 1000)
             })
           }
           
@@ -1003,7 +1068,7 @@ const Popup = dynamic(() => import('react-leaflet').then((mod) => mod.Popup), { 
      <div className='emptyCartText'>
        <div>
      <h1>{language === "FR" ? "Votre panier est vide !" 
-     : language === "RO" ? "Cosul dvs. este gol!" 
+     : language === "RO" ? "Cosul dumneavoastra este gol!" 
      : language === "DE" ? "Ihr Warenkorb ist leer!" 
      : language === "IT" ? "Il tuo carrello è vuoto!" 
      : "Your cart is empty!"}</h1>
@@ -1026,11 +1091,11 @@ const Popup = dynamic(() => import('react-leaflet').then((mod) => mod.Popup), { 
      </div>
 
      </div> 
-     : loading ? <div>Loading...</div> : 
+     : loading ? <Loading /> : 
      <>
      <div className='pageHeader'>
    <h1>{language === "FR" ? "Votre panier" :
-  language === "RO" ? "Cosul dvs." :
+  language === "RO" ? "Cosul dumneavoastra." :
   language === "DE" ? "Ihr Warenkorb" :
   language === "IT" ? "Il tuo carrello" :
   "Your cart"}</h1>
@@ -1049,16 +1114,16 @@ const Popup = dynamic(() => import('react-leaflet').then((mod) => mod.Popup), { 
 
    <h3> 
     {language === "FR" ? "Veuillez vérifier que vous avez la bonne quantité pour chaque article afin d'éviter toute confusion lors du paiement. Merci!" :
-    language === "RO" ? "Va rugam sa verificati ca aveti cantitatea corecta pentru fiecare articol pentru a evita confuziile la finalizarea comenzii. Mulțumim!" :
+    language === "RO" ? "Va rugam sa verificati ca aveti cantitatea corecta pentru fiecare articol pentru a evita confuziile la finalizarea comenzii. Multumim!" :
     language === "DE" ? "Bitte überprüfen Sie, ob Sie die richtige Menge an jedem Artikel haben, um Verwirrungen an der Kasse zu vermeiden. Danke!" :
     language === "IT" ? "Si prega di controllare di avere la quantità corretta di ciascun articolo per evitare confusione al momento del checkout, Grazie!" :
     "Please check that you have the right quantity of every single item to avoid confusions at checkout, Thanks!"}
   </h3>
 
-
    {cart.map((item, index) => {
+    
      return(
-       <section key={item.id} className='cartProductShowFlex'>
+       <section key={item.id} className={`cartProductShowFlex ${index === deletedIndex || deletedIndex === true ? 'deleted' : ''} ${index === updatedIndex ? 'updated' : ''}`}>
            <div>
              <Image src={item.image} width={150} height={150} alt="product image" />
            </div>
@@ -1110,7 +1175,7 @@ const Popup = dynamic(() => import('react-leaflet').then((mod) => mod.Popup), { 
              {item.quantity * item.price} {item.currency}
            </div>
 
-           <button className='removeBtn'  onClick={() => removeItemFromCart(item)}>
+           <button className='removeBtn'  onClick={() => removeItemFromCart(item,index)}>
             {language === "FR" ? "Retirer" :
               language === "RO" ? "Elimina" :
               language === "DE" ? "Entfernen" :

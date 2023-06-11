@@ -54,11 +54,11 @@ export function ContactForm() {
       'Get in touch'}
 </h1>
 <p>
-  {language === 'FR' ? 'Remplissez le formulaire et notre équipe vous répondra dans les 24 heures' : 
-   language === 'RO' ? 'Completați formularul și echipa noastră vă va răspunde în decurs de 24 de ore' :
-   language === 'DE' ? 'Füllen Sie das Formular aus und unser Team wird sich innerhalb von 24 Stunden bei Ihnen melden' :
-   language === 'IT' ? 'Compila il modulo e il nostro team ti risponderà entro 24 ore' :
-   'Fill up the form and our team will get back to you within 24 hours'}
+  {language === 'FR' ? 'Remplissez le formulaire et notre équipe vous répondra dans les 24 heures.' : 
+   language === 'RO' ? 'Completati formularul si echipa noastra va va raspunde in decurs de 24 de ore.' :
+   language === 'DE' ? 'Füllen Sie das Formular aus und unser Team wird sich innerhalb von 24 Stunden bei Ihnen melden.' :
+   language === 'IT' ? 'Compila il modulo e il nostro team ti risponderà entro 24 ore.' :
+   'Fill up the form and our team will get back to you within 24 hours.'}
 </p>
         </div>
 
@@ -87,7 +87,7 @@ export function ContactForm() {
 
       <div className="rightSide">
         <h1>{language === 'FR' ? 'Contactez-nous' :
-            language === 'RO' ? 'Contactați-ne' :
+            language === 'RO' ? 'Contactati-ne' :
             language === 'DE' ? 'Kontakt aufnehmen' :
             language === 'IT' ? 'Contattaci' :
             'Contact Us'}

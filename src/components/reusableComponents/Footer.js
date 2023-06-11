@@ -87,7 +87,7 @@ export function Footer() {
 
         <div className='socialMediaDiv__credits'>
             <div>
-            &copy; 2023 MABIS WOOD EKO. Made by <Link style={{color: 'rgba(48, 48, 230,1)'}} href="https://www.google.com" target='_blank'>this guy.</Link>
+            &copy; 2023 MABIS WOOD EKO. Made by <Link style={{color: 'rgba(48, 48, 230,1)'}} href="https://portofolio-ten-liart.vercel.app/" target='_blank'>this guy.</Link>
             </div>
         </div>
       </div>
