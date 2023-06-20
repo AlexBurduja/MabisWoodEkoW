@@ -236,16 +236,16 @@ export default function Header() {
       {open && (
         <div className='languageList'>
           <a onClick={() => handleLanguageChange('RO')}><Image src={RO} alt='ro' width={30}/></a>
-          <a onClick={() => handleLanguageChange('IT')}><Image src={IT} width={30} alt='it'/></a>
+          {/* <a onClick={() => handleLanguageChange('IT')}><Image src={IT} width={30} alt='it'/></a> */}
           <a onClick={() => handleLanguageChange('GB')}>
             <Image src={GB} width={30} alt='gb' />
           </a>
-          <a onClick={() => handleLanguageChange('DE')}>
+          {/* <a onClick={() => handleLanguageChange('DE')}>
             <Image src={DE} alt='de' width={30} />
-            </a>
-          <a onClick={() => handleLanguageChange('FR')}>
+            </a> */}
+          {/* <a onClick={() => handleLanguageChange('FR')}>
             <Image src={FR} alt='fr' width={30} />
-          </a>
+          </a> */}
         </div>
       )}
       </div>

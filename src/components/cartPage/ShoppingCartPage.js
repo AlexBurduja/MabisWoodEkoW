@@ -178,7 +178,7 @@ const Popup = dynamic(() => import('react-leaflet').then((mod) => mod.Popup), { 
 
   const [deletedIndex, setDeletedIndex] = useState(null)
   const [updatedIndex, setUpdatedIndex] = useState(null)
-  
+  const [updatedDownIndex, setUpdatedDownIndex] = useState(null)
   
   function quantityDown(index) {
     if (user?.uid) {
@@ -192,10 +192,10 @@ const Popup = dynamic(() => import('react-leaflet').then((mod) => mod.Popup), { 
           quantity: item.quantity,
           updated: true
         };
-        setDeletedIndex(index)
+        setUpdatedDownIndex(index)
         updateDoc(userDoc, newFields); 
         setTimeout(() => {
-          setDeletedIndex(null)
+          setUpdatedDownIndex(null)
         }, 1000)
       } else {
         setDeletedIndex(index); // Set deletedIndex to the current index
@@ -1123,7 +1123,7 @@ const Popup = dynamic(() => import('react-leaflet').then((mod) => mod.Popup), { 
    {cart.map((item, index) => {
     
      return(
-       <section key={item.id} className={`cartProductShowFlex ${index === deletedIndex || deletedIndex === true ? 'deleted' : ''} ${index === updatedIndex ? 'updated' : ''}`}>
+       <section key={item.id} className={`cartProductShowFlex ${index === deletedIndex || deletedIndex === true ? 'deleted' : ''} ${index === updatedIndex ? 'updated' : ''} ${index === updatedDownIndex ? 'downUpdated' : ''}`}>
            <div>
              <Image src={item.image} width={150} height={150} alt="product image" />
            </div>

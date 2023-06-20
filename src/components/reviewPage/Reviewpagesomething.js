@@ -14,6 +14,7 @@ import Loading from "../reusableComponents/Loading"
 import { AiOutlineArrowLeft } from 'react-icons/ai'
 import { AiOutlineArrowRight } from 'react-icons/ai'
 import Link from "next/link"
+import GoogleReviews from "../GoogleReviews"
 
 
 export function Reviewpagesomething(){
@@ -169,44 +170,57 @@ const settings = {
     return (
 <>
         <section className="mainSection">
-        
+
+      <GoogleReviews />      
         <div className="header">
           {
             language === 'FR' ? 
             <>
               <h1>Page des avis</h1>
               <h4>Ici, vous pouvez voir comment tout le monde a évalué nos services !</h4>
+              {user?.uid && 
               <h4>N&apos;oubliez pas de laisser le vôtre en remplissant le formulaire ci-dessous !</h4>
+              }
             </>
                     : language === 'GB' ? 
             <>
               <h1>Review Page</h1>
               <h4>Here you can see how everyone reviewed our services!</h4>
+              {user?.uid && 
               <h4>Be sure to leave one yourself by completing the form below!</h4>
+              }
             </>
                     : language === 'RO' ? 
             <>
               <h1>Pagina de evaluare</h1>
               <h4>Aici puteti vedea cum a evaluat fiecare serviciile noastre!</h4>
+              {user?.uid &&
               <h4>Asigurati-va ca lasati si dumneavoastra o recenzie completand formularul de mai jos!</h4>
+              }
             </>
                     : language === 'DE' ? 
             <>
               <h1>Bewertungsseite</h1>
               <h4>Hier können Sie sehen, wie jeder unsere Dienstleistungen bewertet hat!</h4>
+              {user?.uid &&
               <h4>Stellen Sie sicher, dass Sie selbst eine hinterlassen, indem Sie das unten stehende Formular ausfüllen!</h4>
+              }
             </>
                     : language === 'IT' ? 
             <>
               <h1>Pagina delle recensioni</h1>
               <h4>Qui puoi vedere come tutti hanno recensito i nostri servizi!</h4>
+              {user?.uid &&
               <h4>Assicurati di lasciarne uno tu stesso compilando il modulo qui sotto!</h4>
+              }
             </>
                     : 
             <>
               <h1>Review Page</h1>
               <h4>Here you can see how everyone reviewed our services!</h4>
+              {user?.uid &&
               <h4>Be sure to leave one yourself by completing the form below!</h4>
+              }
             </>
           }
 
