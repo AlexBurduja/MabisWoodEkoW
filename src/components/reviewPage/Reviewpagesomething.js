@@ -172,7 +172,7 @@ const settings = {
         <section className="mainSection">
 
       <GoogleReviews />      
-        <div className="header">
+        {/* <div className="header">
           {
             language === 'FR' ? 
             <>
@@ -224,9 +224,9 @@ const settings = {
             </>
           }
 
-        </div>
+        </div> */}
 
-        {user?.uid ? 
+        {/* {user?.uid ? 
             <>
                 <section>
 
@@ -275,11 +275,11 @@ const settings = {
                 : language === 'IT' ? <p>Per lasciare una recensione, è necessario <Link href="/login">accedere</Link> / <Link href="/register">registrarsi</Link>.</p>
                 : <p>You have to <Link href="/login">login</Link> / <Link href="/register">register</Link> to leave a review.</p>}
             
-            </div>}
+            </div>} */}
         </section>
 
         
-        {loading ? (
+        {/* {loading ? (
   <Loading />
 ) : (
   groupedReviews
@@ -333,7 +333,7 @@ const settings = {
       </div>
     );
   })
-)}
+)} */}
 </>
     )
 }
