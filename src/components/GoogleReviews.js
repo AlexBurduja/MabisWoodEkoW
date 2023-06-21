@@ -1,11 +1,14 @@
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
-import { RiStarSFill, RiStarSLine } from 'react-icons/ri';
+import Loading from './reusableComponents/Loading';
+import { BsStar, BsStarFill, BsStarHalf } from 'react-icons/bs';
+import logo from '../publicResources/google-logo-9808.png'
 
 const GoogleReviews = () => {
   const [reviews, setReviews] = useState([]);
 
   const [language, setLanguage] = useState("GB")
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     const storedLanguage = localStorage.getItem('language')
@@ -16,6 +19,7 @@ const GoogleReviews = () => {
 
   useEffect(() => {
     const fetchReviews = async () => {
+      setLoading(true)
       try {
         const response = await fetch(`/api/getReviews?language=${language === "GB" ? 'en' : 'ro'}`);
         const data = await response.json();
@@ -25,10 +29,13 @@ const GoogleReviews = () => {
         console.error(error);
         setReviews([]);
       }
+      setLoading(false)
     };
 
     fetchReviews();
   }, [language]);
+
+  console.log(reviews)
 
   const getTimeAgo = (timestamp) => {
     const currentTime = Math.floor(Date.now() / 1000);
@@ -54,26 +61,87 @@ const GoogleReviews = () => {
     }
   };
   
+  const getTotalRating = () => {
+    let totalRating = 0
+    for (const review of reviews){
+      totalRating += review.rating
+    }
 
-  console.log(reviews)
+    console.log(totalRating / reviews.length)
+    return totalRating
+  }
+
+  getTotalRating();
+
+  const averageRating = reviews.reduce((total, review) => total + review.rating, 0) / reviews.length;
+const wholeStars = Math.floor(averageRating);
+const decimalPart = averageRating - wholeStars;
+
+const ratingStars = Array.from({ length: wholeStars }, (_, index) => (
+  <BsStarFill key={index} />
+));
 
   return (
     <section className='reviewMain'>
-    <h1>Reviews</h1>
+      <div className='reviewMainHeader'>
+        
+        <h1>{language === "GB" ? 'Reviews' : "Recenzii"} ({reviews.length})</h1>
+        <h2 className="review-source">
+          {language === "GB" ? 'Reviews sourced from' : "Recenzii obtinute de la"}
+          <span className="google-letter g"> G</span>
+          <span className="google-letter o2">o</span>
+          <span className="google-letter o">o</span>
+          <span className="google-letter g">g</span>
+          <span className="google-letter l">l</span>
+          <span className="google-letter e">e</span>
+        </h2>
+      </div>
+
+    {loading ? <Loading /> : 
+    <>
+    <div className='reviewsWidgetsWrapper'>
+      <div className="reviewsWidgets">
+        <div className='reviewsSpeechBubble'>
+          <div class="speech-bubble">
+          <Image src={logo} alt="googleLogo" className="googleLogo" height={30} width={30} />
+          </div>
+
+        <p>Google Reviews</p>
+        </div>
+
+         
+        <div className="rating">
+        {ratingStars}
+      {decimalPart >= 0.5 && <BsStarHalf />}
+      {decimalPart < 0.5 && decimalPart > 0 && <BsStarFill />}
+      {Array.from({ length: 5 - Math.ceil(averageRating) }, (_, index) => (
+        <BsStar key={index + wholeStars + 1} />
+      ))}
+    </div>
+
+        <div>
+          <span className='boldSpan'>{averageRating}</span> stars  <span className='boldSpan'>| {reviews.length}</span> reviews 
+        </div>
+      </div>
+    </div>
+    
+    
     <div className="review-flex">
+      
         {reviews.map((review, index) => (
         <div key={index} className="review">
                 <Image src={review.profile_photo_url} alt="profilePhoto" width={40} height={40}/>
+            
             <p className="rating">
             {Array.from({ length: review.rating }).map((index) => (
-                <RiStarSFill key={index} />
+                <BsStarFill key={index} />
                 ))}
                 {Array.from({ length: 5 - review.rating }).map((index) => (
-                <RiStarSLine key={index} />
+                <BsStar key={index} />
             ))}
             </p>
             {review.text && 
-            <p>{review.text}</p>
+            <p style={{ textAlign: 'center'}}>{review.text}</p>
             }
                 <h4>{review.author_name}</h4>
                 <p>{getTimeAgo(review.time)}</p>
@@ -81,6 +149,8 @@ const GoogleReviews = () => {
         </div>
         ))}
     </div>
+    </>
+}
   </section>
   );
 };

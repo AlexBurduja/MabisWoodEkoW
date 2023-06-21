@@ -228,9 +228,21 @@ div .reviewRatingSection_username{
     color: red;
 }
 
+.rating{
+    color: #F4B400;
+}
+
 .reviewMain h1:first-of-type{
     text-align: center;
     font-size: 40px;
+}
+
+.reviewMainHeader{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
     margin: 20px 0px 20px 0px;
 }
 
@@ -244,12 +256,14 @@ div .reviewRatingSection_username{
   .review {
     background-color: rgba(128, 128, 128, 0.2);
     width: 400px;
-    height: 200px;
+    height: 250px;
     max-height: 300px;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
+    border-radius: 10px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;  
   }
   
   
@@ -259,4 +273,93 @@ div .reviewRatingSection_username{
     justify-content: space-evenly;
     align-items: center;
   }
+
+  
+  .g {
+    color: #4285F4;
+  }
+  
+  .o {
+    color: #F4B400;
+  }
+
+  .o2{
+    color: #DB4437;
+  }
+  
+  .l {
+    color: #31a93b;
+  }
+  
+  .e {
+    color: #DB4437;
+  }
+
+  .reviewsWidgetsWrapper{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .reviewsWidgets {
+    position: relative;
+    width: 250px;
+    height: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 15px;
+    align-items: center;
+    color: grey;
+    background-color: rgba(255,255,255,0.5);
+    border-radius: 20px;
+  }
+
+  .reviewsSpeechBubble{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    font-weight: bold;
+  }
+
+  .boldSpan{
+    font-weight: bold;
+  }
+  
+  .speech-bubble {
+    position: relative;
+    display: inline-block;
+    background: transparent;
+    border-radius: 0.4em;
+    padding: 10px;
+    text-align: center; /* Added to center the logo horizontally */
+    border: 1px solid black;
+  }
+  
+  .googleLogo {
+    display: block; /* Added to center the logo vertically */
+    margin: 0 auto; /* Added to center the logo horizontally */
+    width: 30px;
+    height: 30px;
+  }
+  
+  .speech-bubble::after {
+    content: "";
+    position: absolute;
+    left: 110%;
+    top: 50%;
+    bottom: 50%;
+    transform: translate(-50%,-50%);
+    width: 0;
+    height: 0;
+    border: 10px solid transparent;
+    border-left-color: black;
+    border-right: 0;
+    border-bottom: 0;
+    background-color: transparent;
+  }
+  
   
