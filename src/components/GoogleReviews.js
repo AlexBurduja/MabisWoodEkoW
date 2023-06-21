@@ -19,7 +19,8 @@ const GoogleReviews = () => {
       try {
         const response = await fetch(`/api/getReviews?language=${language === "GB" ? 'en' : 'ro'}`);
         const data = await response.json();
-        setReviews(data.reviews);
+        const sortedReviews = data.reviews.sort((a, b) => b.time - a.time);
+        setReviews(sortedReviews);
       } catch (error) {
         console.error(error);
         setReviews([]);
@@ -53,6 +54,8 @@ const GoogleReviews = () => {
     }
   };
   
+
+  console.log(reviews)
 
   return (
     <section className='reviewMain'>
