@@ -301,6 +301,8 @@ div .reviewRatingSection_username{
     justify-content: center;
     align-items: center;
     margin-bottom: 20px;
+    
+    transition: 1s ease-in;
   }
 
   .reviewsWidgets {
@@ -315,7 +317,11 @@ div .reviewRatingSection_username{
     color: grey;
     background-color: rgba(255,255,255,0.5);
     border-radius: 20px;
+    
+    transition: .2s ease-out;
   }
+
+
 
   .reviewsSpeechBubble{
     display: flex;

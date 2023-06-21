@@ -8,12 +8,16 @@ import { FirebaseAuthContext } from "../../../FirebaseAuthContext";
 import { ToastContainer, toast } from 'react-toastify';
 import Image from "next/image";
 import Link from "next/link";
+import { getAnalytics, logEvent } from "firebase/analytics";
 
 /// Modal
 
 export function ProductCardComponent(props) {
 
+  const analytics = getAnalytics();
+
   const { title ,kg, currency,  price, image, description, id, stripeId } = props
+  
 
   const { user, conditional } = useContext(FirebaseAuthContext)
 
@@ -138,10 +142,16 @@ useEffect(() => {
     setImage(url)
   }
   
+
   const [counter, setCounter] = useState(2)
     
     const addToCart = async () => {
-      
+      logEvent(analytics, 'add_to_cart', {
+        item_name: title,
+        currency: 'RON',
+        value: price,
+      });
+
     if(user?.uid) {
     const cartDoc = `users/${user.uid}/cart`
     

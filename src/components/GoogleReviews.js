@@ -2,7 +2,7 @@ import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import Loading from './reusableComponents/Loading';
 import { BsStar, BsStarFill, BsStarHalf } from 'react-icons/bs';
-import logo from '../publicResources/google-logo-9808.png'
+import GoogleReviewWidget from './reviewPage/GoogleReviewWidget';
 
 const GoogleReviews = () => {
   const [reviews, setReviews] = useState([]);
@@ -73,14 +73,6 @@ const GoogleReviews = () => {
 
   getTotalRating();
 
-  const averageRating = reviews.reduce((total, review) => total + review.rating, 0) / reviews.length;
-const wholeStars = Math.floor(averageRating);
-const decimalPart = averageRating - wholeStars;
-
-const ratingStars = Array.from({ length: wholeStars }, (_, index) => (
-  <BsStarFill key={index} />
-));
-
   return (
     <section className='reviewMain'>
       <div className='reviewMainHeader'>
@@ -99,31 +91,7 @@ const ratingStars = Array.from({ length: wholeStars }, (_, index) => (
 
     {loading ? <Loading /> : 
     <>
-    <div className='reviewsWidgetsWrapper'>
-      <div className="reviewsWidgets">
-        <div className='reviewsSpeechBubble'>
-          <div class="speech-bubble">
-          <Image src={logo} alt="googleLogo" className="googleLogo" height={30} width={30} />
-          </div>
-
-        <p>Google Reviews</p>
-        </div>
-
-         
-        <div className="rating">
-        {ratingStars}
-      {decimalPart >= 0.5 && <BsStarHalf />}
-      {decimalPart < 0.5 && decimalPart > 0 && <BsStarFill />}
-      {Array.from({ length: 5 - Math.ceil(averageRating) }, (_, index) => (
-        <BsStar key={index + wholeStars + 1} />
-      ))}
-    </div>
-
-        <div>
-          <span className='boldSpan'>{averageRating}</span> stars  <span className='boldSpan'>| {reviews.length}</span> reviews 
-        </div>
-      </div>
-    </div>
+    <GoogleReviewWidget />
     
     
     <div className="review-flex">

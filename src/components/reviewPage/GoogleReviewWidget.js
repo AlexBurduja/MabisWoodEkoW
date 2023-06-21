@@ -1,6 +1,7 @@
 import Image from 'next/image';
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { BsStar, BsStarFill, BsStarHalf } from 'react-icons/bs';
+import logo from '../../publicResources/google-logo-9808.png'
 
 function GoogleReviewWidget() {
     const [reviews, setReviews] = useState([]);
@@ -41,9 +42,16 @@ const ratingStars = Array.from({ length: wholeStars }, (_, index) => (
   <BsStarFill key={index} />
 ));
 
+const [hover, setHover] = useState(false)
+
+function hoverr(){
+    setHover(!hover)
+}
+
+
   return (
-    <div className='reviewsWidgetsWrapper'>
-      <div className="reviewsWidgets">
+    <div className='reviewsWidgetsWrapper' >
+      <div className="reviewsWidgets" onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}>
         <div className='reviewsSpeechBubble'>
           <div class="speech-bubble">
           <Image src={logo} alt="googleLogo" className="googleLogo" height={30} width={30} />
@@ -66,7 +74,7 @@ const ratingStars = Array.from({ length: wholeStars }, (_, index) => (
           <span className='boldSpan'>{averageRating}</span> stars  <span className='boldSpan'>| {reviews.length}</span> reviews 
         </div>
       </div>
-    </div>
+      </div>
   )
 }
 

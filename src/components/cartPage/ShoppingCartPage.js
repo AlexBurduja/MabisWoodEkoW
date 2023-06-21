@@ -19,6 +19,7 @@ import Image from 'next/image';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import Loading from '../reusableComponents/Loading';
+import { logEvent,getAnalytics } from 'firebase/analytics';
 // import 'leaflet/dist/leaflet.css';
 // import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css';
 // import * as L from 'leaflet';
@@ -33,6 +34,7 @@ const Popup = dynamic(() => import('react-leaflet').then((mod) => mod.Popup), { 
 
  export default function ShoppingCartPage() {
 
+  const analytics = getAnalytics();
 
   const [language, setLanguage] = useState("GB");
 
@@ -693,7 +695,16 @@ const Popup = dynamic(() => import('react-leaflet').then((mod) => mod.Popup), { 
 
           }, 5000)
 
-          } 
+          }
+
+          cart.forEach(item => {
+            logEvent(analytics, 'purchase', {
+              item_id: item.stripeId,
+              item_name: item.title,
+              currency: item.currency,
+              value: item.price,
+            });
+          });
 
         }
 
