@@ -699,8 +699,12 @@ const Popup = dynamic(() => import('react-leaflet').then((mod) => mod.Popup), { 
 
           cart.forEach(item => {
             logEvent(analytics, 'purchase', {
-              item_id: item.stripeId,
-              item_name: item.title,
+              items: [{
+                item_id: item.stripeId,
+                item_name: item.title,
+                price: item.price,
+                quantity: item.quantity,
+              }],
               currency: item.currency,
               value: item.price,
             });
