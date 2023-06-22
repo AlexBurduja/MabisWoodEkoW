@@ -33,8 +33,11 @@ const Popup = dynamic(() => import('react-leaflet').then((mod) => mod.Popup), { 
 
 
  export default function ShoppingCartPage() {
+
+  let analytics;
+
   if (typeof window !== 'undefined') {
-  const analytics = getAnalytics();
+    analytics = getAnalytics();
   }
   const [language, setLanguage] = useState("GB");
 

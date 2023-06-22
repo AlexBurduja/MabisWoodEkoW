@@ -13,9 +13,13 @@ import { getAnalytics, logEvent } from "firebase/analytics";
 /// Modal
 
 export function ProductCardComponent(props) {
+  
+  let analytics;
+
   if (typeof window !== 'undefined') {
-  const analytics = getAnalytics();
+  analytics = getAnalytics();
   }
+
   const { title ,kg, currency,  price, image, description, id, stripeId } = props
   
 
