@@ -31,7 +31,6 @@ export function ProductListComponent() {
 
   getProducts();
 }, [])
-
   
   return (
     <section className='listComponent'>

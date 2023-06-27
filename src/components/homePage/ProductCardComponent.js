@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { AiFillEdit } from "react-icons/ai";
 import {  db } from "../../../firebase-config";
-import {  deleteDoc, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
+import {  collection, deleteDoc, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { storage } from "../../../firebase-config";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { FirebaseAuthContext } from "../../../FirebaseAuthContext";
@@ -147,18 +147,16 @@ useEffect(() => {
   }
   
 
-  const [counter, setCounter] = useState(2)
+  const [counter, setCounter] = useState(1)
+  const [cart, setCart] = useState([])
     
     const addToCart = async () => {
-      logEvent(analytics, 'add_to_cart', {
-        item_name: title,
-        currency: 'RON',
-        value: price,
-      });
+
+      let updatedValue;
+
 
     if(user?.uid) {
     const cartDoc = `users/${user.uid}/cart`
-    
 
     const newFields = {
       title : title,
@@ -173,10 +171,13 @@ useEffect(() => {
     const existingDoc = {
       quantity : counter
     }
+
+    console.log(existingDoc.quantity)
+    
     
     const docRef = doc(db, cartDoc, title+kg);
     const docSnap = await getDoc(docRef)
-    const notifyAdd = () => toast.success(`Now having ${counter} ${title} in your cart!`, {
+    const notifyAdd = () => toast.success(`${title} added in cart!`, {
       autoClose: 2000
     })
     
@@ -185,14 +186,19 @@ useEffect(() => {
       setCounter(counter + 1)
       updateDoc(doc(db,cartDoc,title+kg), existingDoc)
       notifyAdd();
+      updatedValue = counter * price
+       
     } else {
       toast.success(`${title} added in cart!`, {
         autoClose: 2000
       })
         setDoc(doc(db, cartDoc, title+kg), newFields)
+      
+      updatedValue = counter / 2 * price
     }
   
-    
+    console.log(docSnap.exists())
+  
   }
 
   if(!user?.uid){
@@ -222,14 +228,28 @@ useEffect(() => {
       updateDoc(doc(db,cartDoc,title+kg), existingDoc)
       toast.success(`Now having ${counter} ${title} in your cart!`, {
         autoClose: 2000})
+      updatedValue = counter * price
     } else {
       setDoc(doc(db, cartDoc, title+kg), newFields)
       toast.success(`${title} added in cart!`, {
         autoClose: 2000
       })
+
+      updatedValue = counter / 2 * price
     }
 
   }
+
+  logEvent(analytics, 'add_to_cart', {
+    items: [{
+      item_name: title,
+      item_id: stripeId,
+      quantity: counter,
+      price: price
+    }],
+    currency: 'RON',
+    value: updatedValue
+  });
   
 }
 

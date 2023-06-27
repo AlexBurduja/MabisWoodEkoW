@@ -48,7 +48,6 @@ const Popup = dynamic(() => import('react-leaflet').then((mod) => mod.Popup), { 
     }
   }, []);
 
-  // L.icon({})
 
   const router = useRouter();
 
