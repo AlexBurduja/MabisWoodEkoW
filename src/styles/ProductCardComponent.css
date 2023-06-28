@@ -9,6 +9,8 @@ section header{
     place-items: center;
     place-content: center;
     margin-top: 2%;
+    margin-bottom: 2%;
+
     grid-template-columns: repeat(auto-fit, minmax(450px,1fr));
     gap: 55px;
     width: 100%;

@@ -11,7 +11,7 @@ export default function CartPage() {
     <>
       <TopScrollProgress />
       <Header />
-        <ShoppingCartPage />
+      <ShoppingCartPage />
       <BackToTop />
       <PreFooter />
       <Footer />

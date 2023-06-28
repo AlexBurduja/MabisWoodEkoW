@@ -18,6 +18,8 @@ import IT from '../../publicResources/it.svg'
 import DE from '../../publicResources/de.svg'
 import GB from '../../publicResources/gb.svg'
 import FR from '../../publicResources/fr.svg'
+import { AiOutlineArrowDown } from 'react-icons/ai';
+import { BsArrowDownShort, BsBoxArrowInDown } from 'react-icons/bs';
 
 export default function Header() {
 
@@ -168,6 +170,21 @@ export default function Header() {
       window.location.reload()
     }
 
+    const [dropdown, setDropdown] = useState(false)
+
+    function handleDropdown (){
+      setDropdown(!dropdown)
+    }
+
+      function handleMouseLeave() {
+        const divElement = document.getElementById('dropdown-div');
+    
+        if (divElement && !divElement.contains(event.relatedTarget)) {
+          setDropdown(false);
+        }
+      }
+    
+
   return (
     <>
     <section id="home" className='flex'>
@@ -187,12 +204,27 @@ export default function Header() {
           
         </Link>
         
-        <Link className={router.pathname === '/about' ? 'activeClassNav' : ''} href='/about'>{language === "RO" ? 'Despre' :
-          language === "IT" ? 'Informazioni' :
-          language === "DE" ? 'Über' :
-          language === "FR" ? 'À propos' :
-          'About'}
-        </Link>
+        <div id="dropdown-div" onMouseLeave={handleMouseLeave}>
+          {/* <div className='linkDiv'> */}
+            <p id="dropdown-link" onMouseEnter={handleDropdown} className={router.pathname === '/about' ? 'activeClassNav linkLink' : 'linkLink'}>{language === "RO" ? 'Produse' :
+            language === "IT" ? 'Informazioni' :
+            language === "DE" ? 'Über' :
+            language === "FR" ? 'À propos' :
+            'Products'} <BsArrowDownShort />
+          </p>
+          {/* </div> */}
+
+          {dropdown && 
+          <div className='dropdown' >
+            <div className='dropdownFlex'>
+              <Link href='/peleti'>Peleti</Link>
+              <Link href='/bricheti'>Bricheti</Link>
+              <Link href='/rumegus'>Rumegus</Link>
+              <Link href='/tocatura'>Tocatura</Link> 
+            </div>
+          </div>
+          }
+        </div>
 
         <Link className={router.pathname === '/reviews' ? 'activeClassNav' : ''} href='/reviews'>
         {language === "RO" ? 'Recenzii' :
@@ -268,11 +300,17 @@ export default function Header() {
           language === "FR" ? "Accueil" :
           'Home'}</Link> </li>
 
-          <li className="item"> <Link className={router.pathname === '/about' ? 'activeClassNav' : ''} href='/about'>{language === "RO" ? 'Despre' :
-          language === "IT" ? 'Informazioni' :
-          language === "DE" ? 'Über' :
-          language === "FR" ? 'À propos' :
-          'About'}</Link> </li>
+          <li className="item"> <Link className={router.pathname === '/about' ? 'activeClassNav' : ''} href='/about'>{language === "RO" ? 'Produse' :
+          language === "IT" ? 'Prodotti' :
+          language === "DE" ? 'Produkte' :
+          language === "FR" ? 'Des produits' :
+          'Produse'}</Link> </li>
+
+
+          {/* <li className="item">
+            <Link href='/peleti' className={router.pathname === '/peleti' ? 'activeClassNav' : ''}>Produse
+            </Link>
+          </li> */}
 
           <li className="item"> <Link className={router.pathname === '/reviews' ? 'activeClassNav' : ''} href='/reviews'>{language === "RO" ? 'Recenzii' :
           language === "IT" ? 'Recensioni' :
