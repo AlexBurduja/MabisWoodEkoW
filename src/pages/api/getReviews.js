@@ -2,8 +2,8 @@ export default async function handler(req, res) {
     const { language } = req.query;
   
     try {
-      const placeId = 'ChIJM_cvQl-TskARjkRh2NmgQ6I'; // Replace with your Google My Business place ID
-      const apiKey = 'AIzaSyBoQfvBoQIBv3PogXlCpH67LWePQ_ttBCo'; // Replace with your Google Maps API key
+      const placeId = 'ChIJM_cvQl-TskARjkRh2NmgQ6I';
+      const apiKey = 'AIzaSyBoQfvBoQIBv3PogXlCpH67LWePQ_ttBCo';
   
       const response = await fetch(
         `https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&fields=reviews&language=${language}&key=${apiKey}`

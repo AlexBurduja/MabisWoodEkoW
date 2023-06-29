@@ -34,9 +34,7 @@ const GoogleReviews = () => {
 
     fetchReviews();
   }, [language]);
-
-  console.log(reviews)
-
+  
   const getTimeAgo = (timestamp) => {
     const currentTime = Math.floor(Date.now() / 1000);
     const timeElapsed = currentTime - timestamp;

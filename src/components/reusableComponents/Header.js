@@ -205,22 +205,20 @@ export default function Header() {
         </Link>
         
         <div id="dropdown-div" onMouseLeave={handleMouseLeave}>
-          {/* <div className='linkDiv'> */}
             <p id="dropdown-link" onMouseEnter={handleDropdown} className={router.pathname === '/about' ? 'activeClassNav linkLink' : 'linkLink'}>{language === "RO" ? 'Produse' :
             language === "IT" ? 'Informazioni' :
             language === "DE" ? 'Über' :
             language === "FR" ? 'À propos' :
             'Products'} <BsArrowDownShort />
           </p>
-          {/* </div> */}
 
           {dropdown && 
-          <div className='dropdown' >
+          <div className='dropdown'>
             <div className='dropdownFlex'>
               <Link href='/peleti'>Peleti</Link>
-              <Link href='/bricheti'>Bricheti</Link>
+              <Link href='/brichete'>Brichete Rumegus</Link>
               <Link href='/rumegus'>Rumegus</Link>
-              <Link href='/tocatura'>Tocatura</Link> 
+              <Link href='/tocatura'>Tocatura Lemn</Link> 
             </div>
           </div>
           }

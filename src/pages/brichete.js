@@ -4,7 +4,7 @@ import Header from '@/components/reusableComponents/Header'
 import TopScrollProgress from '@/components/reusableComponents/TopScrollProgress'
 import React from 'react'
 
-function Bricheti() {
+function Brichete() {
   return (
     <>
     <TopScrollProgress />
@@ -15,4 +15,4 @@ function Bricheti() {
   )
 }
 
-export default Bricheti
+export default Brichete
