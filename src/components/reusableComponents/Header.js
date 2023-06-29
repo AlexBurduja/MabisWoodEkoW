@@ -235,6 +235,14 @@ export default function Header() {
           language === 'FR' ? 'Commentaires' :
           'Reviews'}
         </Link>
+        
+        <Link className={router.pathname === '/servicii' ? 'activeClassNav' : ''} href='/servicii'>
+        {language === "RO" ? 'Servicii' :
+          language === "IT" ? 'Recensioni' :
+          language === "DE" ? 'Bewertungen' :
+          language === 'FR' ? 'Commentaires' :
+          'Services'}
+        </Link>
 
         <Link className={router.pathname === '/contact' ? 'activeClassNav' : ''} href='/contact'>
         {language === "RO" || "FR" ? 'Contact' :
