@@ -19,7 +19,7 @@ import DE from '../../publicResources/de.svg'
 import GB from '../../publicResources/gb.svg'
 import FR from '../../publicResources/fr.svg'
 import { AiOutlineArrowDown } from 'react-icons/ai';
-import { BsArrowDownShort, BsBoxArrowInDown } from 'react-icons/bs';
+import { BsArrowDownShort, BsBoxArrowInDown, BsSearch } from 'react-icons/bs';
 
 export default function Header() {
 
@@ -187,6 +187,10 @@ export default function Header() {
 
   return (
     <>
+    <div className='flexWrapper'>
+
+    <input type='text' placeholder='  Search' />
+
     <section id="home" className='flex'>
       <div className='logo'>
         <Image src={logo} className='logo' alt="logo" width={250} height={250}/>
@@ -216,8 +220,8 @@ export default function Header() {
           <div className='dropdown'>
             <div className='dropdownFlex'>
               <Link href='/peleti'>Peleti</Link>
-              <Link href='/brichete'>Brichete Rumegus</Link>
               <Link href='/rumegus'>Rumegus</Link>
+              <Link href='/brichete'>Brichete Rumegus</Link>
               <Link href='/tocatura'>Tocatura Lemn</Link> 
             </div>
           </div>
@@ -343,8 +347,9 @@ export default function Header() {
         </ul>
       </nav>
 </div>  
-      
+          
   </section>
+  </div>
   </>
   );
 }

@@ -1,4 +1,5 @@
 import PeletiProductPage from '@/components/ProdusePages/PeletiProductPage'
+import { CreateProduct } from '@/components/homePage/CreateProduct'
 import { ProductListComponent } from '@/components/homePage/ProductListComponent'
 import { Footer } from '@/components/reusableComponents/Footer'
 import Header from '@/components/reusableComponents/Header'
@@ -11,6 +12,7 @@ function Peleti() {
       <TopScrollProgress /> 
       <Header/>
       <PeletiProductPage />
+      <CreateProduct />
       <Footer />
     </div>
   )

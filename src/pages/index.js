@@ -16,7 +16,6 @@ export default function Homepage() {
     <BackToTop />
     <Header />
     <BigImage />
-    <CreateProduct />
     <ProductListComponent />
     <PreFooter />
     <Footer />

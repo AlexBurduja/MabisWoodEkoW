@@ -7,8 +7,8 @@ import GoogleReviewWidget from './reviewPage/GoogleReviewWidget';
 const GoogleReviews = () => {
   const [reviews, setReviews] = useState([]);
 
-  const [language, setLanguage] = useState("GB")
   const [loading, setLoading] = useState(false)
+  const [language, setLanguage] = useState("GB")
 
   useEffect(() => {
     const storedLanguage = localStorage.getItem('language')
@@ -34,7 +34,7 @@ const GoogleReviews = () => {
 
     fetchReviews();
   }, [language]);
-  
+
   const getTimeAgo = (timestamp) => {
     const currentTime = Math.floor(Date.now() / 1000);
     const timeElapsed = currentTime - timestamp;

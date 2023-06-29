@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { FiMail } from 'react-icons/fi'
 import { BsFillTelephoneFill, BsFillPinMapFill } from 'react-icons/bs';
 import { HashLink } from 'react-router-hash-link';
@@ -13,31 +13,58 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 export function Footer() {
+
+  const [language, setLanguage] = useState("GB")
+
+  useEffect(() => {
+    const storedLanguage = localStorage.getItem('language')
+    if (storedLanguage) {
+        setLanguage(storedLanguage);
+      }
+  }, [])
+
   return (
     <section className='footerSection'>
       <div className='footerSection_flex_row'>
         <div className='footerSection_flex_column_1 footerSection_common'>
-          <p>Thanks for sticking with us and reaching the end of the page!</p>
+          <p>{language === 'RO' ? 'Multumim ca ati ramas cu noi pana la sfarsitul paginii!' :  'Thanks for sticking with us and reaching the end of the page!'}</p>
         </div>
 
         <div className='footerSection_flex_column_2 footerSection_common'>
           <div>
-          <Link href="/#">Home</Link>  
+          <Link href="/#">{language === 'RO' ? 'Acasa' : 'Home'}</Link>  
           </div>
 
           <div>
-          <Link href="/#product">Products</Link>
+          <Link href="/#product">{language === 'RO' ? 'Produse' : 'Products'}</Link>
           </div>
         </div>
 
         <div className='footerSection_flex_column_6 footerSection_common'>
           <div>
-            <Link href="/about#">About</Link>
+            <p>{language === 'RO' ? 'Produse' : 'Products'}</p>
           </div>
+
+          <div>
+          <Link href="/peleti">{language === 'RO' ? 'Peleti' : 'Pelets'}</Link>
+          </div>
+          
+          <div>
+          <Link href="/#product">{language === 'RO' ? 'Rumegus' : 'Sawdust'}</Link>
+          </div>
+
+          <div>
+          <Link href="/#product">{language === 'RO' ? 'Brichete Rumegus' : 'Briquettes from sawdust'}</Link>
+          </div>
+          
+          <div>
+          <Link href="/#product">{language === 'RO' ? 'Tocatura din Lemn' : 'Forest Chips'}</Link>
+          </div>
+
         </div>
 
         <div className='footerSection_flex_column_3 footerSection_common'>
-        <Link href="/reviews#">Reviews</Link>
+        <Link href="/reviews#">{language === 'RO'? 'Recenzii' : 'Reviews'}</Link>
         </div>
 
         <div className='footerSection_flex_column_4 footerSection_common'>
