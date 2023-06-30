@@ -27,10 +27,10 @@ function Id() {
         const getProduct = async () => {
           const data = await getDoc(ref)
       
-        setproductDetails(data.data())
+          setproductDetails(data.data())
+          setLoading(false)
         }
         
-        setLoading(false)
         getProduct();
       }, [id])
 
