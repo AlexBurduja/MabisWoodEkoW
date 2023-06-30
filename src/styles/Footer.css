@@ -3,7 +3,7 @@
     height: 100%;
     min-height: 300px;
     background-color: whitesmoke;
-    background: url(../publicResources/logoMabis.svg);
+    /* background: url(../publicResources/logoMabis.svg); */
     background-repeat: no-repeat;
     background-size: 500px;
     background-position:100px;

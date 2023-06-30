@@ -5,6 +5,9 @@ import { motion } from "framer-motion";
 import { doc, getDoc} from "firebase/firestore";
 import { db } from "../../../firebase-config";
 import Loading from "../../components/reusableComponents/Loading";
+import Header from '@/components/reusableComponents/Header';
+import { Footer } from '@/components/reusableComponents/Footer';
+import TopScrollProgress from '@/components/reusableComponents/TopScrollProgress';
 
 function Id() {
 
@@ -55,6 +58,9 @@ function Id() {
   return (
     <>
     {loading ? <Loading /> : 
+    <>
+    <TopScrollProgress />
+      <Header />
     <section className='sectionCenter'>
       <div className="product">
 
@@ -86,6 +92,8 @@ function Id() {
       
       </div>
     </section>
+    <Footer />
+    </>
   }
     </>
   )

@@ -228,6 +228,14 @@ export default function Header() {
           }
         </div>
 
+        <Link className={router.pathname === '/servicii' ? 'activeClassNav' : ''} href='/servicii'>
+        {language === "RO" ? 'Servicii' :
+          language === "IT" ? 'Recensioni' :
+          language === "DE" ? 'Bewertungen' :
+          language === 'FR' ? 'Commentaires' :
+          'Services'}
+        </Link>
+        
         <Link className={router.pathname === '/reviews' ? 'activeClassNav' : ''} href='/reviews'>
         {language === "RO" ? 'Recenzii' :
           language === "IT" ? 'Recensioni' :
@@ -236,13 +244,6 @@ export default function Header() {
           'Reviews'}
         </Link>
         
-        <Link className={router.pathname === '/servicii' ? 'activeClassNav' : ''} href='/servicii'>
-        {language === "RO" ? 'Servicii' :
-          language === "IT" ? 'Recensioni' :
-          language === "DE" ? 'Bewertungen' :
-          language === 'FR' ? 'Commentaires' :
-          'Services'}
-        </Link>
 
         <Link className={router.pathname === '/contact' ? 'activeClassNav' : ''} href='/contact'>
         {language === "RO" || "FR" ? 'Contact' :
