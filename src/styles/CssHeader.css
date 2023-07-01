@@ -377,6 +377,18 @@ button#rfs-btn.ReactFlagsSelect-module_selectBtn__19wW7 {
   gap: 5px;
 }
 
+.searchFilterMap {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  grid-gap: 10px; /* Optional: Add gap between grid items */
+  list-style: none; /* Remove default list styles */
+  padding: 0;
+  margin: 0;
+}
+
+.searchFilterMap ul{
+  list-style-type: none;
+}
 
 /* Greater than 760px (desktop & rest) */
 @media only screen and (min-width: 850px){

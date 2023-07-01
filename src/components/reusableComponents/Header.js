@@ -188,14 +188,17 @@ export default function Header() {
       const [searchQuery, setSearchQuery] = useState("");
       const [products, setProducts] = useState([])
       const [searchLoading, setSearchLoading] = useState(true);
+      const [searchSearchLoading, setSearchSearcLoading] = useState(true)
 
       useEffect(() => {
         const ref = collection(db, "products");
     
         const getProducts = async () => {
+          setSearchLoading(true);
           const data = await getDocs(ref);
           setProducts(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-          setSearchLoading(false);
+          setLoading(false);
+          setSearchSearcLoading(false);
         };
     
         getProducts();
@@ -205,7 +208,11 @@ export default function Header() {
       //   product.title.toLowerCase().includes(searchQuery.toLowerCase())
       // );
 
-      console.log(products.filter((obj) => obj.title === 'Peleti').map((product) => product.title))
+      const filteredProducts = products.filter((obj) =>
+    obj.title.includes(searchQuery)
+  );
+
+      console.log(searchQuery.length)
 
   return (
     <>
@@ -387,18 +394,17 @@ export default function Header() {
         </div>
       </div>
       
-        <div className='searchFilterMap'>
-      {searchQuery &&
-        loading ? (
-        <p>Loading...</p>
-      ) : (
-          <ul>
-            {products.filter(obj => obj.title.includes(searchQuery)).map((product) => (
-              <li key={product.id}>{product.title}</li>
-            ))}
-          </ul>
-       )}
-       </div>
+      {searchQuery.length > 0 &&
+      <div className="searchFilterMap" >
+          
+          <ul className="searchFilterMap">
+    {filteredProducts.map((product) => (
+      <li key={product.id}>{product.title}</li>
+    ))}
+  </ul>
+      </div>
+       }
+
   </div>
   </>
   );
