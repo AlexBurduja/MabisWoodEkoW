@@ -2,12 +2,12 @@
     text-decoration: none;
 }
 
-    .imageSection img{
-        width: 100vw;
-        height: 300px;
-        filter: brightness(50%);
-        object-fit: fill;
-    }
+.imageSection img {
+    width: 100vw;
+    height: 300px;
+    filter: brightness(40%);
+    object-fit: cover;
+}
 
 .imageSection{
     position: relative;
@@ -48,7 +48,6 @@ span.woodColor{
     width: 45vw;
     height: 2rem;   
     cursor: pointer;
-    text-shadow: 0 0.04em 0.04em rgba(0,0,0,0.35)
 }
 
 .imageButtons a{
@@ -60,27 +59,24 @@ span.woodColor{
     filter: brightness(100%);
     border: transparent;
     border-radius: 50px;
-    background-color: rgba(48, 48, 230, 0.8);
+    background-color: #6bbe45;
     transition: 500ms ease-out;
-    color: white;   
+    color: white;
+    font-weight: bold;  
+    scale: 1; 
 }
 
-.imageButtons button:first-of-type:hover{
-    transition: 200ms ease-in;
-    background-color: rgba(48, 48, 230,1);
+.imageButtons button:hover{
+    scale: 1.1;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
 .imageButtons button:last-of-type{
-    border: 2px solid white;
+    border: none;
     color: white;
     border-radius: 50px;
     transition: 300ms ease-out;
-    background-color: rgba(200, 200, 200, 0.2);   
-}
-
-.imageButtons button:last-of-type:hover{
-    transition: 200ms ease-in;
-    background-color: rgba(200, 200, 200, 0.5);
+    background-color: #d18034;   
 }
 
 @media only screen and (min-width: 760px){
@@ -137,26 +133,19 @@ span.woodColor{
         filter: brightness(100%);
         border: transparent;
         border-radius: 50px;
-        background-color: rgba(48, 48, 230, 0.8);
+        background-color: #6bbe45;
         transition: 500ms ease-out;
         color: white;   
-    }
-
-    .imageButtons button:first-of-type:hover{
-        transition: 200ms ease-in;
-        background-color: rgba(48, 48, 230,1);
+        font-weight: bold;
     }
 
     .imageButtons button:last-of-type{
-        border: 2px solid white;
+        border: 2px solid #985e26;
         color: white;
+        font-weight: bold;
         border-radius: 50px;
         transition: 300ms ease-out;
-        background-color: rgba(200, 200, 200, 0.2);   
+        background-color: #985e26;   
     }
 
-    .imageButtons button:last-of-type:hover{
-        transition: 200ms ease-in;
-        background-color: rgba(200, 200, 200, 0.5);
-    }
 }

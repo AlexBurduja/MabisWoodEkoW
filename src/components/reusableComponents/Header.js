@@ -4,7 +4,7 @@ import { ShoppingCart } from '../cartPage/ShoppingCart';
 import { CgProfile } from 'react-icons/cg' 
 import { useState } from 'react';
 import { signOut } from 'firebase/auth';
-import { auth } from '../../../firebase-config';
+import { auth, db } from '../../../firebase-config';
 import { useEffect } from 'react';
 import { useContext } from 'react';
 import { FirebaseAuthContext } from '../../../FirebaseAuthContext';
@@ -20,6 +20,7 @@ import GB from '../../publicResources/gb.svg'
 import FR from '../../publicResources/fr.svg'
 import { AiOutlineArrowDown } from 'react-icons/ai';
 import { BsArrowDownShort, BsBoxArrowInDown, BsSearch } from 'react-icons/bs';
+import { collection, getDocs } from 'firebase/firestore';
 
 export default function Header() {
 
@@ -159,8 +160,8 @@ export default function Header() {
 
     const flagComponents = {
       RO: <Image src={RO} alt='ro' width={26}/>,
-      IT: <Image src={IT} width={26} alt='it'/>,
-      GB: <Image src={GB} width={26} alt='gb' />,
+      IT: <Image src={IT} alt='it' width={26}/>,
+      GB: <Image src={GB} alt='gb' width={26} />,
       DE: <Image src={DE} alt='de' width={26} />,
       FR: <Image src={FR} alt='fr' width={26} />
     };
@@ -176,7 +177,7 @@ export default function Header() {
       setDropdown(!dropdown)
     }
 
-      function handleMouseLeave() {
+      function handleMouseLeave(event) {
         const divElement = document.getElementById('dropdown-div');
     
         if (divElement && !divElement.contains(event.relatedTarget)) {
@@ -184,12 +185,32 @@ export default function Header() {
         }
       }
     
+      const [searchQuery, setSearchQuery] = useState("");
+      const [products, setProducts] = useState([])
+      const [searchLoading, setSearchLoading] = useState(true);
+
+      useEffect(() => {
+        const ref = collection(db, "products");
+    
+        const getProducts = async () => {
+          const data = await getDocs(ref);
+          setProducts(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+          setSearchLoading(false);
+        };
+    
+        getProducts();
+      }, []);
+    
+      // const filteredProducts = products.filter((product) =>
+      //   product.title.toLowerCase().includes(searchQuery.toLowerCase())
+      // );
+
+      console.log(products.filter((obj) => obj.title === 'Peleti').map((product) => product.title))
 
   return (
     <>
     <div className='flexWrapper'>
-
-    <input type='text' placeholder='  Search' />
+    
 
     <section id="home" className='flex'>
       <div className='logo'>
@@ -358,6 +379,26 @@ export default function Header() {
 </div>  
           
   </section>
+      <div className='searchWrapper'>
+        <input type='text' placeholder='Ce produs cumperi astazi? :)' value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
+        
+        <div className='iconWrapper'>
+        <BsSearch  />
+        </div>
+      </div>
+      
+        <div className='searchFilterMap'>
+      {searchQuery &&
+        loading ? (
+        <p>Loading...</p>
+      ) : (
+          <ul>
+            {products.filter(obj => obj.title.includes(searchQuery)).map((product) => (
+              <li key={product.id}>{product.title}</li>
+            ))}
+          </ul>
+       )}
+       </div>
   </div>
   </>
   );

@@ -1,17 +1,63 @@
 .flexWrapper{
   display: flex;
-  flex-direction: column-reverse;
+  flex-direction: column;
   background-color: white;
   justify-content: center;
   align-items: center;
-  gap: 10px;
+  width: 100%;
 }
 
-.flexWrapper input {
+.searchWrapper{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.searchWrapper input{
   width: 70%;
   height: 35px;
   border-radius: 15px;
+  margin: 20px 0 20px 0;
+  border: 1px solid black;
+  padding: 0 0 0 35px;
 }
+
+.iconWrapper{
+  width: 70%;
+  position: absolute;
+  display: flex;
+  align-items: center;
+}
+
+.searchWrapper svg{
+  color:black;
+  position: absolute;
+  left: 10px;
+  z-index: 10000;
+}
+
+.searchFilter{
+  position: absolute;
+}
+
+/* .searchIcon{
+  position: absolute;
+  top: 145px;
+  left:300px;
+  z-index: 10000;
+}
+
+.flexWrapper input{
+  width: 70%;
+  height: 35px;
+  border-radius: 15px;
+  margin: 20px 0 20px 0;
+  border: 2px solid black;
+  padding: 0 0 0 40px;
+} */
 
 .flex{
     display: flex;
@@ -28,7 +74,6 @@
 .logo{
     width: 20vw;
     max-width: 250px;
-    /* margin-left: -20px; */
 }
 
 .desktopAnchors{

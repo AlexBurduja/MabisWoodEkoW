@@ -2,6 +2,8 @@ import { NavLink } from "react-router-dom";
 import warehousePhotoBig from "../../publicResources/warehousePngBig.webp"
 import warehousePhotoMedium from "../../publicResources/warehousePngMedium.webp"
 import warehousePhotoSmall from "../../publicResources/warehousePngSmall.webp"
+
+import warehousePhoto from '../../publicResources/AdobeStock_320161570.jpeg'
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -19,18 +21,15 @@ export function BigImage() {
 
   return (
     <section className='imageSection'>
-        <div>
+        <div className="imageContainer">
         <Image
-        src={warehousePhotoBig}
-        srcSet={ `${warehousePhotoSmall} 500w , ${warehousePhotoMedium} 900w ,${warehousePhotoBig} 1280w` }
-        sizes={"(max-width:500px) 500px,(max-width:900) 900px, 1280px"}
+        src={warehousePhoto}
         alt="backgroundPhoto"/>
       </div>
      
 
     <div className='imageInfo'>
       <p>Mabis <span className='woodColor'>Wood</span><span className='ekoColor'> Eko</span>,</p>
-
       {language === "RO" ? 'Cei mai buni peleti din oras.' :
       language === "IT" ? 'Il miglior pellet in città.' :
       language === "DE" ? 'Die besten Pellets der Stadt.' :
@@ -40,22 +39,24 @@ export function BigImage() {
 
     <div className='imageButtons'>
       <button>
-        <Link href='/about'>
-          {language === "RO" ? 'Despre noi' :
+        <Link href='/peleti' className="imageButtonChild">
+          {language === "RO" ? 'Peleti' :
           language === "IT" ? 'Chi siamo' :
           language === "DE" ? 'Über uns' :
           language === "FR" ? "À propos de nous" :
-          'About us'}
+          'Pelets'}
         </Link>
       </button>
-      <button >
-      <Link href="/contact">  
-        {language === "RO" ? 'Contacteaza-ne' :
+
+      <button>
+      <Link href="/brichete">  
+        {language === "RO" ? 'Brichete' :
         language === "IT" ? 'Contattaci' :
         language === "DE" ? 'Kontaktiere uns' :
         language === "FR" ? 'Contactez-nous' :
-        'Contact us'}
-      </Link></button>
+        'Briquettes'}
+      </Link>
+      </button>
     </div>
     </section>
   );
