@@ -395,14 +395,11 @@ export default function Header() {
       </div>
       
       {searchQuery.length > 0 &&
-      <div className="searchFilterMap" >
-          
-          <ul className="searchFilterMap">
-    {filteredProducts.map((product) => (
-      <li key={product.id}>{product.title}</li>
-    ))}
-  </ul>
-      </div>
+      <div className="searchFilterMap">
+      {filteredProducts.map((product) => (
+        <div className="gridItem" key={product.id}>{product.title}</div>
+      ))}
+    </div>
        }
 
   </div>
