@@ -21,6 +21,7 @@ import FR from '../../publicResources/fr.svg'
 import { AiOutlineArrowDown } from 'react-icons/ai';
 import { BsArrowDownShort, BsBoxArrowInDown, BsSearch } from 'react-icons/bs';
 import { collection, getDocs } from 'firebase/firestore';
+import { AnimatePresence, motion } from 'framer-motion';
 
 export default function Header() {
 
@@ -177,13 +178,13 @@ export default function Header() {
       setDropdown(!dropdown)
     }
 
-      function handleMouseLeave(event) {
-        const divElement = document.getElementById('dropdown-div');
+    function handleMouseLeave(event) {
+      const dropdownElement = document.querySelector('.dropdown');
     
-        if (divElement && !divElement.contains(event.relatedTarget)) {
-          setDropdown(false);
-        }
+      if (dropdownElement && !dropdownElement.contains(event.target)) {
+        setDropdown(false);
       }
+    }
     
       const [searchQuery, setSearchQuery] = useState("");
       const [products, setProducts] = useState([])
@@ -203,16 +204,10 @@ export default function Header() {
     
         getProducts();
       }, []);
-    
-      // const filteredProducts = products.filter((product) =>
-      //   product.title.toLowerCase().includes(searchQuery.toLowerCase())
-      // );
 
       const filteredProducts = products.filter((obj) =>
-    obj.title.includes(searchQuery)
+    obj.title.toLowerCase().includes(searchQuery.toLowerCase())
   );
-
-      console.log(searchQuery.length)
 
   return (
     <>
@@ -236,7 +231,7 @@ export default function Header() {
           
         </Link>
         
-        <div id="dropdown-div" onMouseLeave={handleMouseLeave}>
+        <div id="dropdown-div" onMouseLeave={handleDropdown} onClick={handleDropdown}>
             <p id="dropdown-link" onMouseEnter={handleDropdown} className={router.pathname === '/about' ? 'activeClassNav linkLink' : 'linkLink'}>{language === "RO" ? 'Produse' :
             language === "IT" ? 'Informazioni' :
             language === "DE" ? 'Über' :
@@ -387,20 +382,40 @@ export default function Header() {
           
   </section>
       <div className='searchWrapper'>
-        <input type='text' placeholder='Ce produs cumperi astazi? :)' value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
+        <input type='text' placeholder='Ce produs cumperi astazi? :)' value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} id={searchQuery.length > 0 ? 'searchWrapperSearch' : ''} />
         
         <div className='iconWrapper'>
         <BsSearch  />
         </div>
       </div>
       
-      {searchQuery.length > 0 &&
-      <div className="searchFilterMap">
-      {filteredProducts.map((product) => (
-        <div className="gridItem" key={product.id}>{product.title}</div>
-      ))}
-    </div>
-       }
+      <AnimatePresence>
+
+      {searchQuery.length > 0 && (
+  <motion.div 
+    className="searchFilterMap"
+    initial={{ opacity: 0, y: -5 }}
+    animate={{ opacity: 1, y: 0 }}
+    exit={{ opacity: 0, y: 5 }}
+    transition={{ duration: 0.3 }}>
+    {filteredProducts.length > 0 ? (
+      filteredProducts.map((product) => (
+        <div className="gridItem" key={product.id}>
+          <div className="gridItem__flex">
+            <p>{product.title}</p>
+            <Image src={product.image} width={30} height={30} alt="pozaProdus" />
+            <p>{product.kg} KG</p>
+            <p>{product.price} {product.currency}</p>
+            <button>Go to product</button>
+          </div>
+        </div>
+      ))
+    ) : (
+      <p>No items were found.</p>
+    )}
+  </motion.div>
+)}
+</AnimatePresence>
 
   </div>
   </>
