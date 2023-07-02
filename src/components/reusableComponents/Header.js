@@ -2,7 +2,7 @@
 import logo from '../../publicResources/logoMabis.svg';
 import { ShoppingCart } from '../cartPage/ShoppingCart';
 import { CgProfile } from 'react-icons/cg' 
-import { useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { signOut } from 'firebase/auth';
 import { auth, db } from '../../../firebase-config';
 import { useEffect } from 'react';
@@ -25,6 +25,8 @@ import { AnimatePresence, motion } from 'framer-motion';
 
 export default function Header() {
 
+  const router = useRouter()
+  const { id } = router.query
 
   const { user, conditional } = useContext(FirebaseAuthContext)
 
@@ -142,8 +144,7 @@ export default function Header() {
         });
       };
   }, []);
-  
-  const router = useRouter()
+
   
     const [selectedFlag, setSelectedFlag] = useState('');
   
@@ -205,9 +206,48 @@ export default function Header() {
         getProducts();
       }, []);
 
-      const filteredProducts = products.filter((obj) =>
-    obj.title.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+      const filteredProducts = useMemo(() => {
+        const filtered = products.filter((obj) =>
+          obj.title.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+      
+        const sorted = filtered.sort((a, b) => {
+          const [productNameA, kgA] = a.title.split(" - ");
+          const [productNameB, kgB] = b.title.split(" - ");
+      
+          const nameComparison = productNameA.localeCompare(productNameB);
+
+          if (nameComparison === 0) {
+            const kgComparison = parseInt(kgA) - parseInt(kgB);
+            return kgComparison;
+          }
+      
+          return nameComparison;
+        });
+      
+        return sorted;
+      }, [products, searchQuery]);
+
+  const searchFilterMapRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        searchFilterMapRef.current &&
+        !searchFilterMapRef.current.contains(event.target)
+      ) {
+        setSearchQuery('');
+      }
+    };
+
+    document.addEventListener('click', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, []);
+
+  console.log(products)
 
   return (
     <>
@@ -390,32 +430,47 @@ export default function Header() {
       </div>
       
       <AnimatePresence>
+  {searchQuery.length > 0 && (
+    <motion.div
+      className="searchFilterMap"
+      initial={{ opacity: 0, y: -5 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: 5 }}
+      transition={{ duration: 0.3 }}
+      ref={searchFilterMapRef}
+    >
+      {filteredProducts.length > 0 ? (
+        filteredProducts.map((product) => {
+          const regex = new RegExp(searchQuery, 'gi');
+          const highlightedTitle = product.title.replace(
+            regex,
+            '<span style="color: red;">$&</span>'
+          );
 
-      {searchQuery.length > 0 && (
-  <motion.div 
-    className="searchFilterMap"
-    initial={{ opacity: 0, y: -5 }}
-    animate={{ opacity: 1, y: 0 }}
-    exit={{ opacity: 0, y: 5 }}
-    transition={{ duration: 0.3 }}>
-    {filteredProducts.length > 0 ? (
-      filteredProducts.map((product) => (
-        <div className="gridItem" key={product.id}>
-          <div className="gridItem__flex">
-            <p>{product.title}</p>
-            <Image src={product.image} width={30} height={30} alt="pozaProdus" />
-            <p>{product.kg} KG</p>
-            <p>{product.price} {product.currency}</p>
-            <button>Go to product</button>
-          </div>
-        </div>
-      ))
-    ) : (
-      <p>No items were found.</p>
-    )}
-  </motion.div>
-)}
+          return (
+            <div className="gridItem" key={product.id}>
+              <div className="gridItem__flex">
+                <p dangerouslySetInnerHTML={{ __html: highlightedTitle }}></p>
+                <Image src={product.image} width={100} height={100} alt="pozaProdus" />
+                <p>
+                  {product.kg} <span>KG</span>
+                </p>
+                <p>
+                  {product.price} <span>{product.currency}</span>
+                </p>
+                <button href={`products/${id}`}>Go to product</button>
+              </div>
+            </div>
+          );
+        })
+      ) : (
+        <p>No items were found.</p>
+      )}
+    </motion.div>
+  )}
 </AnimatePresence>
+
+
 
   </div>
   </>

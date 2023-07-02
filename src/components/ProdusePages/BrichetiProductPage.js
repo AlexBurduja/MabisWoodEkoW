@@ -4,7 +4,7 @@ import { ProductListComponent } from '../homePage/ProductListComponent'
 function BrichetiProductPage() {
   return (
     <div>
-      <ProductListComponent filter={'Bricheti'} />
+      <ProductListComponent filter={'Brichete'} />
     </div>
   )
 }

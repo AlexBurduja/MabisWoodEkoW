@@ -1,4 +1,5 @@
 import TocaturaProductPage from '@/components/ProdusePages/TocaturaProductPage'
+import { CreateProduct } from '@/components/homePage/CreateProduct'
 import { Footer } from '@/components/reusableComponents/Footer'
 import Header from '@/components/reusableComponents/Header'
 import TopScrollProgress from '@/components/reusableComponents/TopScrollProgress'
@@ -9,6 +10,7 @@ function Tocatura() {
     <>
         <TopScrollProgress />
         <Header />
+        <CreateProduct />
         <TocaturaProductPage />
         <Footer />
     </>

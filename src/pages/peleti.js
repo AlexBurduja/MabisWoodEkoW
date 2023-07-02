@@ -11,8 +11,8 @@ function Peleti() {
     <div>
       <TopScrollProgress /> 
       <Header/>
-      <PeletiProductPage />
       <CreateProduct />
+      <PeletiProductPage />
       <Footer />
     </div>
   )
