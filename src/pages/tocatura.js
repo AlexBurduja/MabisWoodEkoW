@@ -10,8 +10,8 @@ function Tocatura() {
     <>
         <TopScrollProgress />
         <Header />
-        <CreateProduct />
         <TocaturaProductPage />
+        <CreateProduct />
         <Footer />
     </>
   )

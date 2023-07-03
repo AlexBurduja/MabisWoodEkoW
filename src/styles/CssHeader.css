@@ -8,7 +8,7 @@
 }
 
 .iconWrapper{
-  width: 70%;
+  width: 90%;
   position: absolute;
   display: flex;
   align-items: center;
@@ -18,7 +18,8 @@
   color:black;
   position: absolute;
   left: 10px;
-  z-index: 10000;
+  z-index: 1;
+
 }
 
 .searchFilter{
@@ -358,7 +359,7 @@ button#rfs-btn.ReactFlagsSelect-module_selectBtn__19wW7 {
 }
 
 .searchWrapper input{
-  width: 70%;
+  width: 90%;
   height: 35px;
   border-radius: 20px;
   margin: 20px 0 20px 0;
@@ -385,7 +386,7 @@ button#rfs-btn.ReactFlagsSelect-module_selectBtn__19wW7 {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
-  width: 70%;
+  width: 90%;
   background-color: white;
   background-color: whitesmoke;
   border: 1px solid black;
@@ -407,6 +408,14 @@ button#rfs-btn.ReactFlagsSelect-module_selectBtn__19wW7 {
 
   border: 1px solid black;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  border-radius: 20px;
+
+  transition: 0.3s ease-out;
+}
+
+.gridItem:hover{
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;;
+  transition: 0.3s ease-in;
 }
 
 .gridItem__flex{
@@ -424,6 +433,27 @@ button#rfs-btn.ReactFlagsSelect-module_selectBtn__19wW7 {
 
 .gridItem__flex p span{
   font-weight: normal;
+}
+
+.gridItem__flex a{
+  background-color: transparent;
+  border: 1px solid black;
+  padding: 5px 5px;
+  margin-top: 20px;
+  font-weight: bold;
+  font-size: 15px;
+  text-align: center;
+  width: 100%;
+  word-break: normal;
+  transition: 0.2s ease-out;
+
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.gridItem__flex a:hover{
+  scale: 1.1;
+  transition: 0.2s ease-in;
 }
 
 .searchFilterMap p:last-child{
@@ -451,8 +481,24 @@ button#rfs-btn.ReactFlagsSelect-module_selectBtn__19wW7 {
 /* Greater than 760px (desktop & rest) */
 @media only screen and (min-width: 850px){
 
+  .searchWrapper input{
+    width: 70%;
+  }
+
+  .iconWrapper{
+    width: 70%;
+  }
+  
+  .searchWrapper svg{
+    left: 10px;
+  }
+
   .searchFilterMap{
     top: 170px;
+  }
+
+  .searchFilterMap{
+    width: 70%;
   }
   
     .selectItemMobile{

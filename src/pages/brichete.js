@@ -10,8 +10,8 @@ function Brichete() {
     <>
     <TopScrollProgress />
     <Header />
-    <CreateProduct />
     <BrichetiProductPage />
+    <CreateProduct />
     <Footer />
     </>
   )

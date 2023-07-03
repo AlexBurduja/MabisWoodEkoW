@@ -3,8 +3,13 @@ import { ProductListComponent } from '../homePage/ProductListComponent'
 
 function RumegusProductPage() {
   return (
-      <ProductListComponent filter={'Rumegus'}/>
-    
+    <div>
+      <div className='rumegusProductPageTitleWrapper'>
+          <div className='photoRumegus'></div>
+          <h1>Rumegus</h1>
+      </div>
+        <ProductListComponent filter={'Rumegus'}/>
+    </div>    
   )
 }
 

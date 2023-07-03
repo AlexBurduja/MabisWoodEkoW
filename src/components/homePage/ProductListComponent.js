@@ -46,7 +46,7 @@ export function ProductListComponent({ filter }) {
 
   return (
     <section className='listComponent'>
-      <header>
+      {/* <header>
         {language === "RO"
           ? 'Produse'
           : language === "IT"
@@ -56,7 +56,7 @@ export function ProductListComponent({ filter }) {
           : language === "FR"
           ? 'Des produits'
           : 'Products'}
-      </header>
+      </header> */}
       {loading ? (
         <Loading />
       ) : (

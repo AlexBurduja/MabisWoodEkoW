@@ -458,7 +458,7 @@ export default function Header() {
                 <p>
                   {product.price} <span>{product.currency}</span>
                 </p>
-                <button href={`products/${id}`}>Go to product</button>
+                <Link href={`products/${product.id}`}>{language === 'RO' ? 'Vezi Produsul' : 'See product'}</Link>
               </div>
             </div>
           );

@@ -171,9 +171,6 @@ useEffect(() => {
     const existingDoc = {
       quantity : counter
     }
-
-    console.log(existingDoc.quantity)
-    
     
     const docRef = doc(db, cartDoc, title+kg);
     const docSnap = await getDoc(docRef)

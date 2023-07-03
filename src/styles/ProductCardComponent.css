@@ -127,6 +127,74 @@ button.edit-btn{
     margin-top: 10px;
 }
 
+.peletiProductPageTitleWrapper,
+.brichetiProductPageTitleWrapper,
+.rumegusProductPageTitleWrapper,
+.tocaturaProductPageTitleWrapper{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 150px;
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.brichetiProductPageTitleWrapper::before{
+    content: '';
+    background-image: url(../publicResources/BrichetiDnzeuAjuta.png);
+    position: absolute;
+    background-size: cover;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    filter: brightness(60%) blur(4px);
+}
+
+.peletiProductPageTitleWrapper::before{
+    content: '';
+    background-image: url(../publicResources/AdobeStock_320161570.jpeg);
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    filter: brightness(40%) blur(4px);
+}
+
+.rumegusProductPageTitleWrapper::before{
+    content: '';
+    background-image: url(../publicResources/AdobeStock_120615813.jpeg);
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    filter: brightness(70%) blur(2px);
+}
+
+.tocaturaProductPageTitleWrapper::before{
+    content: '';
+    background-image: url(../publicResources/AdobeStock_406056600.jpeg);
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    filter: brightness(70%) blur(2px);
+}
+
+.peletiProductPageTitleWrapper h1,
+.brichetiProductPageTitleWrapper h1,
+.rumegusProductPageTitleWrapper h1,
+.tocaturaProductPageTitleWrapper h1{
+    text-align: center;
+    font-size: 55px;
+    z-index: 0;
+    color: #fdb932;
+}
+
 @media (max-width: 800px){
     .cardDiv .viewMoreButton{
         opacity: 1;

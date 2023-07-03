@@ -1,9 +1,9 @@
-  import React from 'react'
+  import React, { useContext } from 'react'
   import { useRouter } from 'next/router'
   import {  useEffect, useState } from "react";
   import { AnimatePresence, motion } from "framer-motion";
-  import { doc, getDoc} from "firebase/firestore";
-  import { db } from "../../../firebase-config";
+  import { collection, doc, getDoc, getDocs, setDoc, updateDoc} from "firebase/firestore";
+  import { analytics, db } from "../../../firebase-config";
   import Loading from "../../components/reusableComponents/Loading";
   import Header from '@/components/reusableComponents/Header';
   import { Footer } from '@/components/reusableComponents/Footer';
@@ -12,13 +12,23 @@
   import { BsPinMapFill, BsWhatsapp } from 'react-icons/bs';
   import { FiMail } from 'react-icons/fi';
   import Link from 'next/link';
+import { FirebaseAuthContext } from '../../../FirebaseAuthContext';
+import { ToastContainer, toast } from 'react-toastify';
+import { getAnalytics, logEvent } from 'firebase/analytics';
 
   function Id() {
 
+      const {user} = useContext(FirebaseAuthContext)
       const router = useRouter()
       const { id } = router.query
       const [productDetails, setProductDetails] = useState({})
       const [loading, setLoading] = useState(true)
+
+      let analytics;
+
+      if (typeof window !== 'undefined') {
+        analytics = getAnalytics();
+      }
 
       useEffect(() => {
 
@@ -82,6 +92,107 @@
     const phoneNumber = '+40721648424';
     const whatsappLink = `https://wa.me/${phoneNumber}`;
 
+    const [counter, setCounter] = useState(1)
+
+    const addToCart = async () => {
+
+      let updatedValue;
+
+
+    if(user?.uid) {
+    const cartDoc = `users/${user.uid}/cart`
+
+    const newFields = {
+      title : productDetails.title,
+      quantity: 1,
+      price : productDetails.price,
+      currency: productDetails.currency,
+      kg: productDetails.kg,
+      stripeId : productDetails.stripeId,
+      image : productDetails.image
+    }
+
+    const existingDoc = {
+      quantity : counter
+    }
+    
+    const docRef = doc(db, cartDoc, productDetails.title+productDetails.kg);
+    const docSnap = await getDoc(docRef)
+    const notifyAdd = () => toast.success(`${productDetails.title} added in cart!`, {
+      autoClose: 2000
+    })
+    
+    if(docSnap.exists()){
+      console.log('clicked')
+      setCounter(counter + 1)
+      updateDoc(doc(db,cartDoc,productDetails.title+productDetails.kg), existingDoc)
+      notifyAdd();
+      updatedValue = counter * productDetails.price
+       
+    } else {
+      toast.success(`${productDetails.title} added in cart!`, {
+        autoClose: 2000
+      })
+        setDoc(doc(db, cartDoc, productDetails.title+productDetails.kg), newFields)
+      
+      updatedValue = counter / 2 * productDetails.price
+    }
+  
+    console.log(docSnap.exists())
+  }
+
+  if(!user?.uid){
+    const clientId = sessionStorage.getItem("clientId")
+    
+    const cartDoc = `guestCarts/${clientId}/cart`
+
+    const newFields = {
+      title : productDetails.title,
+      quantity: 1,
+      price : productDetails.price,
+      currency: productDetails.currency,
+      kg: productDetails.kg,
+      stripeId : productDetails.stripeId,
+      image : productDetails.image
+    }
+
+    const existingDoc = {
+      quantity : counter
+    }
+
+    const docRef = doc(db,cartDoc,productDetails.title+productDetails.kg);
+    const docSnap = await getDoc(docRef)
+
+    if(docSnap.exists()){
+      setCounter(counter + 1)
+      updateDoc(doc(db,cartDoc,productDetails.title+productDetails.kg), existingDoc)
+      toast.success(`Now having ${counter} ${productDetails.title} in your cart!`, {
+        autoClose: 2000})
+      updatedValue = counter * productDetails.price
+    } else {
+      setDoc(doc(db, cartDoc, productDetails.title+productDetails.kg), newFields)
+      toast.success(`${productDetails.title} added in cart!`, {
+        autoClose: 2000
+      })
+
+      updatedValue = counter / 2 * productDetails.price
+    }
+
+  }
+
+  logEvent(analytics, 'add_to_cart', {
+    items: [{
+      item_name: productDetails.title,
+      item_id: productDetails.stripeId,
+      quantity: counter,
+      price: productDetails.price
+    }],
+    currency: 'RON',
+    value: updatedValue
+  });
+  
+}
+
     return (
       <>
       {loading ? <Loading /> : 
@@ -89,7 +200,7 @@
       <TopScrollProgress />
         <Header />
       <section className='sectionCenter'>
-        
+        <ToastContainer />
         
         <h1 className='productTitle'>{productDetails.title}</h1>
         
@@ -156,6 +267,9 @@
         </div>
 
       <div className='productDescriptionTextWrapper'>
+        {productDetails && 
+        <button onClick={addToCart}>Add to cart </button>
+        }
         <p className='productDescriptionText'>{productDetails.description}</p>
       </div>
 

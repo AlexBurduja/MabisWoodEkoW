@@ -10,8 +10,8 @@ function Rumegus() {
     <>
         <TopScrollProgress />
         <Header />        
-        <CreateProduct />
         <RumegusProductPage />
+        <CreateProduct />
         <Footer />
     </>
   )
