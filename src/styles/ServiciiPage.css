@@ -1,0 +1,55 @@
+.serviciiHeader{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    font-size: 25px;
+}
+
+.serviciiPageWrapper{
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+}
+
+.tocMaterialVegetal,
+.colectareInVederea{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 50px;
+}
+
+.tocMaterialVegetalBullets{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    gap: 15px;
+}
+
+.tocMaterialVegetalBullets p{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
+}
+
+.inchiriereTocatorCrengi{
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    justify-content: center;
+    gap: 50px;
+}
+
+.inchiriereTocatorCrengiContent{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    gap: 15px;   
+}
+  

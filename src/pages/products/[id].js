@@ -92,7 +92,7 @@ import { getAnalytics, logEvent } from 'firebase/analytics';
     const phoneNumber = '+40721648424';
     const whatsappLink = `https://wa.me/${phoneNumber}`;
 
-    const [counter, setCounter] = useState(1)
+    const [counter, setCounter] = useState(2)
 
     const addToCart = async () => {
 

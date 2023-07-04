@@ -147,7 +147,7 @@ useEffect(() => {
   }
   
 
-  const [counter, setCounter] = useState(1)
+  const [counter, setCounter] = useState(2)
   const [cart, setCart] = useState([])
     
     const addToCart = async () => {
