@@ -324,7 +324,6 @@ const Popup = dynamic(() => import('react-leaflet').then((mod) => mod.Popup), { 
       const totalPrice = cart.reduce((acc,cur) => {
         return acc + cur.quantity * cur.price
       }, 0)
-
       
       function stripeIdss(){
         return cart.map(cart => `${cart.title} ${cart.kg}Kg (Cantitate : ${cart.quantity}) => ${cart.kg * cart.quantity} Kg de ${cart.title})
