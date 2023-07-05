@@ -13,8 +13,18 @@
     gap: 50px;
 }
 
+
+.colectareInVedereaContent,
+.inchiriereTocatorCrengiContent,
+.tocMaterialVegetalBullets,
+.evacuareResturiVegetaleContent,
+.uscareRumegusContent{
+    width: 450px;
+}
+
 .tocMaterialVegetal,
-.colectareInVederea{
+.inchiriereTocatorCrengi,
+.uscareRumegus{
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -22,22 +32,8 @@
     gap: 50px;
 }
 
-.tocMaterialVegetalBullets{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 100%;
-    gap: 15px;
-}
-
-.tocMaterialVegetalBullets p{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 5px;
-}
-
-.inchiriereTocatorCrengi{
+.colectareInVederea,
+.evacuareResturiVegetale{
     display: flex;
     flex-direction: row-reverse;
     align-items: center;
@@ -45,11 +41,27 @@
     gap: 50px;
 }
 
-.inchiriereTocatorCrengiContent{
+.tocMaterialVegetalBullets,
+.evacuareResturiVegetaleContent,
+.inchiriereTocatorCrengiContent,
+.colectareInVedereaContent,
+.uscareRumegusContent{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     height: 100%;
-    gap: 15px;   
+    gap: 15px;
 }
-  
+
+.tocMaterialVegetalBullets__bullets p,
+.colectareInVedereaContent__bullets p{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
+    margin-left: 10px;
+}
+
+.bold{
+    font-weight: bold;
+}
