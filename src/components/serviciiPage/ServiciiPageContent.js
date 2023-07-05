@@ -50,7 +50,6 @@ function ServiciiPageContent() {
 
         <div>
           <Image src={tocare} height={200} alt='imagineEvacuare' />
-          
         </div>
       </div>
 
