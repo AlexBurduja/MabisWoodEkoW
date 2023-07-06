@@ -91,8 +91,12 @@ function HtmlRenderer({ htmlString }) {
 
   const html = convertContentToHTML(editorState.getCurrentContent());
   console.log(html)
+
   return (
     <div>
+        <label>Title</label>
+        <input type='text' />
+        
       <DynamicEditor
         editorState={editorState}
         toolbar={{
