@@ -65,3 +65,47 @@
 .bold{
     font-weight: bold;
 }
+
+@media (max-width:900px){
+    .colectareInVederea,
+    .evacuareResturiVegetale,
+    .tocMaterialVegetal,
+    .inchiriereTocatorCrengi,
+    .uscareRumegus{
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+    }
+
+    .colectareInVedereaContent,
+    .inchiriereTocatorCrengiContent,
+    .tocMaterialVegetalBullets,
+    .evacuareResturiVegetaleContent,
+    .uscareRumegusContent{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        width: 95%;
+    }
+
+    .imageDiv img{
+        width: 100%;
+    }
+
+    .serviciiPageWrapper{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    p.bold{
+        text-align: initial;
+    }
+    
+
+
+}

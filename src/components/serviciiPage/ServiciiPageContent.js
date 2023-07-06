@@ -28,7 +28,7 @@ function ServiciiPageContent() {
               </div>
             </div>
 
-            <div className='tocMaterialVegetalImage'>
+            <div className='imageDiv'>
               <Image src={tocare} alt='imagineTocare' height={200} />
             </div>
             
@@ -48,7 +48,7 @@ function ServiciiPageContent() {
         
         </div>
 
-        <div>
+        <div className='imageDiv'>
           <Image src={tocare} height={200} alt='imagineEvacuare' />
         </div>
       </div>
@@ -66,7 +66,7 @@ function ServiciiPageContent() {
 
         </div>
 
-        <div>
+        <div className='imageDiv'>
           <Image src={tocare} height={200} alt='imagineInchiriere'/>
         </div>
       </div>
@@ -90,7 +90,7 @@ function ServiciiPageContent() {
 
           </div>
 
-        <div>
+        <div className='imageDiv'>
           <Image src={tocare} height={200} alt='imagineColectare' />
         </div>
       </div>
@@ -108,7 +108,7 @@ function ServiciiPageContent() {
           </div>
         </div>
         
-        <div>
+        <div className='imageDiv'>
           <Image src={tocare} alt='imagineUscare' height={200}/>
         </div>
       </div>
