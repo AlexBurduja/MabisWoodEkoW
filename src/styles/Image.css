@@ -5,7 +5,7 @@
 .imageSection img {
     width: 100vw;
     height: 300px;
-    filter: brightness(40%);
+    filter: brightness(45%);
     object-fit: cover;
 }
 
@@ -18,7 +18,7 @@
     top: 10%;
     right: 50%;
     transform: translate(50%,50%);
-    font-size: 1.9rem;
+    font-size: 45px;
     width: 100%;
     text-align: center;
     color: white;
@@ -91,15 +91,11 @@ span.woodColor{
     }
 
     .imageInfo{
-        position: absolute;
-        top: 10%;
-        right: 50%;
-        width: 100%;
-        transform: translate(50%,50%);
-        font-size: 3.2vw;
-        
-        text-align: center;
-        color: white;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        font-size: 55px;
     }
 
     .woodColor{

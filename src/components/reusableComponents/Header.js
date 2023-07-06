@@ -256,11 +256,13 @@ export default function Header() {
 
     <section id="home" className='flex'>
       <div className='logo'>
-        <Image src={logo} className='logo' alt="logo" width={250} height={250}/>
+        <Image src={logo} className='logo' alt="logo" width={250}/>
+
+        {/* <Image src={logo} className='logoMobile' alt="logoMobile" width={250} height={250}/> */}
       </div>
 
     <div className='desktopAnchors'>
-      <div className='nav_anchors '>
+      <div className='nav_anchors'>
         <Link href='/' className={router.pathname === '/' ? 'activeClassNav' : ''}>
           {
           language === "RO" ? 'Acasa' :
@@ -272,7 +274,7 @@ export default function Header() {
         </Link>
         
         <div id="dropdown-div" onMouseLeave={handleDropdown} onClick={handleDropdown}>
-            <p id="dropdown-link" onMouseEnter={handleDropdown} className={router.pathname === '/about' ? 'activeClassNav linkLink' : 'linkLink'}>{language === "RO" ? 'Produse' :
+            <p id="dropdown-link" onMouseEnter={handleDropdown} className={router.pathname === '/peleti' || router.pathname === '/rumegus' || router.pathname === '/brichete' || router.pathname === '/tocatura' ? 'activeClassNav linkLink' : 'linkLink'}>{language === "RO" ? 'Produse' :
             language === "IT" ? 'Informazioni' :
             language === "DE" ? 'Über' :
             language === "FR" ? 'À propos' :
@@ -305,6 +307,10 @@ export default function Header() {
           language === "DE" ? 'Bewertungen' :
           language === 'FR' ? 'Commentaires' :
           'Reviews'}
+        </Link>
+        
+        <Link className={router.pathname === '/blog' ? 'activeClassNav' : ''} href='/blog'>
+          Blog
         </Link>
         
 
