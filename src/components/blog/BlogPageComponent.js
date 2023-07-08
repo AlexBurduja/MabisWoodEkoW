@@ -7,7 +7,6 @@ import { addDoc, collection, doc, getDocs, setDoc } from 'firebase/firestore';
 import { db } from '../../../firebase-config';
 import DOMPurify from 'dompurify';
 
-// Dynamically import the Editor component only on the client-side
 const DynamicEditor = dynamic(
   () => import('react-draft-wysiwyg').then((module) => module.Editor),
   { ssr: false }
@@ -20,18 +19,24 @@ function BlogPageComponent() {
     setEditorState(newEditorState);
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     const html = convertContentToHTML(editorState.getCurrentContent());
-
-    console.log(html)
-
+    const modifiedHTML = html.replace(/<p><\/p>/g, '<br>');
+  
+    // Upload the image file to Firebase Storage
+    const storage = getStorage();
+    const imageRef = ref(storage, `blog-images/${selectedImage.name}`);
+    await uploadBytes(imageRef, selectedImage);
+  
+    const imageURL = await getDownloadURL(imageRef);
+  
     const body = {
-        text: html
-    }
-
-    const ref = collection(db, 'blog')
-
-    addDoc(ref, body)
+      text: modifiedHTML,
+      imageURL: imageURL 
+    };
+  
+    const blogRef = collection(db, 'blog');
+    await addDoc(blogRef, body);
   };
 
   const convertContentToHTML = (contentState) => {
@@ -56,11 +61,6 @@ function BlogPageComponent() {
     })(contentState);
   };
 
-  
-//   useEffect(() => {
-//     const html = convertContentToHTML(editorState.getCurrentContent());
-//     console.log(html);
-//   }, [editorState]);
 
 const [blogs, setBlogs] = useState([])
 
@@ -85,41 +85,72 @@ function HtmlRenderer({ htmlString }) {
   
   const previewWriting = () => {
     const html = convertContentToHTML(editorState.getCurrentContent());
+    const modifiedHTML = html.replace(/<p><\/p>/g, '<br>');
     
-    setPreview(html)
+    setPreview(modifiedHTML)
   }
 
-  const html = convertContentToHTML(editorState.getCurrentContent());
-  console.log(html)
+  const [title, setTitle] = useState('')
+  const [selectedImage, setSelectedImage] = useState([])
+
+  console.log(selectedImage)
 
   return (
     <div>
-        <label>Title</label>
-        <input type='text' />
+
+    <div className="deliveryAddress_inputs">
+      <div className='deliveryAddress_inputs__input' >
+        <input type="email" required="required" value={title} onChange={(event) => setTitle(event.target.value)}></input>
+        <span>Titlu</span>
+      </div>
+     </div>
+
+     {/* <input type='file' onChange={(event) => setSelectedImage(event.target.files)}/> */}
+
+<div className='fileUploadContainerWrapper'>
+     <div className="fileUploadContainer">
+              <input
+                type="file" onChange={(event) => setSelectedImage(event.target.files)} accept="image/*, .pdf"
+              />
+          
+              
+              <label  onClick={() => handleUpload('ci')} 
+              className={selectedImage.length > 0 ? 'uploadButton uploadButtonActive': 'uploadButton'}
+              id='inputFileUploadBtn'>
+                {selectedImage ? 'Upload!' : ''} 
+              </label>
+
+              <label onClick={() => setSelectedImage([])} className={selectedImage.length > 0 ? 'uploadXButton uploadXButtonActive' : 'uploadXButton'} id='inputFileXBtn'>
+                {selectedImage ? 'X' : ''}
+              </label>
+
+      </div>
+</div>
         
       <DynamicEditor
         editorState={editorState}
+        toolbarStyle={{backgroundColor: '#f2f2f2'}}
+        
         toolbar={{
 
-            options: ['inline', 'blockType', 'fontSize', 'list', 'emoji', 'history',],
+            options: ['inline', 'blockType', 'list', 'emoji', 'history',],
 
             inline: { options: ['bold', 'italic', 'underline'] },
-            blockType: { options: ['Normal', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6'] },
-            fontSize: { options: [8, 10, 12, 14, 16, 18, 20, 24, 30, 36, 48, 60, 72] },
+            blockType: { options: ['Normal', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6'] }
           }}
         onEditorStateChange={handleEditorChange}
       />
       <button onClick={handleSave}>Save</button>
       <button onClick={previewWriting}>Preview</button>
 
-      {blogs.map((obj,index) =>{
+      {/* {blogs.map((obj,index) =>{
           return(
           <div key={index}>
             <HtmlRenderer htmlString={obj.text} />
             
           </div>
           )
-        })}
+        })} */}
 
         {preview && (
             <HtmlRenderer htmlString={preview} />
