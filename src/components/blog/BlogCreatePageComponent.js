@@ -105,9 +105,11 @@ function HtmlRenderer({ htmlString }) {
       postMonth: blogPostMonth
     };
   
-    const blogRef = collection(db, 'blog');
-    await addDoc(blogRef, body);
+    const blogRef = doc(db, `blog/${title.toLowerCase().replace(/[^\w\s]/g, '').replace(/\s+/g, '-').trim()}`);
+
+    await setDoc(blogRef, body);
   };
+
   return (
     <div>
 
