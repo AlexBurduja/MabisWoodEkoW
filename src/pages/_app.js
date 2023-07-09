@@ -33,6 +33,7 @@ import '../styles/ReviewPageComponent.css'
 import '../styles/SingleProductPage.css'
 import '../styles/ER403.css'
 import '../styles/ServiciiPage.css'
+import '../styles/BlogPage.css'
 
 export default function App({ Component, pageProps }) {
   const router = useRouter()

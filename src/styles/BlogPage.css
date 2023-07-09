@@ -1,0 +1,168 @@
+
+.blogCreationForm{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 35px;
+  }
+  
+  
+  input[type=file] {
+    width: 300px;
+    max-width: 100%;
+    color: #444;
+    padding: 5px;
+    background: #fff;
+    border-radius: 10px;
+    border: 1px solid #555;
+  }
+  
+  input[type=file]::file-selector-button {
+    margin-right: 20px;
+    border: none;
+    background: #084cdf;
+    padding: 10px 20px;
+    border-radius: 10px;
+    color: #fff;
+    cursor: pointer;
+    transition: background .2s ease-in-out;
+    transition: width .2s ease;
+    width: 150px;
+  }
+  
+  input[type=file]::file-selector-button:hover {
+    background: #0d45a5;
+  }
+  
+  .fileUploadContainerWrapper{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .fileUploadContainer{
+    position: relative;
+    width: fit-content;
+  }
+  
+  .uploadButton{
+    position: absolute;
+    margin-right: 20px;
+    border: none;
+    background: #084cdf;
+    padding: 10px 20px;
+    border-radius: 10px;
+    color: #fff;
+    cursor: pointer;
+    transition: background .2s ease-in-out;
+    transition: width .2s ease;
+    width: 0px;
+    height: 40px;
+    text-align: center;
+    z-index: -1;
+    
+  
+    left:6px;
+    bottom: 3px;
+    
+    font-weight: bold;
+    background-color: red;
+    transition: 1s ease;
+    opacity: 0;
+  
+  }
+  
+  .uploadButtonActive{
+    opacity: 1;
+    width: 50%;
+    background-color: green;
+    transition: 1.5s ease;
+    z-index: 1;
+  }
+  
+  .uploadXButton{
+    position: absolute;
+    margin-right: 20px;
+    border: none;
+    background: #084cdf;
+    padding: 10px 20px;
+    border-radius: 10px;
+    color: #fff;
+    cursor: pointer;
+    transition: background .2s ease-in-out;
+    transition: width .2s ease;
+    width: 0px;
+    height: 40px;
+  
+    text-align: center;
+    z-index: -1;
+  
+    right:-15px;
+    bottom: 3px;
+    
+    font-weight: bold;
+    background-color: red;
+    transition: 1s ease;
+    opacity: 0;
+  }
+  
+  .uploadXButtonActive{
+    opacity: 1;
+    width: 47%;
+    transition: 1.5s ease;
+    
+    z-index: 1;
+  }
+
+  .imageDivBlog{
+    position: relative;
+  }
+
+  .imageDivBlog img{
+    position: relative;
+  }
+
+  .imageDivBlog .datesBlog{
+    position: absolute;
+    top: 0;
+    /* left: 10px; */
+  }
+
+
+  .datesBlog{
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    justify-content: center;
+
+    background-color: white;
+    padding: 10px 10px;
+
+    clip-path: polygon(0% 80%, 50% 100%, 100% 80%, 100% 0%, 0% 0%);
+  }
+
+  .previewDiv{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+  }
+
+  .htmlRenderer{    
+    width: 400px;
+  }
+
+  .blogs-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 10px; /* Adjust the spacing as needed */
+    place-items: center;
+    transition: 1s ease-out;
+  }
+
+  .blogItem{
+    border: 1px solid white;
+    height: 550px;
+  }
