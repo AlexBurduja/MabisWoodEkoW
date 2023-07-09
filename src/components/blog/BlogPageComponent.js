@@ -31,9 +31,6 @@ function BlogPageComponent() {
             {blogs.map((obj,index) =>{
           return(
           <div key={index} className='blogItem'>
-            
-            <h1>{obj.title}</h1>
-            <p>Postat de <span style={{ fontSize: '18px', fontWeight: 'bold'}}>{obj.autor}</span></p>
 
             <div className='imageDivBlog'>
             
@@ -45,7 +42,11 @@ function BlogPageComponent() {
               <div>{obj.postDay}</div>
               <div>{obj.postMonth}</div>
             </div>
-
+            
+            <div className='titluSiAutorBlog'>
+                <h1>{obj.titlu}</h1>
+                <p>Postat de <span style={{ fontSize: '18px', fontWeight: 'bold'}}>{obj.autor}</span></p>
+            </div>
                 <div style={{width: '300px'}}>
                     <HtmlRenderer htmlString={obj.text.length > 400 ? obj.text.slice(0,200) + '...' : obj.text} />
                 </div>
