@@ -46,7 +46,7 @@ function BlogPageComponent() {
 
                 <div className='imageDivBlog'>
                 
-                <div style={{ width: '300px', height: '300px', position: 'relative' }}>
+                <div style={{ width: '400px', height: '400px', position: 'relative' }}>
                 <Image src={obj.imageURL} alt="Preview" fill="fill"  style={{ objectFit: 'cover', objectPosition: 'center' }} />
                 </div>
 
@@ -63,12 +63,12 @@ function BlogPageComponent() {
 
 
                 <div className='titluSiAutorBlog'>
-                    <h2>{obj.titlu}</h2>
+                    <h2 className='blogTitle'>{obj.titlu}</h2>
                     <p>Postat de <span>{obj.autor}</span></p>
                 </div>
 
-                <div style={{width: '300px', textAlign: 'center'}}>
-                    <HtmlRenderer htmlString={obj.text.length > 400 ? obj.text.slice(0,200) + '...' : obj.text} />
+                <div style={{width: '90%', textAlign: 'center'}}>
+                    <HtmlRenderer htmlString={obj.text.length > 150 ? obj.text.slice(0,150) + '...' : obj.text} />
                 </div>
 
             <Link href={`blog/${trimTitle(obj.titlu)}`}>CITESTE MAI MULT...</Link>
