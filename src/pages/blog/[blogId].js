@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { db } from '../../../firebase-config'
 import { collection, doc , getDoc, getDocs } from 'firebase/firestore'
 import Header from '@/components/reusableComponents/Header'
@@ -9,6 +9,7 @@ import Image from 'next/image'
 import DOMPurify from 'dompurify';
 import Link from 'next/link'
 import { BsSearch } from 'react-icons/bs'
+import { motion,AnimatePresence } from 'framer-motion'
 
 function BlogId() {
     const router = useRouter()
@@ -62,17 +63,41 @@ function BlogId() {
       const monthA = monthNames.indexOf(a.postMonth);
       const monthB = monthNames.indexOf(b.postMonth);
       
-      // Compare the month and day values
       if (monthA !== monthB) {
-        return monthB - monthA; // Sort by month in descending order
+        return monthB - monthA;
       } else {
-        return dayB - dayA; // Sort by day in descending order
+        return dayB - dayA;
       }
     });
     
     // Display the desired number of recent blogs (e.g., 3)
     const numberOfRecentBlogs = 3;
     const recentBlogs = blogs.slice(0, numberOfRecentBlogs);
+
+    const [searchQuery, setSearchQuery] = useState('')
+
+    const searchFilterMapBlogsRef = useRef();
+
+    const filteredProducts = useMemo(() => {
+      return blogs.filter((obj) => obj.titlu.toLowerCase().includes(searchQuery.toLowerCase()))
+    }, [blogs, searchQuery])
+
+    useEffect(() => {
+      const handleClickOutside = (event) => {
+        if(
+          searchFilterMapBlogsRef.current && 
+          !searchFilterMapBlogsRef.current.contains(event.target)
+        ) {
+          setSearchQuery('')
+        }
+      };
+
+      document.addEventListener('click', handleClickOutside)
+      
+      return () => {
+        document.removeEventListener('click', handleClickOutside)
+      }
+    }, [])
 
   return (
     <>
@@ -116,9 +141,40 @@ function BlogId() {
           <div className='littleBlogsSearch'>
             <p>Cauta Articol...</p>
             <div className='littleBlogsSearchInputDiv'>
-              <input type='text' placeholder='Cauta Articol!'/>
+              <input type='text' placeholder='Cauta Articol!'onChange={(e) => setSearchQuery(e.target.value)} className={searchQuery.length > 0 ? 'searchBarBlogsOpen' : 'searchBarBlogsClosed'}/>
               <BsSearch/>
+                  <AnimatePresence>
+        {searchQuery.length > 0 && (
+          <motion.div
+            className="searchFilterMapBlogs"
+            initial={{ opacity: 0, y: -5 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 5 }}
+            transition={{ duration: 0.3 }}
+            ref={searchFilterMapBlogsRef}
+          >
+            {filteredProducts.length > 0 ? (
+
+              filteredProducts.map((item) => {
+                return(
+                  <div key={item.id} className='blogSearchBarMap'>
+                    <Image src={item.imageURL} alt='blogPhotoSearchSmall' width={70} height={70} />
+                  
+                  
+                    <div>
+                      <h4>{item.titlu}</h4>
+                      
+                      <p>{item.postDay} {item.postMonth}</p>
+                    </div>
+                </div>
+                )})
+
+            ) : <p>No items found.</p>}
+          </motion.div>
+        )}
+          </AnimatePresence>
             </div>
+
           </div>
 
           <div className='littleBlogsNavigation'>
@@ -139,15 +195,11 @@ function BlogId() {
               <Image src={obj.imageURL} width={70} height={70} alt='smallBlogPhoto'/>
       
               
-              <div className='littleBlogsDivTitleNData'>
+              <Link href='' className='littleBlogsDivTitleNData'>
                 <h3>{obj.titlu}</h3>
                 <p>{obj.postDay} {obj.postMonth}</p>
-              </div>
+              </Link>
             </div>
-
-            {/* <div className='littleBlogsDivData'>
-              <p>{obj.postDay} {obj.postMonth}</p>
-            </div> */}
           </section>
         )
       })}

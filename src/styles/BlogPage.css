@@ -372,9 +372,8 @@
   .littleBlogsDivWrapper{
     display: flex;
     flex-direction: column;
-    margin-bottom: 20px;
 
-    border-bottom: 1px solid grey;
+    border-bottom: 1px solid black;
     padding-bottom: 20px;
   }
 
@@ -392,6 +391,17 @@
     display: flex;
     flex-direction: column;
     height: 70px;
+
+    text-decoration: none;
+
+    
+    transition: 0.5s ease;
+  }
+
+  .littleBlogsDivTitleNData:hover{
+    color: grey;
+
+    transition: 0.5s ease;
   }
 
   .littleBlogsDivTitleNData p{
@@ -445,7 +455,19 @@
     position: relative;
   }
 
-  .littleBlogsSearchInputDiv input{
+  /* .littleBlogsSearchInputDiv input{
+    height: 40px;
+    font-family: inherit;
+    border-radius: 10px;
+    border: 1px solid black;
+    padding-left: 30px;
+    width: 100%;
+
+    border-bottom-left-radius:0;
+    border-bottom-right-radius:0;
+  } */
+
+  .searchBarBlogsClosed{
     height: 40px;
     font-family: inherit;
     border-radius: 10px;
@@ -454,12 +476,60 @@
     width: 100%;
   }
 
+  .searchBarBlogsOpen{
+    height: 40px;
+    font-family: inherit;
+    border-radius: 10px;
+    border: 1px solid black;
+    padding-left: 30px;
+    width: 100%;
+
+    border-bottom-left-radius:0;
+    border-bottom-right-radius:0;
+  }
+
   .littleBlogsSearchInputDiv svg{
     position: absolute;
     z-index: 1;
     left: 10px;
     top: 12px;
   }
+
+  .blogSearchBarMap{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    width: 100%;
+  }
+
+  .blogSearchBarMap div{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; 
+  }
+  
+  .blogSearchBarMap div h4{
+    font-size: 15px; 
+  }
+  
+  .searchFilterMapBlogs{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: flex-start;
+    gap: 50px;
+
+    position: absolute;
+    top: 39px;
+
+    background-color: white;
+    
+    border: 1px solid black;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    padding: 15px 15px;
+  }
+
 
   @media (max-width: 1200px) {
     .articleListAndFinder{
