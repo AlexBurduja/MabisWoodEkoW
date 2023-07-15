@@ -27,8 +27,8 @@ function BlogPageComponent() {
       }
 
       function trimTitle(title) {
-        const slug = title.toLowerCase().replace(/[^\w\s]/g, '').replace(/\s+/g, '-').trim();
-        return slug;
+        const trimmedT = title.toLowerCase().replace(/[^\w\s]/g, '').replace(/\s+/g, '-').trim();
+        return trimmedT;
       }
 
     return (    
