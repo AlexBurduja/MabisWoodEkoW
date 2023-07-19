@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import dynamic from 'next/dynamic';
 import { EditorState, convertToRaw, convertFromRaw } from 'draft-js';
 import { convertToHTML } from 'draft-convert';
@@ -8,6 +8,11 @@ import { db } from '../../../firebase-config';
 import DOMPurify from 'dompurify';
 import Image from 'next/image';
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
+import Header from '../reusableComponents/Header';
+import { Footer } from '../reusableComponents/Footer';
+import { PreFooter } from '../reusableComponents/PreFooter';
+import ReactCrop from 'react-image-crop'
+import 'react-image-crop/dist/ReactCrop.css'
 
 const DynamicEditor = dynamic(
   () => import('react-draft-wysiwyg').then((module) => module.Editor),
@@ -110,14 +115,25 @@ function HtmlRenderer({ htmlString }) {
     await setDoc(blogRef, body);
   };
 
+  function handleInputChange(e) {
+    setTitle(e.target.value)
+
+    if(title.length > 90){
+      alert('Maximum 90 Characters.')
+    }
+  }
+  
   return (
     <div>
-
+      <Header />
       <div className='blogCreationForm'>
+
+
+      
 
     <div className="deliveryAddress_inputs">
       <div className='deliveryAddress_inputs__input' >
-        <input type="text" required="required" value={title} onChange={(event) => setTitle(event.target.value)}></input>
+        <input type="text" required="required" value={title} onChange={handleInputChange} maxLength={90}></input>
         <span>Titlu</span>
       </div>
 
@@ -152,7 +168,9 @@ function HtmlRenderer({ htmlString }) {
 
       <DynamicEditor
         editorState={editorState}
-        toolbarStyle={{backgroundColor: '#f2f2f2'}}
+        wrapperStyle={{width:'99%'}}
+        toolbarStyle={{backgroundColor: 'white', marginBottom:'0', justifyContent: 'center'}}
+        editorStyle={{backgroundColor: 'white', border: '1px solid #F1F1F1'}}
         
         toolbar={{
 
@@ -193,7 +211,8 @@ function HtmlRenderer({ htmlString }) {
           </div>
         )}
         </div>
-    
+    <PreFooter />
+    <Footer />
     </div>
   );
 }

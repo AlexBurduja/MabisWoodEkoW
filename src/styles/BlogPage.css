@@ -8,7 +8,7 @@
   }
   
   
-  input[type=file] {
+  .blogCreationForm input[type=file] {
     width: 300px;
     max-width: 100%;
     color: #444;
@@ -18,7 +18,7 @@
     border: 1px solid #555;
   }
   
-  input[type=file]::file-selector-button {
+  .blogCreationForm input[type=file]::file-selector-button {
     margin-right: 20px;
     border: none;
     background: #084cdf;
@@ -31,7 +31,7 @@
     width: 150px;
   }
   
-  input[type=file]::file-selector-button:hover {
+  .blogCreationForm input[type=file]::file-selector-button:hover {
     background: #0d45a5;
   }
   
@@ -355,7 +355,7 @@
   .articleListAndFinder{
     position: sticky;
     top: 20px;
-    margin-top: 20px;
+    margin: 20px 0 20px 0;
     height: 100%;
     width: 600px;
 
