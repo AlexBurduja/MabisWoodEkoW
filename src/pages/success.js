@@ -24,7 +24,7 @@ const hi = (email, firstName, lastName, phoneNumber, street, streetNo, block, ap
 
 const SuccessPage = () => {
 
-  const {user} = useContext(FirebaseAuthContext)
+  const { user } = useContext(FirebaseAuthContext)
 
   const [countdown, setCountdown] = useState(5)
   const router = useRouter()
@@ -92,23 +92,32 @@ const SuccessPage = () => {
   
   }
 
-    function confirmationFunction(){
-    
-    if(firstName === null){
+    if(!email ||!firstName || !lastName || !phoneNumber){
       toast.error("You should not be here! Redirecting to home page.")
       router.push('/')
+      return;
     } else {
       hi(email, firstName, lastName, phoneNumber, street, streetNo, block, apartamentNo, total);
 
       startCountdown()
-      deleteCartUponSuccess();
-      localStorage.clear();
+
+      setTimeout(() => {
+        deleteCartUponSuccess();
+        localStorage.removeItem("email")
+        localStorage.removeItem("firstName")
+        localStorage.removeItem("lastName")
+        localStorage.removeItem("phoneNumber")
+        localStorage.removeItem("street")
+        localStorage.removeItem("streetNo")
+        localStorage.removeItem("block")
+        localStorage.removeItem("apartamentNo")
+        localStorage.removeItem("total")
+        localStorage.removeItem("companyCui")
+        localStorage.removeItem("companyName")
+        localStorage.removeItem("isCompanyChecked")
+        localStorage.removeItem("total")
+      }, 4800)
     }
-  }
-
-  confirmationFunction();
-
-
 
     return () => {
       clearInterval(intervalId);

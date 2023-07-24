@@ -273,8 +273,8 @@ export default function Header() {
           
         </Link>
         
-        <div id="dropdown-div" onMouseLeave={handleDropdown} onClick={handleDropdown}>
-            <p id="dropdown-link" onMouseEnter={handleDropdown} className={router.pathname === '/peleti' || router.pathname === '/rumegus' || router.pathname === '/brichete' || router.pathname === '/tocatura' ? 'activeClassNav linkLink' : 'linkLink'}>{language === "RO" ? 'Produse' :
+        <div id="dropdown-div" onMouseEnter={handleDropdown} onMouseLeave={handleDropdown} onClick={handleDropdown}>
+            <p id="dropdown-link" className={router.pathname === '/peleti' || router.pathname === '/rumegus' || router.pathname === '/brichete' || router.pathname === '/tocatura' ? 'activeClassNav linkLink' : 'linkLink'}>{language === "RO" ? 'Produse' :
             language === "IT" ? 'Informazioni' :
             language === "DE" ? 'Über' :
             language === "FR" ? 'À propos' :
