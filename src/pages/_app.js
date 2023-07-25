@@ -34,9 +34,40 @@ import '../styles/SingleProductPage.css'
 import '../styles/ER403.css'
 import '../styles/ServiciiPage.css'
 import '../styles/BlogPage.css'
+import { useEffect } from 'react';
+import { deleteDoc } from 'firebase/firestore';
+import { db } from '../../firebase-config';
 
 export default function App({ Component, pageProps }) {
   const router = useRouter()
+
+  // localStorage.getItem(clientId)
+
+  useEffect(() => {
+    const deleteGuestCart = async () => {
+      const clientId = sessionStorage.getItem('clientId');
+      if (clientId) {
+        try {
+          await deleteDoc(db, `guestCarts/${clientId}`);
+        } catch (error) {
+          console.error("Error deleting guest cart:", error);
+        }
+      }
+    };
+  
+    const cleanup = () => {
+      deleteGuestCart();
+    };
+  
+    window.addEventListener("unload", cleanup);
+    window.addEventListener("beforeunload", cleanup);
+  
+    return () => {
+      window.removeEventListener("unload", cleanup);
+      window.removeEventListener("beforeunload", cleanup);
+    };
+  }, []);
+  
 
   return ( 
       <AuthProvider>
