@@ -20,6 +20,7 @@ import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import Loading from '../reusableComponents/Loading';
 import { logEvent,getAnalytics } from 'firebase/analytics';
+import axios from 'axios';
 // import 'leaflet/dist/leaflet.css';
 // import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css';
 // import * as L from 'leaflet';
@@ -1075,7 +1076,19 @@ const Popup = dynamic(() => import('react-leaflet').then((mod) => mod.Popup), { 
         }
       }
   
-      console.log(cart)
+      async function calculateDeliveryCost(destination) {
+        try {
+          const response = await fetch(`http://localhost:3000/api/calculate-delivery-cost?destination=${encodeURIComponent(destination)}`);
+          const data = await response.json();
+          return data.deliveryCost;
+        } catch (error) {
+          console.error('Error calculating delivery cost:', error);
+          return null;
+        }
+      }
+      
+      
+
   return (
     <div >
     {loading === false && 
