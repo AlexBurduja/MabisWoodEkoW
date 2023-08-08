@@ -1067,9 +1067,39 @@ const Popup = dynamic(() => import('react-leaflet').then((mod) => mod.Popup), { 
         }
       ];
   
+      const [judete, setJudete] = useState([]);
+      const [selectedJudet, setSelectedJudet] = useState({});
+      const [orase, setOrase] = useState([]);
+      const [selectedOras, setSelectedOras] = useState({})
+    
+      useEffect(() => {
+        fetch('/api/judete')
+          .then((response) => response.json())
+          .then((data) => {
+            setJudete(data.judete);
+          })
+          .catch((error) => {
+            console.error('Error fetching judete:', error);
+          });
+      }, []);
+    
+      useEffect(() => {
+        if (selectedJudet.auto) {
+          fetch(`/api/orase?auto=${encodeURIComponent(selectedJudet.auto)}`)
+            .then((response) => response.json())
+            .then((data) => {
+              setOrase(data.orase);
+            })
+            .catch((error) => {
+              console.error('Error fetching orase:', error);
+            });
+        }
+      }, [selectedJudet]);
+
+      console.log(selectedOras)
 
       const [deliveryPrice, setDeliveryPrice] = useState(0)
-    const destination = `Strada ${street} ${streetNo} ${region}, Romania`;
+    const destination = `Romania,${selectedJudet.nume},${selectedOras}`;
 
     fetch(`/api/calculate-delivery-cost?destination=${encodeURIComponent(destination)}`)
       .then((response) => response.json())
@@ -1086,34 +1116,6 @@ const Popup = dynamic(() => import('react-leaflet').then((mod) => mod.Popup), { 
       });
       
       
-      const [judete, setJudete] = useState([]);
-  const [selectedJudet, setSelectedJudet] = useState({});
-  const [orase, setOrase] = useState([]);
-
-  useEffect(() => {
-    fetch('/api/judete')
-      .then((response) => response.json())
-      .then((data) => {
-        setJudete(data.judete);
-      })
-      .catch((error) => {
-        console.error('Error fetching judete:', error);
-      });
-  }, []);
-
-  useEffect(() => {
-    if (selectedJudet.auto) {
-      fetch(`/api/orase?auto=${encodeURIComponent(selectedJudet.auto)}`)
-        .then((response) => response.json())
-        .then((data) => {
-          setOrase(data.orase);
-        })
-        .catch((error) => {
-          console.error('Error fetching orase:', error);
-        });
-    }
-  }, [selectedJudet]);
-  
   console.log(orase)
 
   return (
@@ -1176,26 +1178,7 @@ const Popup = dynamic(() => import('react-leaflet').then((mod) => mod.Popup), { 
     "Please check that you have the right quantity of every single item to avoid confusions at checkout, Thanks!"}
   </h3>
 
-  <div>
-      <h1>Judete Romania</h1>
-      <select value={selectedJudet.auto || ''} onChange={(e) => setSelectedJudet(judete.find(j => j.auto === e.target.value))}>
-        <option value="">Selectează județ</option>
-        {judete.map((judet) => (
-          <option key={judet.auto} value={judet.auto}>
-            {judet.nume}
-          </option>
-        ))}
-      </select>
 
-      <h2>Orase</h2>
-      <select>
-        {orase.map((oras, index) => (
-          <option key={index} value={oras.nume}>
-            {oras.nume} {/* Assuming 'nume' is the property representing the name of the city */}
-          </option>
-        ))}
-      </select>
-    </div>
 
    {cart.map((item, index) => {
     
@@ -1457,16 +1440,45 @@ language === "IT" ? "Per favore, controlla che tutte le informazioni siano valid
                   'Sub-total :'} <span>{totalPrice}</span> RON</p>
              </div>
 
+             <div>
+      <h1>Judete Romania</h1>
+      <select value={selectedJudet.auto || ''}
+      onChange={(e) => {
+        const selectedCounty = judete.find(j => j.auto === e.target.value);
+        setSelectedJudet(selectedCounty);
+        
+        selectedJudet && (
+          setSelectedOras(orase[0].nume)
+        )
+      }}>
+        <option value="">Selectează județ</option>
+        {judete.map((judet) => (
+          <option key={judet.auto} value={judet.auto}>
+            {judet.nume}
+          </option>
+        ))}
+      </select>
+
+      <h2>Orase</h2>
+      <select onChange={(e) => setSelectedOras(e.target.value)} >
+        {orase.map((oras, index) => (
+          <option key={index} value={oras.nume}>
+            {oras.nume} {/* Assuming 'nume' is the property representing the name of the city */}
+          </option>
+        ))}
+      </select>
+    </div>
+
             {deliveryPrice ? 
             
-            <p>{deliveryPrice}</p>
+            <p>Pretul livrarii : {deliveryPrice} RON</p>
             
               :
 
             <Loading /> 
             }
              <div className='deliveryOptions'>
-               <CountryDropdown className="countryDrop" value={country}
+               {/* <CountryDropdown className="countryDrop" value={country}
               defaultOptionLabel = {language === "RO" ? "Alege tara" :
                                     language === "FR" ? 'Choisissez le pays' : 
                                     language === 'IT' ? 'Seleziona il paese' :
@@ -1482,7 +1494,7 @@ language === "IT" ? "Per favore, controlla che tutte le informazioni siano valid
                language === "FR" ? 'Choisissez une région' : 
                language === 'IT' ? 'Seleziona regione' :
              language === "DE" ? 'Region wählen' :
-             "Select Region"}/>
+             "Select Region"}/> */}
                <label htmlFor="delivery">
                {language === 'FR' ? 'Méthode de paiement' :
                 language === 'RO' ? 'Metoda de plată' :
