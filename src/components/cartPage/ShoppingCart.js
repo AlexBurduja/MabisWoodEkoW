@@ -34,7 +34,7 @@ export function ShoppingCart() {
           const sum = cartData.reduce((acc, item) => acc + item.quantity, 0);
           setTotal(sum);
         });
-      } else {
+      } else if (!user?.uid) {
         const clientId = sessionStorage.getItem('clientId');
         const cartDoc = `guestCarts/${clientId}/cart`;
         const ref = collection(db, cartDoc);

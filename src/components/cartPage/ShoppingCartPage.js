@@ -1068,7 +1068,7 @@ const Popup = dynamic(() => import('react-leaflet').then((mod) => mod.Popup), { 
       ];
   
       const [judete, setJudete] = useState([]);
-      const [selectedJudet, setSelectedJudet] = useState({});
+      const [selectedJudet, setSelectedJudet] = useState([]);
       const [orase, setOrase] = useState([]);
       const [selectedOras, setSelectedOras] = useState({})
     
@@ -1096,10 +1096,9 @@ const Popup = dynamic(() => import('react-leaflet').then((mod) => mod.Popup), { 
         }
       }, [selectedJudet]);
 
-      console.log(selectedOras)
-
       const [deliveryPrice, setDeliveryPrice] = useState(0)
-    const destination = `Romania,${selectedJudet.nume},${selectedOras}`;
+      const destination = selectedJudet ? `Romania,${selectedJudet.nume},${selectedOras}` : ''
+      
 
     fetch(`/api/calculate-delivery-cost?destination=${encodeURIComponent(destination)}`)
       .then((response) => response.json())
@@ -1115,8 +1114,7 @@ const Popup = dynamic(() => import('react-leaflet').then((mod) => mod.Popup), { 
         console.error('Error:', error);
       });
       
-      
-  console.log(orase)
+      console.log(selectedJudet)
 
   return (
     <div >
@@ -1178,6 +1176,35 @@ const Popup = dynamic(() => import('react-leaflet').then((mod) => mod.Popup), { 
     "Please check that you have the right quantity of every single item to avoid confusions at checkout, Thanks!"}
   </h3>
 
+  <div>
+      <h1>Judete Romania</h1>
+      <select value={selectedJudet.auto || ''}
+      onChange={(e) => {
+        const selectedCounty = judete.find(j => j.auto === e.target.value);
+        setSelectedJudet(selectedCounty);
+        
+        selectedJudet.length > 0 && (
+          setSelectedOras(orase[0].nume)
+        )
+      }}
+      placeholder='Selecteaza Judetul'>
+        <option value="">Selectează județ</option>
+        {judete.map((judet) => (
+          <option key={judet.auto} value={judet.auto}>
+            {judet.nume}
+          </option>
+        ))}
+      </select>
+
+      <h2>Orase</h2>
+      <select onChange={(e) => setSelectedOras(e.target.value)} >
+        {orase.map((oras, index) => (
+          <option key={index} value={oras.nume}>
+            {oras.nume} 
+          </option>
+        ))}
+      </select>
+    </div>
 
 
    {cart.map((item, index) => {
@@ -1440,34 +1467,7 @@ language === "IT" ? "Per favore, controlla che tutte le informazioni siano valid
                   'Sub-total :'} <span>{totalPrice}</span> RON</p>
              </div>
 
-             <div>
-      <h1>Judete Romania</h1>
-      <select value={selectedJudet.auto || ''}
-      onChange={(e) => {
-        const selectedCounty = judete.find(j => j.auto === e.target.value);
-        setSelectedJudet(selectedCounty);
-        
-        selectedJudet && (
-          setSelectedOras(orase[0].nume)
-        )
-      }}>
-        <option value="">Selectează județ</option>
-        {judete.map((judet) => (
-          <option key={judet.auto} value={judet.auto}>
-            {judet.nume}
-          </option>
-        ))}
-      </select>
-
-      <h2>Orase</h2>
-      <select onChange={(e) => setSelectedOras(e.target.value)} >
-        {orase.map((oras, index) => (
-          <option key={index} value={oras.nume}>
-            {oras.nume} {/* Assuming 'nume' is the property representing the name of the city */}
-          </option>
-        ))}
-      </select>
-    </div>
+            
 
             {deliveryPrice ? 
             
