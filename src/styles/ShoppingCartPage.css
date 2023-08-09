@@ -520,11 +520,53 @@ table:hover{
     padding: 5px 10px;
 }
 
+.countyAndCitiesWrapper{
+    display: flex;
+    gap: 5px;
+    width: 25rem;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .countiesDiv{
+    width: 50%;
+  }
+  
+  .citiesDiv{
+    width: 50%;
+  }
+  
+  .countiesDiv select{
+    width: 100%;
+    padding: 10px;
+    border: 1px solid rgba(0,0,0,0.5);
+    border-radius: 5px;
+    color: grey;
+    
+  }
+
+  .citiesDiv select{
+    width: 100%;
+    padding: 10px;
+    border: 1px solid rgba(0,0,0,0.5);
+    border-radius: 5px;
+    color: grey;
+    font-style: inherit;
+  }
+
+  .countiesDiv option,
+  .citiesDiv option{
+    font-style: inherit;
+  }
+  
+
 /* under 1400px */
 
 
 @media (max-width: 1400px)  {
-    
+    .countyAndCitiesWrapper{
+        width: 20rem;
+      }
     
     .quantityColumn button{
         width: 2vw;
@@ -658,6 +700,9 @@ table:hover{
 /* under 900px */
 
 @media  (max-width: 850px) {
+    .countyAndCitiesWrapper{
+        width: 19.5rem;
+    }
 
     .emptyCartText{
         display: flex;
@@ -975,5 +1020,3 @@ table:hover{
     align-items: center;
     height: 350px;
   }
-
-  

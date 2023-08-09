@@ -1183,42 +1183,6 @@ const Popup = dynamic(() => import('react-leaflet').then((mod) => mod.Popup), { 
     "Please check that you have the right quantity of every single item to avoid confusions at checkout, Thanks!"}
   </h3>
 
-  <div>
-      <h1>Judete Romania</h1>
-      <select
-        value={selectedJudet.auto || ''}
-        onChange={(e) => {
-          const selectedCounty = judete.find(j => j.auto === e.target.value);
-          setSelectedJudet(selectedCounty);
-        }}
-      >
-        {selectedJudet.auto ? null : (
-          <option value="" disabled>
-            Selectează județ
-          </option>
-        )}
-        {judete.map((judet) => (
-          <option key={judet.auto} value={judet.auto}>
-            {judet.nume}
-          </option>
-        ))}
-      </select>
-
-      <h2>Orase</h2>
-      <select
-        value={selectedOras}
-        onChange={(e) => setSelectedOras(e.target.value)}
-      >
-        {orase.map((oras, index) => (
-          <option key={index} value={oras.nume}>
-            {oras.nume}
-          </option>
-        ))}
-      </select>
-
-    </div>
-
-
    {cart.map((item, index) => {
     
      return(
@@ -1361,6 +1325,49 @@ language === "IT" ? "Per favore, controlla che tutte le informazioni siano valid
         'Phone number'}</span>
      </div>
      
+    <div className='countyAndCitiesWrapper'>
+        <div className='countiesDiv'>
+        <select
+            value={selectedJudet.auto || ''}
+            onChange={(e) => {
+              const selectedCounty = judete.find(j => j.auto === e.target.value);
+              setSelectedJudet(selectedCounty);
+            }}
+          >
+            {selectedJudet.auto ? null : (
+              <option value="" className='option' disabled>
+                Selecteaza Judetul!
+              </option>
+            )}
+            {judete.map((judet) => (
+              <option className='option' key={judet.auto} value={judet.auto}>
+                {judet.nume}
+              </option>
+            ))}
+          </select>
+          </div>
+        
+
+        <div className='citiesDiv'>
+          <select
+            value={selectedOras}
+            onChange={(e) => setSelectedOras(e.target.value)}
+          >
+            {!selectedOras && 
+              <option value='' disabled>
+                Selecteaza judetul intai!
+              </option>
+            }
+            {orase.map((oras, index) => (
+              <option key={index} value={oras.nume}>
+                {oras.nume}
+              </option>
+            ))}
+          </select>
+        </div>
+
+      </div>
+
      <div className='deliveryAddress_inputs__input' >
        <input type="text" defaultValue={street} onChange={handleStreetChange} required="required"></input>
        <span>
@@ -1371,42 +1378,6 @@ language === "IT" ? "Per favore, controlla che tutte le informazioni siano valid
         'Street'}</span>
      </div>
 
-    <div className='countyAndCities'>
-      <div>
-        <select
-            value={selectedJudet.auto || ''}
-            onChange={(e) => {
-              const selectedCounty = judete.find(j => j.auto === e.target.value);
-              setSelectedJudet(selectedCounty);
-            }}
-          >
-            {selectedJudet.auto ? null : (
-              <option value="" disabled>
-                Selectează județ
-              </option>
-            )}
-            {judete.map((judet) => (
-              <option key={judet.auto} value={judet.auto}>
-                {judet.nume}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div>
-          <select
-            value={selectedOras}
-            onChange={(e) => setSelectedOras(e.target.value)}
-          >
-            {orase.map((oras, index) => (
-              <option key={index} value={oras.nume}>
-                {oras.nume}
-              </option>
-            ))}
-          </select>
-        </div>
-
-      </div>
 
      <div className='deliveryAddress_inputs__input towninput' >
 
