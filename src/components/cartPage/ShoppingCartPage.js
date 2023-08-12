@@ -21,6 +21,7 @@ import { useRouter } from 'next/router';
 import Loading from '../reusableComponents/Loading';
 import { logEvent,getAnalytics } from 'firebase/analytics';
 import axios from 'axios';
+import { PDFDocument, rgb } from 'pdf-lib';
 // import 'leaflet/dist/leaflet.css';
 // import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css';
 // import * as L from 'leaflet';
@@ -1121,13 +1122,57 @@ const Popup = dynamic(() => import('react-leaflet').then((mod) => mod.Popup), { 
       });
   }, [selectedJudet, selectedOras]);
 
-  console.log(deliveryKm)
+
+  const handleGenerateInvoice = async () => {
+    const pdfDoc = await PDFDocument.create();
+    const page = pdfDoc.addPage([600, 400]);
+
+    const imagePath = '/publicResources/logoMabisCercPng.png'; // Make sure this path is correct
+
+    // Load image using Fetch API
+    const response = await fetch(imagePath);
+    const imageBytes = await response.arrayBuffer();
+
+    // Embed the PNG logo image
+    const logoImage = await pdfDoc.embedPng(imageBytes);
+    const logoDims = logoImage.scale(0.2);
+
+    // Draw logo in top right corner
+    page.drawImage(logoImage, {
+      x: page.getWidth() - logoDims.width - 40,
+      y: page.getHeight() - logoDims.height - 40,
+      width: logoDims.width,
+      height: logoDims.height,
+    });
+
+    // Add text for company name, products, prices, delivery, and subtotal
+    const productName = 'Product Name';
+    const productPrice = 100.00;
+    const deliveryFee = 10.00;
+
+    page.drawText(`Company Name: Your Company`, { x: 50, y: 350, size: 14, color: rgb(0, 0, 0) });
+    page.drawText(`Product: ${productName}`, { x: 50, y: 320, size: 12, color: rgb(0, 0, 0) });
+    page.drawText(`Price: $${productPrice}`, { x: 50, y: 300, size: 12, color: rgb(0, 0, 0) });
+    page.drawText(`Delivery: $${deliveryFee}`, { x: 50, y: 280, size: 12, color: rgb(0, 0, 0) });
+
+    const subtotal = parseFloat(productPrice) + parseFloat(deliveryFee);
+    page.drawText(`Subtotal: $${subtotal.toFixed(2)}`, { x: 50, y: 250, size: 14, color: rgb(0, 0, 0) });
+
+    const pdfBytes = await pdfDoc.save();
+
+    // Create a blob from the PDF bytes and open it in a new tab
+    const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+    const url = URL.createObjectURL(blob);
+    window.open(url);
+  };
+
 
   return (
     <div >
     {loading === false && 
      cart.length === 0 ?
      <div className='emptyCartTextWrapper'>
+      <button onClick={handleGenerateInvoice}>Generate Invoice</button>
      <div className='emptyCartText'>
        <div>
      <h1>{language === "FR" ? "Votre panier est vide !" 
