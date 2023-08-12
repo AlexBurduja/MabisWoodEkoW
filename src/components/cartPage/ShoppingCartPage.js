@@ -22,7 +22,6 @@ import Loading from '../reusableComponents/Loading';
 import { logEvent,getAnalytics } from 'firebase/analytics';
 import axios from 'axios';
 import { PDFDocument, rgb } from 'pdf-lib';
-import logoImage from '../../publicResources/logoMabisCercPng.png';
 // import 'leaflet/dist/leaflet.css';
 // import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css';
 // import * as L from 'leaflet';
@@ -36,6 +35,7 @@ const Popup = dynamic(() => import('react-leaflet').then((mod) => mod.Popup), { 
 
 
  export default function ShoppingCartPage() {
+
 
   let analytics;
 
@@ -51,7 +51,7 @@ const Popup = dynamic(() => import('react-leaflet').then((mod) => mod.Popup), { 
     }
   }, []);
 
-
+  
   const router = useRouter();
 
   const { user } = useContext( FirebaseAuthContext )
@@ -1123,22 +1123,23 @@ const Popup = dynamic(() => import('react-leaflet').then((mod) => mod.Popup), { 
       });
   }, [selectedJudet, selectedOras]);
 
+  
 
   const handleGenerateInvoice = async () => {
     const pdfDoc = await PDFDocument.create();
     const page = pdfDoc.addPage([600, 400]);
 
-    const imagePath = '/publicResources/logoCercMabisPng.png'; // Make sure this path is correct
-    const response = await fetch(imagePath);
+    
+    const response = await fetch('/api/get-image');
     const imageArrayBuffer = await response.arrayBuffer();
     const imageUint8Array = new Uint8Array(imageArrayBuffer);
-    console.log(imageUint8Array)
 
     // Embed the PNG logo image
     const logoPng = await pdfDoc.embedPng(imageUint8Array);
     const logoDims = logoPng.scale(0.2);
 
-    // Draw logo in top right corner
+
+    // Draw logo in the top right corner
     page.drawImage(logoPng, {
       x: page.getWidth() - logoDims.width - 40,
       y: page.getHeight() - logoDims.height - 40,
