@@ -22,6 +22,7 @@ import Loading from '../reusableComponents/Loading';
 import { logEvent,getAnalytics } from 'firebase/analytics';
 import axios from 'axios';
 import { PDFDocument, rgb } from 'pdf-lib';
+import logoImage from '../../publicResources/logoMabisCercPng.png';
 // import 'leaflet/dist/leaflet.css';
 // import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css';
 // import * as L from 'leaflet';
@@ -1127,18 +1128,18 @@ const Popup = dynamic(() => import('react-leaflet').then((mod) => mod.Popup), { 
     const pdfDoc = await PDFDocument.create();
     const page = pdfDoc.addPage([600, 400]);
 
-    const imagePath = '/publicResources/logoMabisCercPng.png'; // Make sure this path is correct
-
-    // Load image using Fetch API
+    const imagePath = '/publicResources/logoCercMabisPng.png'; // Make sure this path is correct
     const response = await fetch(imagePath);
-    const imageBytes = await response.arrayBuffer();
+    const imageArrayBuffer = await response.arrayBuffer();
+    const imageUint8Array = new Uint8Array(imageArrayBuffer);
+    console.log(imageUint8Array)
 
     // Embed the PNG logo image
-    const logoImage = await pdfDoc.embedPng(imageBytes);
-    const logoDims = logoImage.scale(0.2);
+    const logoPng = await pdfDoc.embedPng(imageUint8Array);
+    const logoDims = logoPng.scale(0.2);
 
     // Draw logo in top right corner
-    page.drawImage(logoImage, {
+    page.drawImage(logoPng, {
       x: page.getWidth() - logoDims.width - 40,
       y: page.getHeight() - logoDims.height - 40,
       width: logoDims.width,
