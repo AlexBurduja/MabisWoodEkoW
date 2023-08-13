@@ -1124,6 +1124,24 @@ const Popup = dynamic(() => import('react-leaflet').then((mod) => mod.Popup), { 
   }, [selectedJudet, selectedOras]);
 
   
+  function random5DigitNumber (){
+    const min = 10000
+    const max = 99999
+
+    return Math.floor(Math.random() * (max - min + 1)) + min 
+  }
+
+function getDate(){
+  const d = new Date();
+  const day = d.getDate();
+  const month = d.getMonth() + 1; // Adding 1 since months are zero-based
+  const year = d.getFullYear();
+
+  const formattedDate = `${day < 10 ? '0' : ''}${day}.${month < 10 ? '0' : ''}${month}.${year}`;
+
+  return formattedDate;
+}  
+
 
   const handleGenerateInvoice = async () => {
     const pdfDoc = await PDFDocument.create();
@@ -1147,13 +1165,16 @@ const Popup = dynamic(() => import('react-leaflet').then((mod) => mod.Popup), { 
       height: logoDims.height,
     });
 
+    page.drawText(`Numar Factura: #MW${random5DigitNumber()}`, {x: page.getWidth() - logoDims.width - 50, y: page.getHeight() - logoDims.height - 60, size: 14});
+    page.drawText(`Data Facturare: ${getDate()}`, {x: page.getWidth() - logoDims.width - 50, y: page.getHeight() - logoDims.height - 80, size: 14});
+
     // Add text for company name, products, prices, delivery, and subtotal
     const productName = 'Product Name';
     const productPrice = 100.00;
     const deliveryFee = 10.00;
 
-    page.drawText(`Company Name: Your Company`, { x: 50, y: 350, size: 14, color: rgb(0, 0, 0) });
-    page.drawText(`Product: ${productName}`, { x: 50, y: 320, size: 12, color: rgb(0, 0, 0) });
+    page.drawText(`Mabis Wood Eko`, { x: 50, y: 350, size: 14, color: rgb(0, 0, 0) });
+    page.drawText(`Strada Alunis Nr.190B, Comuna Bogati, Judet Arges`, { x: 50, y: 320, size: 12, color: rgb(0, 0, 0) });
     page.drawText(`Price: $${productPrice}`, { x: 50, y: 300, size: 12, color: rgb(0, 0, 0) });
     page.drawText(`Delivery: $${deliveryFee}`, { x: 50, y: 280, size: 12, color: rgb(0, 0, 0) });
 
