@@ -20,8 +20,7 @@ import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import Loading from '../reusableComponents/Loading';
 import { logEvent,getAnalytics } from 'firebase/analytics';
-import axios from 'axios';
-import { PDFDocument, rgb } from 'pdf-lib';
+import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
 // import 'leaflet/dist/leaflet.css';
 // import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css';
 // import * as L from 'leaflet';
@@ -324,9 +323,12 @@ const Popup = dynamic(() => import('react-leaflet').then((mod) => mod.Popup), { 
         return acc+ cur.quantity
       }, 0)
 
-      const totalPrice = cart.reduce((acc,cur) => {
+      const totalPricee = cart.reduce((acc,cur) => {
         return acc + cur.quantity * cur.price
       }, 0)
+      
+      const totalPrice = totalPricee.toFixed(2)
+      
       
       function stripeIdss(){
         return cart.map(cart => `${cart.title} ${cart.kg}Kg (Cantitate : ${cart.quantity}) => ${cart.kg * cart.quantity} Kg de ${cart.title})
@@ -1145,41 +1147,110 @@ function getDate(){
 
   const handleGenerateInvoice = async () => {
     const pdfDoc = await PDFDocument.create();
-    const page = pdfDoc.addPage([600, 400]);
+    const page = pdfDoc.addPage([595, 842]);
 
     
     const response = await fetch('/api/get-image');
     const imageArrayBuffer = await response.arrayBuffer();
     const imageUint8Array = new Uint8Array(imageArrayBuffer);
 
-    // Embed the PNG logo image
     const logoPng = await pdfDoc.embedPng(imageUint8Array);
     const logoDims = logoPng.scale(0.2);
+    
+    const boldFont = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
 
-
-    // Draw logo in the top right corner
+    const topMargin = 40;
+    
     page.drawImage(logoPng, {
-      x: page.getWidth() - logoDims.width - 40,
-      y: page.getHeight() - logoDims.height - 40,
+      x: page.getWidth() - logoDims.width - topMargin,
+      y: page.getHeight() - logoDims.height - topMargin,
       width: logoDims.width,
       height: logoDims.height,
     });
 
     page.drawText(`Numar Factura: #MW${random5DigitNumber()}`, {x: page.getWidth() - logoDims.width - 50, y: page.getHeight() - logoDims.height - 60, size: 14});
     page.drawText(`Data Facturare: ${getDate()}`, {x: page.getWidth() - logoDims.width - 50, y: page.getHeight() - logoDims.height - 80, size: 14});
+    
+
+
 
     // Add text for company name, products, prices, delivery, and subtotal
-    const productName = 'Product Name';
-    const productPrice = 100.00;
-    const deliveryFee = 10.00;
 
-    page.drawText(`Mabis Wood Eko`, { x: 50, y: 350, size: 14, color: rgb(0, 0, 0) });
-    page.drawText(`Strada Alunis Nr.190B, Comuna Bogati, Judet Arges`, { x: 50, y: 320, size: 12, color: rgb(0, 0, 0) });
-    page.drawText(`Price: $${productPrice}`, { x: 50, y: 300, size: 12, color: rgb(0, 0, 0) });
-    page.drawText(`Delivery: $${deliveryFee}`, { x: 50, y: 280, size: 12, color: rgb(0, 0, 0) });
+    page.drawText(`Mabis Wood Eko`, { x: topMargin, y: page.getHeight() - logoDims.height + topMargin * 2, size: 18, color: rgb(0, 0, 0), font:boldFont });
+    page.drawText(`Strada Alunis Nr.190B, Comuna Bogati, Judet Arges`, { x: 40, y: 752, size: 12, color: rgb(0, 0, 0) });
+    page.drawText(`www.mabiswood.ro`, { x: 40, y: 732, size: 12, color: rgb(0, 0, 0) });
+    page.drawText(`+40721648424`, { x: 40, y: 712, size: 12, color: rgb(0, 0, 0) });
 
-    const subtotal = parseFloat(productPrice) + parseFloat(deliveryFee);
-    page.drawText(`Subtotal: $${subtotal.toFixed(2)}`, { x: 50, y: 250, size: 14, color: rgb(0, 0, 0) });
+    page.drawText('Date facturare:', {x: 40, y: page.getHeight() - logoDims.height - 40, size: 12, color: rgb(0,0,0)})
+    page.drawLine({start: {x:40, y:page.getHeight()- logoDims.height - 40 - 5}, end: {x:100 + 50, y:page.getHeight() - logoDims.height - 40 - 5}, thickness: 1, color: rgb(0,0,0)})
+
+    page.drawText('Burduja Alexandru', {x: 40, y: page.getHeight() - logoDims.height - 60, size: 12, color: rgb(0,0,0)})
+    page.drawText('Str.Maior Vasile Bacila Nr.13, Bloc.19, Ap.38, Bucuresti, Sector 2', {x: 40, y: page.getHeight() - logoDims.height - 80, size: 12, color: rgb(0,0,0), maxWidth: 300, lineHeight: 12})
+    page.drawText('0726093139', {x: 40, y: page.getHeight() - logoDims.height - 120, size: 12, color: rgb(0,0,0)})
+
+
+
+    const tableHeaders = ['Produs', 'Cantitate', 'Pret/buc', 'Pret Total'];
+  const headerTextSize = 12;
+  const lineHeight = 20;
+  const tableWidth = page.getWidth() * 0.9; // Set table width to 90% of the page width
+  const startX = (page.getWidth() - tableWidth) / 2;
+  let y = page.getHeight() - logoDims.height - 180; // Adjust this value based on your layout
+
+  // Draw table header row
+  let headerX = startX;
+  for (const header of tableHeaders) {
+    page.drawText(header, { x: headerX, y, size: headerTextSize, color: rgb(0, 0, 0) });
+    headerX += tableWidth / 4; // Divide the table width by the number of columns
+  }
+
+  // Draw horizontal line under the headers
+  const headerLineY = y - 5;
+  page.drawLine({ start: { x: startX, y: headerLineY }, end: { x: startX + tableWidth, y: headerLineY }, thickness: 1, color: rgb(0, 0, 0) });
+
+  y -= lineHeight;
+
+  // Draw table rows for each cart item
+  for (const item of cart) {
+    const { title, quantity, price, kg } = item;
+    const total = quantity * price;
+
+    let rowX = startX;
+    page.drawText(title + `(${kg}KG)`, { x: rowX, y, size: 12, color: rgb(0, 0, 0) });
+    rowX += tableWidth / 4;
+    page.drawText(quantity.toString(), { x: rowX, y, size: 12, color: rgb(0, 0, 0) });
+    rowX += tableWidth / 4;
+    page.drawText(`${price} RON`, { x: rowX, y, size: 12, color: rgb(0, 0, 0) });
+    rowX += tableWidth / 4;
+    page.drawText(`${total} RON`, { x: rowX, y, size: 12, color: rgb(0, 0, 0) });
+
+    // Draw horizontal line under each row
+    const rowLineY = y - 5;
+    page.drawLine({ start: { x: startX, y: rowLineY }, end: { x: startX + tableWidth, y: rowLineY }, thickness: 1, color: rgb(0, 0, 0) });
+
+    y -= lineHeight;
+  }
+
+  // Calculate and draw subtotal
+  const subtotal = cart.reduce((acc, item) => acc + item.quantity * item.price, 0);
+
+  page.drawText('Subtotal: ', { x: startX + tableWidth - 150, y, size: 12, font: boldFont, color: rgb(0, 0, 0) });
+  page.drawText(`${subtotal.toFixed(2)} RON`, { x: startX + tableWidth - 80, y, size: 12, color: rgb(0, 0, 0) });
+
+  page.drawText('Livrare: ', { x: startX + tableWidth - 150, y: y - 20, size: 12, font: boldFont, color: rgb(0, 0, 0) });
+  page.drawText(`${deliveryPrice} RON`, { x: startX + tableWidth - 80, y: y - 20, size: 12, color: rgb(0, 0, 0) });
+  
+  page.drawLine({start: {x: startX + tableWidth, y: y-5}, end: {x: startX+tableWidth - 90 , y: y-5}})
+  page.drawLine({start: {x: 350, y: y-25}, end: {x: startX+tableWidth , y: y-25}})
+
+  page.drawText('Pret final: ', { x: 360, y: y - 50, size: 15, font: boldFont, color: rgb(0, 0, 0) });
+  page.drawText(`${deliveryPrice + subtotal} RON`, { x: 460, y: y - 50, size: 15, color: rgb(0, 0, 0), font: boldFont });
+
+  const sum = deliveryPrice + subtotal;
+  const numberOfDigits = sum.toString().length;
+  
+  page.drawLine({start: {x: 440, y: y-60}, end: {x: startX+tableWidth , y: y-60}})
+  
 
     const pdfBytes = await pdfDoc.save();
 
@@ -1189,13 +1260,11 @@ function getDate(){
     window.open(url);
   };
 
-
   return (
     <div >
     {loading === false && 
      cart.length === 0 ?
      <div className='emptyCartTextWrapper'>
-      <button onClick={handleGenerateInvoice}>Generate Invoice</button>
      <div className='emptyCartText'>
        <div>
      <h1>{language === "FR" ? "Votre panier est vide !" 
@@ -1221,10 +1290,13 @@ function getDate(){
       </Link>
      </div>
 
+     
+
      </div> 
      : loading ? <Loading /> : 
      <>
      <div className='pageHeader'>
+                                              <button onClick={handleGenerateInvoice}>Generate Invoice</button>
    <h1>{language === "FR" ? "Votre panier" :
   language === "RO" ? "Cosul dumneavoastra." :
   language === "DE" ? "Ihr Warenkorb" :
@@ -1303,7 +1375,7 @@ function getDate(){
               language === "IT" ? "Totale" :
               "Total"}
             </p>
-             {item.quantity * item.price} {item.currency}
+            {(item.quantity * item.price).toFixed(2)} {item.currency}
            </div>
 
            <button className='removeBtn'  onClick={() => removeItemFromCart(item,index)}>
