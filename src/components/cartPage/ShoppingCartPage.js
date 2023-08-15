@@ -638,7 +638,7 @@ const Popup = dynamic(() => import('react-leaflet').then((mod) => mod.Popup), { 
           return true
           }
 
-          if(!emailValid || !firstNameValid || !lastNameValid || !phoneValid || !streetValid || !streetNoValid || !blockValid || !apartamentNoValid || isEmpty(country) || region === "Select region" ||  (pickUp && isEmpty(selectedMarker))){
+          if(!emailValid || !firstNameValid || !lastNameValid || !phoneValid || !streetValid || !streetNoValid || !blockValid || !apartamentNoValid){
             toast.error("One or more fields are empty!", {
               autoClose: 6000
             })
@@ -660,6 +660,11 @@ const Popup = dynamic(() => import('react-leaflet').then((mod) => mod.Popup), { 
               localStorage.setItem("companyName", companyName);
               localStorage.setItem("companyCui", companyCui);
               localStorage.setItem("total", totalPrice)
+              localStorage.setItem('cart', JSON.stringify(cart));
+              localStorage.setItem('judet', selectedJudet.nume);
+              localStorage.setItem('orase', selectedOras);
+              localStorage.setItem('deliveryKm', deliveryKm);
+              localStorage.setItem('deliveryPrice', deliveryPrice);
               
       
           } else if(deliverySelected === "ramburs" || "pickUp") {
@@ -820,7 +825,8 @@ const Popup = dynamic(() => import('react-leaflet').then((mod) => mod.Popup), { 
         setLoadingStripe(true)
         const stripe = await getStripe()
         const { error } = await stripe.redirectToCheckout(checkoutOptions)
-        setLoadingStripe(false)
+        storeAdditionalInvoiceDataInLocalStorage();
+        setLoadingStripe(false);
         if(!error){
           try {
             emailjs.send('service_eyuz8pg', 'template_xeem2dd', {
@@ -839,6 +845,7 @@ const Popup = dynamic(() => import('react-leaflet').then((mod) => mod.Popup), { 
         }
         } 
       }
+
 
       function removeItemFromCart(item){
 
@@ -1133,16 +1140,16 @@ const Popup = dynamic(() => import('react-leaflet').then((mod) => mod.Popup), { 
     return Math.floor(Math.random() * (max - min + 1)) + min 
   }
 
-function getDate(){
-  const d = new Date();
-  const day = d.getDate();
-  const month = d.getMonth() + 1; // Adding 1 since months are zero-based
-  const year = d.getFullYear();
+  function getDate(){
+    const d = new Date();
+    const day = d.getDate();
+    const month = d.getMonth() + 1; // Adding 1 since months are zero-based
+    const year = d.getFullYear();
 
-  const formattedDate = `${day < 10 ? '0' : ''}${day}.${month < 10 ? '0' : ''}${month}.${year}`;
+    const formattedDate = `${day < 10 ? '0' : ''}${day}.${month < 10 ? '0' : ''}${month}.${year}`;
 
-  return formattedDate;
-}  
+    return formattedDate;
+  }
 
   const handleGenerateInvoice = async () => {
     const pdfDoc = await PDFDocument.create();
@@ -1270,22 +1277,13 @@ function getDate(){
     window.open(url);
   };
 
-  console.log(cart)
-
   const storeAdditionalInvoiceDataInLocalStorage = () => {
-    try {
       localStorage.setItem('cart', JSON.stringify(cart));
+      localStorage.setItem('judet', selectedJudet.nume);
+      localStorage.setItem('orase', selectedOras);
       localStorage.setItem('deliveryKm', deliveryKm);
       localStorage.setItem('deliveryPrice', deliveryPrice);
-    } catch (error) {
-      console.error('Error storing additional invoice data in localStorage:', error);
-      // Handle the error
-    }
   };
-
-  useEffect(() => {
-    storeAdditionalInvoiceDataInLocalStorage();
-  }, [])
 
   return (
     <div >
@@ -1698,8 +1696,8 @@ language === "IT" ? "Per favore, controlla che tutte le informazioni siano valid
                 'Pay Method:'}
                </label>
                
-               {country === "Romania" && (
-                 <select disabled={disabled} id='delivery' onChange={handleDeliveryChange} className="regionDrop" value={deliverySelected}>
+               
+                 <select id='delivery' onChange={handleDeliveryChange} className="regionDrop" value={deliverySelected}>
                  <option value="card">{
                   language === 'RO' ? 'Card de credit' :
                   language === 'FR' ? 'Carte de crédit' :
@@ -1719,19 +1717,8 @@ language === 'DE' ? 'Abholung in einem unserer Geschäfte.' :
 language === 'IT' ? 'Ritiro presso uno dei nostri negozi' :
 'Pick up from one of our stores.'}</option>
                </select>
-               )}
 
-               {!(country === "Romania") && (
-                 <select disabled={disabled} id='delivery'>
-                 <option value="card">
-                 {
-                  language === 'RO' ? 'Card de credit' :
-                  language === 'FR' ? 'Carte de crédit' :
-                  language === 'DE' ? 'Kreditkarte' :
-                  language === 'IT' ? 'Carta di credito:' : "Credit Card"}
-                 </option>
-               </select>
-               )}
+               
 
                {pickUp && (
                 <>
