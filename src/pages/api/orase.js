@@ -1,5 +1,9 @@
 import axios from 'axios';
 
+function removeDiacritics(str) {
+  return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+}
+
 export default async function handler(req, res) {
   const { auto } = req.query;
 
@@ -9,7 +13,10 @@ export default async function handler(req, res) {
 
   try {
     const response = await axios.get(`https://roloca.coldfuse.io/orase/${encodeURIComponent(auto)}`);
-    const orase = response.data;
+    const orase = response.data.map(city => ({
+      ...city,
+      nume: removeDiacritics(city.nume)
+    }));
 
     res.status(200).json({ orase });
   } catch (error) {

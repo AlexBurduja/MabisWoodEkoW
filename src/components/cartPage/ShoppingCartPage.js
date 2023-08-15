@@ -1144,7 +1144,6 @@ function getDate(){
   return formattedDate;
 }  
 
-
   const handleGenerateInvoice = async () => {
     const pdfDoc = await PDFDocument.create();
     const page = pdfDoc.addPage([595, 842]);
@@ -1171,10 +1170,25 @@ function getDate(){
     page.drawText(`Numar Factura: #MW${random5DigitNumber()}`, {x: page.getWidth() - logoDims.width - 50, y: page.getHeight() - logoDims.height - 60, size: 14});
     page.drawText(`Data Facturare: ${getDate()}`, {x: page.getWidth() - logoDims.width - 50, y: page.getHeight() - logoDims.height - 80, size: 14});
     
-
-
-
     // Add text for company name, products, prices, delivery, and subtotal
+    const streetText = `Str. ${street} Nr. ${streetNo}, Bloc.${block}, Ap.${apartamentNo}, ${selectedJudet.nume}, ${selectedOras}`;
+    const phone = phoneNumber;
+
+    // Calculate the width of streetText in pixels
+    const streetTextWidth = (await pdfDoc.embedFont(StandardFonts.Helvetica)).widthOfTextAtSize(streetText, 12);
+    console.log(streetTextWidth)
+
+    // Calculate the maximum width allowed for the streetText
+    const maxStreetTextWidth = 300;
+
+    // Calculate the Y-coordinate for the phone number text
+    let phoneNumberY;
+
+    if (streetTextWidth > maxStreetTextWidth) {
+        phoneNumberY = page.getHeight() - logoDims.height - 110;
+    } else {
+        phoneNumberY = page.getHeight() - logoDims.height - 100;
+    }
 
     page.drawText(`Mabis Wood Eko`, { x: topMargin, y: page.getHeight() - logoDims.height + topMargin * 2, size: 18, color: rgb(0, 0, 0), font:boldFont });
     page.drawText(`Strada Alunis Nr.190B, Comuna Bogati, Judet Arges`, { x: 40, y: 752, size: 12, color: rgb(0, 0, 0) });
@@ -1184,13 +1198,13 @@ function getDate(){
     page.drawText('Date facturare:', {x: 40, y: page.getHeight() - logoDims.height - 40, size: 12, color: rgb(0,0,0)})
     page.drawLine({start: {x:40, y:page.getHeight()- logoDims.height - 40 - 5}, end: {x:100 + 50, y:page.getHeight() - logoDims.height - 40 - 5}, thickness: 1, color: rgb(0,0,0)})
 
-    page.drawText('Burduja Alexandru', {x: 40, y: page.getHeight() - logoDims.height - 60, size: 12, color: rgb(0,0,0)})
-    page.drawText('Str.Maior Vasile Bacila Nr.13, Bloc.19, Ap.38, Bucuresti, Sector 2', {x: 40, y: page.getHeight() - logoDims.height - 80, size: 12, color: rgb(0,0,0), maxWidth: 300, lineHeight: 12})
-    page.drawText('0726093139', {x: 40, y: page.getHeight() - logoDims.height - 120, size: 12, color: rgb(0,0,0)})
+    page.drawText(`${firstName} ${lastName} (${email})`, {x: 40, y: page.getHeight() - logoDims.height - 60, size: 12, color: rgb(0,0,0)})
+    page.drawText(streetText, { x: 40, y: page.getHeight() - logoDims.height - 80, size: 12, color: rgb(0, 0, 0), maxWidth: maxStreetTextWidth, lineHeight: 12 });
+    page.drawText(phone, { x: 40, y: phoneNumberY, size: 12, color: rgb(0, 0, 0) });
 
 
 
-    const tableHeaders = ['Produs', 'Cantitate', 'Pret/buc', 'Pret Total'];
+  const tableHeaders = ['Produs', 'Cantitate', 'Pret/buc', 'Pret Total'];
   const headerTextSize = 12;
   const lineHeight = 20;
   const tableWidth = page.getWidth() * 0.9; // Set table width to 90% of the page width
@@ -1211,47 +1225,43 @@ function getDate(){
   y -= lineHeight;
 
   // Draw table rows for each cart item
-  for (const item of cart) {
-    const { title, quantity, price, kg } = item;
-    const total = quantity * price;
+    for (const item of cart) {
+      const { title, quantity, price, kg } = item;
+      const total = quantity * price;
 
-    let rowX = startX;
-    page.drawText(title + `(${kg}KG)`, { x: rowX, y, size: 12, color: rgb(0, 0, 0) });
-    rowX += tableWidth / 4;
-    page.drawText(quantity.toString(), { x: rowX, y, size: 12, color: rgb(0, 0, 0) });
-    rowX += tableWidth / 4;
-    page.drawText(`${price} RON`, { x: rowX, y, size: 12, color: rgb(0, 0, 0) });
-    rowX += tableWidth / 4;
-    page.drawText(`${total} RON`, { x: rowX, y, size: 12, color: rgb(0, 0, 0) });
+      let rowX = startX;
+      page.drawText(title + `(${kg}KG)`, { x: rowX, y, size: 12, color: rgb(0, 0, 0) });
+      rowX += tableWidth / 4;
+      page.drawText(quantity.toString(), { x: rowX, y, size: 12, color: rgb(0, 0, 0) });
+      rowX += tableWidth / 4;
+      page.drawText(`${price} RON`, { x: rowX, y, size: 12, color: rgb(0, 0, 0) });
+      rowX += tableWidth / 4;
+      page.drawText(`${total} RON`, { x: rowX, y, size: 12, color: rgb(0, 0, 0) });
 
-    // Draw horizontal line under each row
-    const rowLineY = y - 5;
-    page.drawLine({ start: { x: startX, y: rowLineY }, end: { x: startX + tableWidth, y: rowLineY }, thickness: 1, color: rgb(0, 0, 0) });
+      // Draw horizontal line under each row
+      const rowLineY = y - 5;
+      page.drawLine({ start: { x: startX, y: rowLineY }, end: { x: startX + tableWidth, y: rowLineY }, thickness: 1, color: rgb(0, 0, 0) });
 
-    y -= lineHeight;
-  }
+      y -= lineHeight;
+    }
 
-  // Calculate and draw subtotal
-  const subtotal = cart.reduce((acc, item) => acc + item.quantity * item.price, 0);
+    const subtotal = cart.reduce((acc, item) => acc + item.quantity * item.price, 0).toFixed(2);
+    
+    page.drawText('Subtotal: ', { x: startX + tableWidth - 150, y, size: 12, font: boldFont, color: rgb(0.55,0.55,0.55) });
+    page.drawText(`${subtotal} RON`, { x: startX + tableWidth - 80, y, size: 12, color: rgb(0, 0, 0) });
+    
+    page.drawText('Livrare: ', { x: startX + tableWidth - 150, y: y - 20, size: 12, font: boldFont, color: rgb(0.55,0.55,0.55) });
+    page.drawText(deliveryKm <= 25 ? 'GRATIS' : `${deliveryPrice.toFixed(2)} RON`, { x: startX + tableWidth - 80 , y: y - 20, size: 12, color: rgb(0, 0, 0) });
+    
+    page.drawLine({start: {x: startX + tableWidth, y: y-5}, end: {x: startX+tableWidth - 90 , y: y-5}, color: rgb(0.55,0.55,0.55)})
+    page.drawLine({start: {x: 350, y: y-25}, end: {x: startX+tableWidth , y: y-25}})
 
-  page.drawText('Subtotal: ', { x: startX + tableWidth - 150, y, size: 12, font: boldFont, color: rgb(0, 0, 0) });
-  page.drawText(`${subtotal.toFixed(2)} RON`, { x: startX + tableWidth - 80, y, size: 12, color: rgb(0, 0, 0) });
-
-  page.drawText('Livrare: ', { x: startX + tableWidth - 150, y: y - 20, size: 12, font: boldFont, color: rgb(0, 0, 0) });
-  page.drawText(`${deliveryPrice} RON`, { x: startX + tableWidth - 80, y: y - 20, size: 12, color: rgb(0, 0, 0) });
-  
-  page.drawLine({start: {x: startX + tableWidth, y: y-5}, end: {x: startX+tableWidth - 90 , y: y-5}})
-  page.drawLine({start: {x: 350, y: y-25}, end: {x: startX+tableWidth , y: y-25}})
-
-  page.drawText('Pret final: ', { x: 360, y: y - 50, size: 15, font: boldFont, color: rgb(0, 0, 0) });
-  page.drawText(`${deliveryPrice + subtotal} RON`, { x: 460, y: y - 50, size: 15, color: rgb(0, 0, 0), font: boldFont });
-
-  const sum = deliveryPrice + subtotal;
-  const numberOfDigits = sum.toString().length;
-  
-  page.drawLine({start: {x: 440, y: y-60}, end: {x: startX+tableWidth , y: y-60}})
-  
-
+    page.drawText('Pret final: ', { x: 360, y: y - 50, size: 15, font: boldFont, color: rgb(0,0,0) });
+    page.drawText(`${deliveryPrice + Number(subtotal)} RON`, { x: 460, y: y - 50, size: 15, color: rgb(0, 0, 0), font: boldFont });
+    
+    page.drawLine({start: {x: 440, y: y-60}, end: {x: startX+tableWidth , y: y-60}})
+    
+    
     const pdfBytes = await pdfDoc.save();
 
     // Create a blob from the PDF bytes and open it in a new tab
@@ -1259,6 +1269,23 @@ function getDate(){
     const url = URL.createObjectURL(blob);
     window.open(url);
   };
+
+  console.log(cart)
+
+  const storeAdditionalInvoiceDataInLocalStorage = () => {
+    try {
+      localStorage.setItem('cart', JSON.stringify(cart));
+      localStorage.setItem('deliveryKm', deliveryKm);
+      localStorage.setItem('deliveryPrice', deliveryPrice);
+    } catch (error) {
+      console.error('Error storing additional invoice data in localStorage:', error);
+      // Handle the error
+    }
+  };
+
+  useEffect(() => {
+    storeAdditionalInvoiceDataInLocalStorage();
+  }, [])
 
   return (
     <div >
