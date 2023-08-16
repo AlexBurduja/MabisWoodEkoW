@@ -11,8 +11,7 @@ import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
 import { Image } from 'image-js'
 
 const hi = async (email, firstName, lastName, phoneNumber, street, streetNo, block, apartamentNo, total, pdfBytes) => {
-  const base64Pdf = arrayBufferToBase64(pdfBytes);
-
+  const base64Pdf = Buffer.from(pdfBytes).toString('base64');
   emailjs.send('service_eyuz8pg', 'template_xeem2dd', {
     subject: `Comanda de la ${email} (${firstName} ${lastName})`,
     metoda: `${firstName} ${lastName} a facut o plata in valoare de ${total} RON`,
@@ -22,16 +21,15 @@ const hi = async (email, firstName, lastName, phoneNumber, street, streetNo, blo
     streetNo: `Nr. :<b>${streetNo}</b>`,
     bloc: `Bloc : <b>${block}</b>`,
     apartNo: `Apartament : <b>${apartamentNo}</b>`,
-    attachment: [{ name: 'invoice.pdf', type: 'application/pdf', content: base64Pdf }],
+    attachment: [
+      {
+        name: 'invoice.pdf',
+        type: 'application/pdf',
+        data: base64Pdf,
+      },
+    ],
   }, 'crU6K8bQnftB81z-j');
 };
-
-function arrayBufferToBase64(arrayBuffer) {
-  const binary = new Uint8Array(arrayBuffer);
-  const buffer = Buffer.from(binary);
-  const base64 = buffer.toString('base64');
-  return base64;
-}
 
 const SuccessPage = () => {
 
@@ -55,7 +53,7 @@ const SuccessPage = () => {
     const companyCui = localStorage.getItem("companyCui");
     const total = localStorage.getItem("total");
     
-    handleGenerateInvoice();
+    // handleGenerateInvoice();
 
     
     
@@ -115,7 +113,14 @@ const SuccessPage = () => {
       // router.push('/')
       return;
     } else {
-      hi(email, firstName, lastName, phoneNumber, street, streetNo, block, apartamentNo, total);
+      const handleGeneration = async () => {
+        const pdfBytes = await handleGenerateInvoice()
+
+        hi(email, firstName, lastName, phoneNumber, street, streetNo, block, apartamentNo, total, pdfBytes)
+      }
+      
+      handleGeneration();
+      
 
       // startCountdown()
 
@@ -310,12 +315,12 @@ const SuccessPage = () => {
     
     
     const pdfBytes = await pdfDoc.save();
-
-    // Create a blob from the PDF bytes and open it in a new tab
-    const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-    const url = URL.createObjectURL(blob);
-    window.open(url);
+    return pdfBytes
   };
+  
+      // const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+      // const url = URL.createObjectURL(blob);
+      // window.open(url);
 
     return (
       <div className='successFlex'>
