@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
     export default function ig() {
 
@@ -128,7 +128,8 @@ import React, { useEffect } from 'react'
 //     );
 //   };
 
-  
+  const [posts, setPosts] = useState([])
+
   const handleLogin = async () => {
     try {
       const response = await fetch('/api/instagramLogin', {
@@ -136,15 +137,83 @@ import React, { useEffect } from 'react'
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({username: 'magic._.candles', password: 'Atis2004!'}),
+        body: JSON.stringify({username: '_justAlexo', password: 'Alexandru10002!'}),
       });
       const data = await response.json();
-      console.log(data.message);
+      setPosts(data.mediaData)
     } catch (error) {
       console.error('Failed to log in:', error);
     }
   };
   
+  const array = [
+    {
+      'mediaId': "2960381948990385430_48342578676",
+      'totalLikes': 12,
+      'totalComments': 0,
+      'dateTaken': 1667125050
+    },
+    {
+        "mediaId": "2996235830991750578_48342578676",
+        "totalLikes": 19,
+        "totalComments": 0,
+        "dateTaken": 1713312000
+    },
+    {
+      "totalLikes": 5,
+      "dateTaken": 1713398400
+    },
+    {
+      "totalLikes": 5,
+      "dateTaken": 1713657600
+    },
+  ]
+
+  // array.forEach((item) => {
+  //   console.log(unixTime - 2592000)
+    
+  // });
+  const time = new Date();
+  const unixTimeNow = Math.floor(time.getTime() / 1000)
+
+  console.log(unixTimeNow)
+  
+  const timedArray = array.filter((item) => { 
+    return item.dateTaken < unixTimeNow && item.dateTaken > unixTimeNow - 2592000;
+  })
+
+  console.log(new Date(1713199023 * 1000).toDateString())
+  
+  useEffect(() => {
+    if(posts){
+      const finalData = posts.filter((item) => {
+        return item.dateTaken < 1694531029 && item.dateTaken > 1620227029;
+      });
+
+      console.log(finalData);
+    }
+
+
+  }, [posts])
+  
+
+  const currentDate = new Date();
+  const currentYear = currentDate.getFullYear();
+  const currentMonth = currentDate.getMonth() + 1; // Month is 0-indexed
+  const startOfMonth = new Date(currentYear, currentMonth - 1, 1); // Start of current month
+  const startOfMonthUnix = Math.floor(startOfMonth.getTime() / 1000); // Unix timestamp for start of current month
+
+  // Determine the number of days in the previous month
+  const daysInPreviousMonth = new Date(currentYear, currentMonth, 0).getDate();
+
+  console.log(daysInPreviousMonth)
+
+  // Subtract one month's worth of seconds from the current timestamp
+  const oneMonthAgoUnix = startOfMonthUnix - (daysInPreviousMonth * 24 * 60 * 60);
+
+  console.log("Start of current month:", startOfMonth);
+  console.log("Unix timestamp for start of current month:", startOfMonthUnix);
+  console.log("Unix timestamp for one month ago:", oneMonthAgoUnix);
 
         return (
         <div>
