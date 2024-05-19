@@ -89,44 +89,6 @@ const fetchInsightsForMediaItems = (mediaIds) => {
 
 
 
-// const FacebookLoginButton = () => {
-//     useEffect(() => {
-//       // This function checks the login status when the component mounts
-//       const checkLoginState = () => {
-//         FB.getLoginStatus(function(response) {
-//           statusChangeCallback(response);
-//         });
-//       };
-  
-//       // Attach the function to the window object so it can be called from the FB login button
-//       window.checkLoginState = checkLoginState;
-  
-//       // Cleanup function to remove the function from the window object when the component unmounts
-//       return () => {
-//         delete window.checkLoginState;
-//       };
-//     }, []);
-  
-//     const statusChangeCallback = (response) => {
-//       // Handle login status change here
-//       console.log(response);
-//     };
-  
-//     const handleLoginClick = () => {
-//       // Call FB.login when the button is clicked
-//       FB.login(function(response) {
-//         statusChangeCallback(response);
-//       }, { scope: 'public_profile,email,instagram_manage_insights,instagram_basic' });
-//     };
-  
-//     return (
-//       <div onClick={handleLoginClick} style={{ cursor: 'pointer' }}>
-//         Facebook Login
-//       </div>
-//     );
-//   };
-
-
 const [igPosts, setIgPosts] = useState([])
 
 
@@ -347,10 +309,10 @@ const [igPosts, setIgPosts] = useState([])
     }
   };
 
-
   const totalComments = comments.reduce((acc,prev) => acc+prev, 0)
   const totalLikes = likes.reduce((acc,prev) => acc+prev, 0)
-        return (
+
+  return (
         <div>
           <button onClick={exchangeCodeForToken}>Login Instagram!</button>
 
