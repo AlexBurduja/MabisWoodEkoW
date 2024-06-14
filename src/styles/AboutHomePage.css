@@ -1,0 +1,35 @@
+.ourMission{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.ourMission_text{
+    width: 650px;
+}
+
+.ourStory{
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-evenly;
+    align-items: center;
+    z-index: 1;
+
+    position: relative;
+}
+
+.ourStory_text{
+    width: 650px;
+    position: relative;
+    z-index: 1;
+}
+
+.quoteImg{
+    position: absolute;
+    width: 100px;
+    top: -20px;
+
+    z-index: 0;
+
+}

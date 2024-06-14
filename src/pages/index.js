@@ -6,6 +6,7 @@ import { PreFooter } from '@/components/reusableComponents/PreFooter';
 import TopScrollProgress from '@/components/reusableComponents/TopScrollProgress';
 import { Footer } from '../components/reusableComponents/Footer';
 import Header from '../components/reusableComponents/Header';
+import About from '@/components/homePage/About';
 
 export default function Homepage() {
 
@@ -16,7 +17,8 @@ export default function Homepage() {
     <BackToTop />
     <Header />
     <BigImage />
-    <ProductListComponent />
+    <About />
+    {/* <ProductListComponent /> */}
     <PreFooter />
     <Footer />
     </>
