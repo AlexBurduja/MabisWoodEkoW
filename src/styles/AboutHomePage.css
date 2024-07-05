@@ -7,6 +7,8 @@
 
 .ourMission_text{
     width: 650px;
+    position: relative;
+    z-index: 20;
 }
 
 .ourStory{
@@ -14,7 +16,7 @@
     flex-direction: row-reverse;
     justify-content: space-evenly;
     align-items: center;
-    z-index: 1;
+    z-index: 20;
 
     position: relative;
 }
@@ -22,14 +24,68 @@
 .ourStory_text{
     width: 650px;
     position: relative;
-    z-index: 1;
+    z-index: 20;
 }
 
-.quoteImg{
+.quoteImgPovestea{
     position: absolute;
     width: 100px;
-    top: -20px;
+    top: -40px;
+    left: -40px;
+    z-index: -1;
+}
 
-    z-index: 0;
+.quoteImgMisiunea{
+    position: absolute;
+    width: 100px;
+    top: -40px;
+    left: -40px;
+    z-index: -1;
+}
 
+.ourMission_photo img,
+.ourStory_photo img{
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+
+.missionStoryWrap{
+    margin-top: 10%;
+}
+
+/* Under px */
+
+@media  (max-width: 1050px) {
+    .ourMission_photo,
+    .ourStory_photo {
+        display: none;
+    }
+
+    .ourStory{
+        margin-top: 5%;
+        width: 95%;
+        margin-left: 2.5%;
+    }
+
+    .ourMission{
+        width: 95%;
+        margin-left: 2.5%;
+    }
+
+    
+
+    .quoteImgPovestea{
+        position: absolute;
+        width: 100px;
+        top: -15px;
+        left: -15px;
+        z-index: -1;
+    }
+    
+    .quoteImgMisiunea{
+        position: absolute;
+        width: 100px;
+        top: -15px;
+        left: -15px;
+        z-index: -1;
+    }
 }
