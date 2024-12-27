@@ -11,6 +11,7 @@ import litigiu2 from '../../publicResources/i_anpc-sol.svg'
 import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import NTPLogo from 'ntp-logo-react';
 
 export function Footer() {
 
@@ -25,9 +26,10 @@ export function Footer() {
 
   return (
     <section className='footerSection'>
+       
       <div className='footerSection_flex_row'>
         <div className='footerSection_flex_column_1 footerSection_common'>
-          <p>{language === 'RO' ? 'Multumim ca ati ramas cu noi pana la sfarsitul paginii!' :  'Thanks for sticking with us and reaching the end of the page!'}</p>
+          <p>{language === 'RO' ? 'Mabis Wood Eko CUI: 46728003' :  'Mabis Wood Eko CUI: 46728003'}</p>
         </div>
 
         <div className='footerSection_flex_column_2 footerSection_common'>
@@ -94,6 +96,10 @@ export function Footer() {
               <Link href='https://ec.europa.eu/consumers/odr/main/index.cfm?event=main.home2.show&lng=RO' target='_blank'>
                 <Image src={litigiu2} alt='litigii'/>
               </Link>
+            </div>
+
+            <div>
+              <NTPLogo color="#ffffff" version="vertical" secret="146662" />
             </div>
       </div>
 

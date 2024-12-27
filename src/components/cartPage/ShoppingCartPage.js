@@ -1285,6 +1285,7 @@ const Popup = dynamic(() => import('react-leaflet').then((mod) => mod.Popup), { 
       localStorage.setItem('deliveryPrice', deliveryPrice);
   };
 
+
   return (
     <div >
     {loading === false && 
