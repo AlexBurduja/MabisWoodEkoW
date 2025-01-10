@@ -70,7 +70,10 @@ export function Footer() {
         </div>
 
         <div className='footerSection_flex_column_4 footerSection_common'>
-          <Link href="/contact#">Contact</Link>
+          <Link href="/termsandconditions#">Terms and Conditions</Link>
+          <Link href="/privacypolicy#">Privacy Policy</Link>
+          <Link href="/shippingpolicy#">Shipping Policy</Link>
+          <Link href="/returnpolicy#">Return Policy</Link>
         </div>
 
         <div className='footerSection_flex_column_5 footerSection_common'>
