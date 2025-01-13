@@ -32,24 +32,13 @@ export default async function handler(req, res) {
             postalCode: invoiceData.postalCode,
             details: '',
           },
-        //   shipping: {
-        //     email: 'user@example.com',
-        //     phone: '+407xxxxxxxx',
-        //     firstName: 'First',
-        //     lastName: 'Last',
-        //     city: 'City',
-        //     country: 642,
-        //     state: 'State',
-        //     postalCode: 'Zip',
-        //     details: '',
-        //   },
           products: [
             {
               name: 'Peleti50kg',
               code: '001',
               category: 'Lemn',
               price: 6969,
-              vat: 19,
+              vat: 0,
             },
           ],
           installments: {
@@ -70,7 +59,7 @@ export default async function handler(req, res) {
       netopia.setProductsData(paymentData.order.products)
 
       const payment = await netopia.startPayment();
-      console.log("Payment:",payment)
+
       res.status(200).json({
         paymentURL: payment.payment.paymentURL
     });
@@ -78,6 +67,8 @@ export default async function handler(req, res) {
       console.error('Payment Error:', error.message);
       res.status(500).json({ error: error.message });
     }
+  } else if (req.method === 'GET') {
+    res.status(200).end('Success!')
   } else {
     res.setHeader('Allow', ['POST']);
     res.status(405).end(`Method ${req.method} Not Allowed`);
