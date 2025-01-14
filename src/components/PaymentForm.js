@@ -10,10 +10,21 @@ const PaymentForm = () => {
       screenWidth: window.screen.width,
       screenHeight: window.screen.height,
       colorDepth: window.screen.colorDepth,
+      
       userAgent: navigator.userAgent,
       language: navigator.language,
       javaEnabled: navigator.javaEnabled(),
-    };
+      plugins: Array.from(navigator.plugins).map(plugin => plugin.name).join(", "),
+      mobile: /Mobi|Android/i.test(navigator.userAgent),
+      
+      timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+      timeZoneOffset: new Date().getTimezoneOffset(),
+      
+      platform: navigator.platform,
+  };
+
+  console.log(navigator.userAgent)
+
 
     try {
       const { data } = await axios.post('/api/payment/start', {

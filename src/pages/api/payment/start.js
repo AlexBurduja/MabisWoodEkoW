@@ -50,6 +50,7 @@ export default async function handler(req, res) {
             property2: 'string',
           },
         },
+        ...browserInfo
       };
 
 
@@ -57,6 +58,7 @@ export default async function handler(req, res) {
     try {
       netopia.setOrderData(paymentData.order);
       netopia.setProductsData(paymentData.order.products)
+      netopia.setBrowserData({...browserInfo})
 
       const payment = await netopia.startPayment();
 
