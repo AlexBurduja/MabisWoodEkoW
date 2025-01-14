@@ -1,4 +1,4 @@
-import { Netopia } from 'netopia-card';
+import { collectBrowserInfo, Netopia } from 'netopia-card';
 import crypto from 'crypto';
 
 export default async function handler(req, res) {
@@ -11,7 +11,10 @@ export default async function handler(req, res) {
     const { invoiceData, browserInfo } = req.body;
     const date = new Date();
 
-    // Create the paymentData object dynamically based on invoiceData
+    const userIP = req.headers['x-forwarded-for']?.split(',')[0] || req.socket.remoteAddress;
+
+
+
     const paymentData = {
         order: {
           ntpID: '',
@@ -50,7 +53,6 @@ export default async function handler(req, res) {
             property2: 'string',
           },
         },
-        ...browserInfo
       };
 
 
@@ -58,7 +60,7 @@ export default async function handler(req, res) {
     try {
       netopia.setOrderData(paymentData.order);
       netopia.setProductsData(paymentData.order.products)
-      netopia.setBrowserData({...browserInfo})
+      netopia.setBrowserData(browserInfo, userIP)
 
       const payment = await netopia.startPayment();
 

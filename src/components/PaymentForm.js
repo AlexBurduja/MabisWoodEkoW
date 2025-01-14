@@ -7,23 +7,21 @@ const PaymentForm = () => {
 
   const handleSubmit = async (values) => {
     const browserInfo = {
-      screenWidth: window.screen.width,
-      screenHeight: window.screen.height,
-      colorDepth: window.screen.colorDepth,
+      "BROWSER_SCREEN_WIDTH": window.screen.width,
+      "BROWSER_SCREEN_HEIGHT": window.screen.height,
+      "BROWSER_COLOR_DEPTH": `${window.screen.colorDepth}`,
+      "BROWSER_USER_AGENT": navigator.userAgent,
+      "BROWSER_LANGUAGE": navigator.language,
+      "BROWSER_JAVA_ENABLED": navigator.javaEnabled(),
+      "BROWSER_PLUGINS": Array.from(navigator.plugins).map(plugin => plugin.name).join(", "),
+      "MOBILE": /Mobi|Android/i.test(navigator.userAgent),
       
-      userAgent: navigator.userAgent,
-      language: navigator.language,
-      javaEnabled: navigator.javaEnabled(),
-      plugins: Array.from(navigator.plugins).map(plugin => plugin.name).join(", "),
-      mobile: /Mobi|Android/i.test(navigator.userAgent),
+      "BROWSER_TZ": Intl.DateTimeFormat().resolvedOptions().timeZone,
+      "BROWSER_TZ_OFFSET": new Date().getTimezoneOffset(),
       
-      timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-      timeZoneOffset: new Date().getTimezoneOffset(),
-      
-      platform: navigator.platform,
+      "OS": navigator.platform,
   };
 
-  console.log(navigator.userAgent)
 
 
     try {
