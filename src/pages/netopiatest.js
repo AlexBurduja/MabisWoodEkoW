@@ -5,7 +5,6 @@ import React from 'react'
 
 function NetopiaTest() {
 
-  console.log(window.screen.colorDepth)
 
   return (
     <div>
