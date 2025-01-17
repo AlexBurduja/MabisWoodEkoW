@@ -1,4 +1,4 @@
-import { collectBrowserInfo, Netopia } from 'netopia-card';
+import { Netopia } from 'netopia-card';
 import crypto from 'crypto';
 
 export default async function handler(req, res) {
@@ -13,14 +13,14 @@ export default async function handler(req, res) {
 
     const userIP = req.headers['x-forwarded-for']?.split(',')[0] || req.socket.remoteAddress;
 
-
+    const ids = crypto.randomUUID()
 
     const paymentData = {
         order: {
           ntpID: '',
           dateTime: new Date().toISOString(),
-          description: `Comanda ${crypto.randomUUID()}`,
-          orderID: crypto.randomUUID(),
+          description: `Comanda ${ids}`,
+          orderID: ids,
           amount: invoiceData.amount,
           currency: 'RON',
           billing: {
@@ -63,6 +63,7 @@ export default async function handler(req, res) {
       netopia.setBrowserData(browserInfo, userIP)
 
       const payment = await netopia.startPayment();
+      console.log(payment)
 
       res.status(200).json({
         paymentURL: payment.payment.paymentURL
