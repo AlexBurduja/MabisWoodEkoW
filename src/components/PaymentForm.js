@@ -31,7 +31,7 @@ const PaymentForm = () => {
       });
       
       if (data.paymentURL) {
-        // Redirect directly to the payment URL
+        console.log(data);
         window.location.href = data.paymentURL;
       } else {
         console.error('No payment URL received');
