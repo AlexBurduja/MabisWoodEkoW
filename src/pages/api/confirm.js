@@ -12,14 +12,8 @@ export default async function handler(req, res) {
       const status = payment.status;
       const returnUrl = `${process.env.FRONTEND_URL}/payment-status?orderId=${order.id}&status=${status}`;
 
-      // Respond with the required 200 status code for Netopia
-      res.status(200).json({ errorCode: 0 });
-
       // Redirect to the frontend return URL with the status
-      // Ensure that the redirect happens only after the response has been sent
-      setImmediate(() => {
-        return res.redirect(returnUrl);
-      });
+      return res.redirect(returnUrl);
 
     } catch (error) {
       console.error('Error processing payment:', error);
