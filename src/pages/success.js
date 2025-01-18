@@ -9,7 +9,7 @@ function Success() {
       try {
         // Fetch the data from the backend (confirm.js)
         const response = await fetch('/api/confirm', {
-          method: 'POST',  // or GET, depending on your setup
+          method: 'GET',  // or GET, depending on your setup
           headers: {
             'Content-Type': 'application/json',
           },
