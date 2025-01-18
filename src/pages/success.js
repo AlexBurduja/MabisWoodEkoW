@@ -1,12 +1,15 @@
 'use client'
 import React from 'react';
 import { useSearchParams } from 'next/navigation'
+import { db } from '../../firebase-config';
 
 function Success() {
   const searchParams = useSearchParams();
 
   const orderId = searchParams.get('orderId')
-  console.log(orderId)
+  
+  
+  const ref = ref(db, `orders/${orderId}`)
 
   return (
     <div>
