@@ -8,12 +8,14 @@ const PaymentStatus = () => {
   useEffect(() => {
     // Wait a bit before performing the redirect
     const timer = setTimeout(() => {
-      if (status === '3') {
+      if (status === 3) {
+        console.log('success')
         // Payment successful, redirect to success page
-        router.replace(`/success?orderId=${orderId}`);
+        // router.replace(`/success?orderId=${orderId}`);
       } else {
+        console.log('cancel')
         // Payment failed or canceled, redirect to cancel page
-        router.replace(`/cancel?orderId=${orderId}`);
+        // router.replace(`/cancel?orderId=${orderId}`);
       }
     }, 2000);  // Add a slight delay to display the loading spinner
 
