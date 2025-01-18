@@ -3,10 +3,10 @@ import { db } from "../../../firebase-config";
 
 export async function confirmOrder({ order, payment }) {
     // Here you can handle order processing logic. For example:
-    console.log('Processing order:', order);
+    console.log('Processing order:', order.orderID);
     console.log('Payment status:', payment.status);
 
-    await setDoc(doc(db, `orders/${order.orderId}`), {
+    await setDoc(doc(db, `orders/${order.orderID}`), {
         order: order,
         payment: payment
     })
