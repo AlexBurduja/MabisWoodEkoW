@@ -1,55 +1,16 @@
-import React, { useEffect, useState } from 'react';
+'use client'
+import React from 'react';
+import { useSearchParams } from 'next/navigation'
 
 function Success() {
-  const [status, setStatus] = useState(null);
-  const [orderDetails, setOrderDetails] = useState(null);
+  const searchParams = useSearchParams();
 
-  useEffect(() => {
-    const fetchOrderData = async () => {
-      try {
-        // Fetch the data from the backend (confirm.js)
-        const response = await fetch('/api/confirm', {
-          method: 'GET',  // or GET, depending on your setup
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          // No need to pass anything in the body as the backend handles it
-        });
-
-        const result = await response.json();
-
-        if (response.ok && result.errorCode === 0) {
-          // On success, display order and payment status
-          setOrderDetails({
-            order: result.order,
-            payment: result.payment,
-          });
-          setStatus('Payment Successful');
-        } else {
-          setStatus('Payment Failed');
-        }
-      } catch (error) {
-        console.error('Error fetching payment data:', error);
-        setStatus('Error processing payment');
-      }
-    };
-
-    fetchOrderData();
-  }, []);
+  const orderId = searchParams.get('orderId')
+  console.log(orderId)
 
   return (
     <div>
-      {status ? (
-        <h2>{status}</h2>
-      ) : (
-        <h2>Processing payment...</h2>
-      )}
-      {orderDetails && (
-        <div>
-          <p>Order ID: {orderDetails.order_id}</p>
-          <p>Payment Status: {orderDetails.payment_status}</p>
-        </div>
-      )}
+      { orderId }
     </div>
   );
 }
