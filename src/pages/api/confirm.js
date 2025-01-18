@@ -8,7 +8,7 @@ export default async function handler(req, res) {
         throw new Error('Invalid request body');
       }
 
-      // Generate the redirect URL with status and orderId
+      // Generate the redirect URL with status
       const status = payment.status;
       const returnUrl = `${process.env.FRONTEND_URL}/payment-status?orderId=${order.id}&status=${status}`;
 
@@ -16,7 +16,10 @@ export default async function handler(req, res) {
       res.status(200).json({ errorCode: 0 });
 
       // Redirect to the frontend return URL with the status
-      return res.redirect(returnUrl);
+      // Ensure that the redirect happens only after the response has been sent
+      setImmediate(() => {
+        return res.redirect(returnUrl);
+      });
 
     } catch (error) {
       console.error('Error processing payment:', error);
