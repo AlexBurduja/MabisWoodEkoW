@@ -11,16 +11,10 @@ export default async function handler(req, res) {
       // Perform user redirection (handled asynchronously, not for Netopia)
       if (payment.status === 3) {
         // Payment successful
-        setImmediate(() => {
-          res.writeHead(302, { Location: `/success?orderId=${order.orderID}` });
-          res.end();
-        });
+        return res.redirect('/success', 200)
       } else {
         // Payment failed or canceled
-        setImmediate(() => {
-          res.writeHead(302, { Location: `/cancel?orderId=${order.orderID}` });
-          res.end();
-        });
+        return res.redirect('/cancel', 200)
       }
     } catch (error) {
       console.error('Error processing payment:', error);
