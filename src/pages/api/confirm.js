@@ -1,3 +1,5 @@
+import { NextResponse } from "next/server";
+
 export default async function handler(req, res) {
   if (req.method === 'POST') {
     try {
@@ -12,7 +14,7 @@ export default async function handler(req, res) {
       res.status(200).json({ errorCode: 0 });
 
       // Now, redirect the user to the return URL (you can add additional parameters here)
-      return res.redirect(returnUrl);
+      return NextResponse.redirect('https://mabiswoodeko.vercel.app/cancel')
 
     } catch (error) {
       console.error('Error processing payment:', error);
