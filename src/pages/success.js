@@ -1,64 +1,57 @@
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
+import React, { useEffect, useState } from 'react';
 
-const PaymentStatus = () => {
-  const router = useRouter();
-  const { orderId } = router.query;  // Get the orderId from the URL
-  const [status, setStatus] = useState(null);  // State to store the payment status
+function Success() {
+  const [status, setStatus] = useState(null);
+  const [orderDetails, setOrderDetails] = useState(null);
 
   useEffect(() => {
-    const fetchPaymentStatus = async () => {
+    const fetchOrderData = async () => {
       try {
-        // Make a POST request to the payment confirmation API
+        // Fetch the data from the backend (confirm.js)
         const response = await fetch('/api/confirm', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ order: { id: orderId }, payment: { status: 3 } })  // You can use a mock payment status here
+          method: 'POST',  // or GET, depending on your setup
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          // No need to pass anything in the body as the backend handles it
         });
 
-        const data = await response.json();
-        
-        if (data.errorCode === 0) {
-          // Store the status in the state
-          setStatus(data.status);
+        const result = await response.json();
+
+        if (response.ok && result.errorCode === 0) {
+          // On success, display order and payment status
+          setOrderDetails({
+            order: result.order,
+            payment: result.payment,
+          });
+          setStatus('Payment Successful');
         } else {
-          console.error('Error processing payment');
+          setStatus('Payment Failed');
         }
       } catch (error) {
-        console.error('Request failed', error);
+        console.error('Error fetching payment data:', error);
+        setStatus('Error processing payment');
       }
     };
 
-    if (orderId) {
-      fetchPaymentStatus();
-    }
-  }, [orderId]);
-
-  useEffect(() => {
-    if (status !== null) {
-      // Wait a bit before performing the redirect based on the status
-      const timer = setTimeout(() => {
-        if (status === 3) {
-          console.log('Payment successful');
-          router.replace(`/success?orderId=${orderId}`);
-        } else {
-          console.log('Payment failed or canceled');
-          router.replace(`/cancel?orderId=${orderId}`);
-        }
-      }, 2000);
-
-      return () => clearTimeout(timer);  // Cleanup the timer if the component unmounts
-    }
-  }, [status, orderId, router]);
+    fetchOrderData();
+  }, []);
 
   return (
     <div>
-      <p>Processing your payment...</p>
-      <p>Please wait while we confirm the status.</p>
-      {/* A simple loading spinner or animation */}
-      <div className="spinner"></div>
+      {status ? (
+        <h2>{status}</h2>
+      ) : (
+        <h2>Processing payment...</h2>
+      )}
+      {orderDetails && (
+        <div>
+          <p>Order ID: {orderDetails.order_id}</p>
+          <p>Payment Status: {orderDetails.payment_status}</p>
+        </div>
+      )}
     </div>
   );
-};
+}
 
-export default PaymentStatus;
+export default Success;

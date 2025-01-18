@@ -1,25 +1,22 @@
 export default async function handler(req, res) {
   if (req.method === 'POST') {
     try {
-      const { order, payment } = req.body;
+      const { order, payment } = req.body; // Netopia sends this data
 
-      // Check if order and payment are available in the request body
-      if (!order || !payment) {
-        throw new Error('Invalid request body');
-      }
+      console.log('Order ID:', order);
+      console.log('Payment Status:', payment);
 
-      // Send the response with the payment status and error code
-      const status = payment.status;
+      // Send a response to the frontend with the order and payment status
       return res.status(200).json({
-        errorCode: 0,
-        status: status,  // Add the payment status in the response
+        errorCode: 0,           // Success code
+        order,               // Send order ID from Netopia
+        payment,         // Send payment status from Netopia
       });
-
     } catch (error) {
       console.error('Error processing payment:', error);
-      res.status(400).json({ errorCode: 1 });
+      return res.status(500).json({ error: 'Internal Server Error' });
     }
   } else {
-    res.status(405).json({ error: 'Method Not Allowed' });
+    return res.status(405).json({ error: 'Method Not Allowed' });
   }
 }
