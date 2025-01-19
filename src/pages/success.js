@@ -33,8 +33,15 @@ function Success() {
     return (
     <div>
       <p>Success Page</p>
-      <p>{order.payment?.message}</p>
-      <p>{order.payment?.amount}</p>
+      {order ?
+        <div>
+        <p>{order.payment?.message}</p>
+        <p>{order.payment?.amount}</p> 
+        </div>
+        : 
+        blabla
+
+      }
     </div>
   )
 }

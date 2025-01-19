@@ -48,7 +48,11 @@ function CancelPage() {
             <div className='cancelButtonsAndText'>
                 <div>
                     <p>Payment failed/canceled.</p>
+                    {order ? 
                     <p>{order.payment?.message}</p>
+                    :
+                    <p>No Message</p>
+                }
                     <p>What do you wish to do next?</p>
                 </div>
                 
