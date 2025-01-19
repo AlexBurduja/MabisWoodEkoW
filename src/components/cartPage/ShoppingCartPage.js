@@ -1,4 +1,5 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
+'use client'
 import { React, useContext, useEffect, useState } from 'react';
 import { AiOutlineShopping } from 'react-icons/ai'
 import { FaCcVisa, FaCcMastercard, FaCcApplePay } from 'react-icons/fa'
@@ -17,6 +18,9 @@ import { useRouter } from 'next/router';
 import Loading from '../reusableComponents/Loading';
 import { logEvent,getAnalytics } from 'firebase/analytics';
 import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
+import dynamic from 'next/dynamic';
+
+const Map = dynamic(() => import('../reusableComponents/Map'), { ssr: false });
 
  export default function ShoppingCartPage() {
 
@@ -1709,7 +1713,7 @@ language === 'IT' ? 'Ritiro presso uno dei nostri negozi' :
                {pickUp && (
                 <>
                 <div style={{ width: '100%', height: '300px' }}>
-                  <MapContainer style={{width: '100%', height: '100%'}} center={center} zoom={zoom} key={center}>
+                  {/* <MapContainer style={{width: '100%', height: '100%'}} center={center} zoom={zoom} key={center}>
                     <TileLayer
                       url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />
@@ -1723,7 +1727,8 @@ language === 'IT' ? 'Ritiro presso uno dei nostri negozi' :
                         Arges
                       </Popup>
                     </Marker>
-                  </MapContainer>
+                  </MapContainer> */}
+                  <Map />
                   </div>
                  
                    <div className='googleMapDiv'>

@@ -2,6 +2,7 @@ import { useRouter } from 'next/router'
 import { AuthProvider} from '../../FirebaseAuthContext'
 
 import 'react-toastify/dist/ReactToastify.css';
+import 'leaflet/dist/leaflet.css'
 
 ///This part was awfull trust me. Also, hi there stranger!
 
