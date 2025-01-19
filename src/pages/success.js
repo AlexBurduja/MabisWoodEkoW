@@ -39,7 +39,7 @@ function Success() {
         <p>{order.payment?.amount}</p> 
         </div>
         : 
-        blabla
+        <p>blabla</p>
 
       }
     </div>
