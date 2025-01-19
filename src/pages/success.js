@@ -1,44 +1,55 @@
-'use client'
+'use client';
 import React, { useEffect, useState } from 'react';
-import { useSearchParams } from 'next/navigation'
+import { useSearchParams } from 'next/navigation';
 import { db } from '../../firebase-config';
-import { getDatabase } from 'firebase/database'
 import { doc, getDoc } from 'firebase/firestore';
 
 function Success() {
-  const [order, setOrder] = useState({})
-  const [status, setStatus] = useState()
+  const [order, setOrder] = useState(null); // Use `null` as the initial state for better clarity
   const searchParams = useSearchParams();
-
-  const orderId = searchParams.get('orderId')
-  
-  useEffect(() => {
-    
-  const getOrder = async () => {
-    const ref = doc(db, `orders/${orderId}`)
-  
-    const data = await getDoc(ref)
-    setOrder(data.data())
-    console.log(order)
-  };
-
-  getOrder();
-  }, [])
+  const orderId = searchParams.get('orderId'); // Retrieve orderId from URL
 
   useEffect(() => {
-    console.log(order)
-  }, [order])
+    if (!orderId) {
+      console.error("Order ID is missing from the URL");
+      return;
+    }
 
+    const getOrder = async () => {
+      try {
+        const ref = doc(db, `orders/${orderId}`);
+        const data = await getDoc(ref);
+        if (data.exists()) {
+          setOrder(data.data());
+        } else {
+          console.error("No order found with the given ID");
+          setOrder(null); // Explicitly set order to null if not found
+        }
+      } catch (error) {
+        console.error("Error fetching order:", error);
+      }
+    };
+
+    getOrder();
+  }, [orderId]); // Depend on `orderId`
 
   return (
     <div>
-      {order && order.payment && order.payment.status === 3 ? 
-      "Payment was successfull" : 
-      order && order.payment.status !== 3 ?
-      "Payment was not successfull!" : 
-      "Loading"}
-  
-      { orderId }
+      {/* Conditional rendering for different states */}
+      {order ? (
+        order.payment?.status === 3 ? (
+          "Payment was successful"
+        ) : (
+          "Payment was not successful!"
+        )
+      ) : order === null ? (
+        "Loading..."
+      ) : (
+        "Order not found or error occurred"
+      )}
+
+      {/* Display the orderId for debugging */}
+      <div>Order ID: {orderId}</div>
     </div>
   );
 }
