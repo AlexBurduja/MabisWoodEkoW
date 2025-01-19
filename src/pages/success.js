@@ -7,6 +7,7 @@ import { doc, getDoc } from 'firebase/firestore';
 
 function Success() {
   const [order, setOrder] = useState({})
+  const [status, setStatus] = useState()
   const searchParams = useSearchParams();
 
   const orderId = searchParams.get('orderId')
@@ -31,11 +32,12 @@ function Success() {
 
   return (
     <div>
-      {order ? order.payment.status === 3 ? 
-      "Payment was successfull" 
-      : 
-      "Payment was not successfull!" : "Loading"
-      }
+      {order && order.payment && order.payment.status === 3 ? 
+      "Payment was successfull" : 
+      order && order.payment.status !== 3 ?
+      "Payment was not successfull!" : 
+      "Loading"}
+  
       { orderId }
     </div>
   );
