@@ -31,10 +31,10 @@ function Success() {
 
   return (
     <div>
-      {order.payment.status === 3 ? 
+      {order ? order.payment.status === 3 ? 
       "Payment was successfull" 
       : 
-      "Payment was not successfull!"
+      "Payment was not successfull!" : "Loading"
       }
       { orderId }
     </div>
