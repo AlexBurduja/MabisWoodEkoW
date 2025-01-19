@@ -62,6 +62,7 @@ function Success() {
           "Payment was successful"
         ) : (
           "Payment was not successful!"
+          `${order.payment?.message}`
         )
       ) : (
         "Order not found or an error occurred"
