@@ -33,7 +33,7 @@ function LoadingOrder() {
           if (orderData.payment?.status === 3) {
             clearInterval(intervalId);
             clearTimeout(timeoutId);
-            router.push(`/LoadingOrder?orderId=${orderId}`);
+            router.push(`/success?orderId=${orderId}`);
           } else if (orderData.payment) {
             clearInterval(intervalId);
             clearTimeout(timeoutId);
