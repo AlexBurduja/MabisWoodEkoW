@@ -1,8 +1,37 @@
 import Link from 'next/link'
-import React from 'react'
+import { useSearchParams } from 'next/navigation';
+import React, { useEffect, useState } from 'react';
 import { FcCancel } from 'react-icons/fc'
+import { db } from '../../firebase-config';
 
 function CancelPage() {
+    const [order,setOrder] = useState(null)
+    const searchParams = useSearchParams();
+    const orderId = searchParams.get('orderId');
+
+    useEffect(() => {
+    if (!orderId) {
+        console.error("Order ID is missing from the URL");
+        return;
+    }
+
+    const checkOrder = async () => {
+      try {
+        const ref = doc(db, `orders/${orderId}`);
+        const data = await getDoc(ref);
+        if (data.exists()) {
+            const orderData = data.data();
+            setOrder(orderData);
+        }
+      } catch (error) {
+        console.error("Error fetching order:", error);
+      
+      };
+    };
+
+    checkOrder();
+    }, [])
+
   return (
     <div className='cancelFlex'>
         
@@ -19,6 +48,7 @@ function CancelPage() {
             <div className='cancelButtonsAndText'>
                 <div>
                     <p>Payment failed/canceled.</p>
+                    <p>{order.payment.message}</p>
                     <p>What do you wish to do next?</p>
                 </div>
                 
