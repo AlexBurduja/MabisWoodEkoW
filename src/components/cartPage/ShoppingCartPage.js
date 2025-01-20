@@ -4,7 +4,7 @@ import { React, useContext, useEffect, useState } from 'react';
 import { AiOutlineShopping } from 'react-icons/ai'
 import { FaCcVisa, FaCcMastercard, FaCcApplePay } from 'react-icons/fa'
 import { FirebaseAuthContext } from '../../../FirebaseAuthContext';
-import { collection, deleteDoc, doc,getDoc,getDocs, updateDoc, writeBatch } from 'firebase/firestore';
+import { addDoc, collection, deleteDoc, doc,getDoc,getDocs, setDoc, updateDoc, writeBatch } from 'firebase/firestore';
 import { db } from '../../../firebase-config';
 import { RiShoppingCartLine } from 'react-icons/ri';
 import { loadStripe } from '@stripe/stripe-js';
@@ -19,6 +19,7 @@ import Loading from '../reusableComponents/Loading';
 import { logEvent,getAnalytics } from 'firebase/analytics';
 import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
 import dynamic from 'next/dynamic';
+import axios from 'axios';
 
 const Map = dynamic(() => import('../reusableComponents/Map'), { ssr: false });
 
@@ -635,25 +636,84 @@ const Map = dynamic(() => import('../reusableComponents/Map'), { ssr: false });
           }
           
           if(deliverySelected === "card"){
-            redirectToCheckout()
 
-              localStorage.setItem("email", email);
-              localStorage.setItem("firstName", firstName);
-              localStorage.setItem("lastName", lastName);
-              localStorage.setItem("phoneNumber", phoneNumber);
-              localStorage.setItem("street", street);
-              localStorage.setItem("streetNo", streetNo);
-              localStorage.setItem("block", block);
-              localStorage.setItem("apartamentNo", apartamentNo);
-              localStorage.setItem("isCompanyChecked", isCompanyChecked);
-              localStorage.setItem("companyName", companyName);
-              localStorage.setItem("companyCui", companyCui);
-              localStorage.setItem("total", totalPrice)
-              localStorage.setItem('cart', JSON.stringify(cart));
-              localStorage.setItem('judet', selectedJudet.nume);
-              localStorage.setItem('orase', selectedOras);
-              localStorage.setItem('deliveryKm', deliveryKm);
-              localStorage.setItem('deliveryPrice', deliveryPrice);
+            const finalCheckoutStep = async () => {
+
+              const uuid = Array.from({length: 3}, () => 
+                Array.from({length: 3}, () => Math.floor(Math.random() * 10)).join('')).join('-')
+              const finalUuid = `MWE-${uuid}`
+    
+                const browserInfo = {
+                  "BROWSER_SCREEN_WIDTH": window.screen.width,
+                  "BROWSER_SCREEN_HEIGHT": window.screen.height,
+                  "BROWSER_COLOR_DEPTH": `${window.screen.colorDepth}`,
+                  "BROWSER_USER_AGENT": navigator.userAgent,
+                  "BROWSER_LANGUAGE": navigator.language,
+                  "BROWSER_JAVA_ENABLED": navigator.javaEnabled(),
+                  "BROWSER_PLUGINS": Array.from(navigator.plugins).map(plugin => plugin.name).join(", "),
+                  "MOBILE": /Mobi|Android/i.test(navigator.userAgent),
+                  
+                  "BROWSER_TZ": Intl.DateTimeFormat().resolvedOptions().timeZone,
+                  "BROWSER_TZ_OFFSET": new Date().getTimezoneOffset(),
+                  
+                  "OS": navigator.platform,
+              };
+                
+                try {
+                  const { data } = await axios.post('/api/payment/start', {
+                    invoiceData: {
+                      city: selectedJudet.nume,
+                      state: selectedOras,
+                      email: email,
+                      firstName: firstName,
+                      lastName: lastName,
+                      phoneNo: phoneNumber,
+                      street: street,
+                      streetNo: streetNo,
+                      block: block,
+                      apartamentNo: apartamentNo,
+                      amount: totalPricee,
+                      postalCode: '000000'
+                    },
+                    browserInfo,
+                    uuid: finalUuid
+                  });
+                  
+                  if (data.paymentURL) {
+
+                    await setDoc(doc(db, `orders/${finalUuid}`), {
+                      products: cart.map((cart) => cart),
+                      client: {
+                        city: selectedJudet.nume,
+                        state: selectedOras,
+                        email: email,
+                        firstName: firstName,
+                        lastName: lastName,
+                        phoneNo: phoneNumber,
+                        street: street,
+                        streetNo: streetNo,
+                        block: block,
+                        apartamentNo: apartamentNo,
+                        ...(companyCui && { companyCui: companyCui}),
+                        ...(companyName && { companyName: companyName}),
+          
+                      }
+                    })
+
+                    console.log(data);
+                    window.location.href = data.paymentURL;
+                  } else {
+                    console.error('No payment URL received');
+                  }
+            
+                } catch (error) {
+                  console.error('Payment initiation failed:', error);
+                }
+    
+    
+            }
+
+            finalCheckoutStep();
               
       
           } else if(deliverySelected === "ramburs" || "pickUp") {
@@ -708,11 +768,10 @@ const Map = dynamic(() => import('../reusableComponents/Map'), { ssr: false });
               currency: item.currency,
               value: item.price,
             });
-          });
+          });          
+      }
 
-        }
-
-
+      
         const handleEmailChange = e => {
           setEmail(e.target.value)
         }
@@ -778,63 +837,6 @@ const Map = dynamic(() => import('../reusableComponents/Map'), { ssr: false });
         }
       
         
-        let stripePromise;
-        
-        const getStripe = () => {
-        if(!stripePromise){
-          stripePromise = loadStripe("pk_test_51MQo3GLhCgTZCrVVShrOGDphb9M7MGq9YTOCW90JE5cVtrYsExpY49wClOSYqEn4Ezv9tGcuKIFtbBpSCIF1iDPT00wEyjkOIV")
-        }
-        return stripePromise
-      }
-
-      const stripeIds = cart.map(item => item.stripeId)
-      const itemQuantity = cart.map(item => item.quantity)
-
-      const items = []
-      for(let i= 0; i < cart.length; i++){
-        items.push({
-          price : stripeIds[i],
-          quantity : itemQuantity[i]
-        })
-      }
-
-      const checkoutOptions = {
-        lineItems: items,
-        mode: "payment",
-        customerEmail: email,
-        successUrl : `${typeof window !== 'undefined' && window.location.origin}/success`,
-        cancelUrl : `${typeof window !== 'undefined' && window.location.origin}/cancel`,
-        billingAddressCollection : 'required',
-        shippingAddressCollection: { allowedCountries : ['AC', 'AD', 'AE', 'AF', 'AG', 'AI', 'AL', 'AM', 'AO', 'AQ', 'AR', 'AT', 'AU', 'AW', 'AX', 'AZ', 'BA', 'BB', 'BD', 'BE', 'BF', 'BG', 'BH', 'BI', 'BJ', 'BL', 'BM', 'BN', 'BO', 'BQ', 'BR', 'BS', 'BT', 'BV', 'BW', 'BY', 'BZ', 'CA', 'CD', 'CF', 'CG', 'CH', 'CI', 'CK', 'CL', 'CM', 'CN', 'CO', 'CR', 'CV', 'CW', 'CY', 'CZ', 'DE', 'DJ', 'DK', 'DM', 'DO', 'DZ', 'EC', 'EE', 'EG', 'EH', 'ER', 'ES', 'ET', 'FI', 'FJ', 'FK', 'FO', 'FR', 'GA', 'GB', 'GD', 'GE', 'GF', 'GG', 'GH', 'GI', 'GL', 'GM', 'GN', 'GP', 'GQ', 'GR', 'GS', 'GT', 'GU', 'GW', 'GY', 'HK', 'HN', 'HR', 'HT', 'HU', 'ID', 'IE', 'IL', 'IM', 'IN', 'IO', 'IQ', 'IS', 'IT', 'JE', 'JM', 'JO', 'JP', 'KE', 'KG', 'KH', 'KI', 'KM', 'KN', 'KR', 'KW', 'KY', 'KZ', 'LA', 'LB', 'LC', 'LI', 'LK', 'LR', 'LS', 'LT', 'LU', 'LV', 'LY', 'MA', 'MC', 'MD', 'ME', 'MF', 'MG', 'MK', 'ML', 'MM', 'MN', 'MO', 'MQ', 'MR', 'MS', 'MT', 'MU', 'MV', 'MW', 'MX', 'MY', 'MZ', 'NA', 'NC', 'NE', 'NG', 'NI', 'NL', 'NO', 'NP', 'NR', 'NU', 'NZ', 'OM', 'PA', 'PE', 'PF', 'PG', 'PH', 'PK', 'PL', 'PM', 'PN', 'PR', 'PS', 'PT', 'PY', 'QA', 'RE', 'RO', 'RS', 'RU', 'RW', 'SA', 'SB', 'SC', 'SE', 'SG', 'SH', 'SI', 'SJ', 'SK', 'SL', 'SM', 'SN', 'SO', 'SR', 'SS', 'ST', 'SV', 'SX', 'SZ', 'TA', 'TC', 'TD', 'TF', 'TG', 'TH', 'TJ', 'TK', 'TL', 'TM', 'TN', 'TO', 'TR', 'TT', 'TV', 'TW', 'TZ', 'UA', 'UG', 'US', 'UY', 'UZ', 'VA', 'VC', 'VE', 'VG', 'VN', 'VU', 'WF', 'WS', 'XK', 'YE', 'YT', 'ZA', 'ZM', 'ZW', 'ZZ'] }
-      }
-
-      const [loadingStripe, setLoadingStripe] = useState(false)
-
-      const redirectToCheckout = async () => {
-        setLoadingStripe(true)
-        const stripe = await getStripe()
-        const { error } = await stripe.redirectToCheckout(checkoutOptions)
-        storeAdditionalInvoiceDataInLocalStorage();
-        setLoadingStripe(false);
-        if(!error){
-          try {
-            emailjs.send('service_eyuz8pg', 'template_xeem2dd', {
-              subject: `Comanda de la ${email} (${firstName} ${lastName})`,
-              metoda: `${firstName} ${lastName} a facut o plata in valoare de 3 RON`,
-              
-              name : `Nume : ${firstName} ${lastName} ( ${email} )`,
-              phone: `Telefon : <b>${phoneNumber}</b>`,
-              street : `Strada :<b>${street}</b>`,
-              streetNo: `Nr. Strazii: <b>${streetNo}</b>`,
-            bloc : `Bloc : <b>${block}</b>`,
-            apartNo : `Apartament : <b>${apartamentNo}</b>`,
-          }, 'crU6K8bQnftB81z-j')
-        } catch (err) {
-          console.error(err)
-        }
-        } 
-      }
-
 
       function removeItemFromCart(item){
 
@@ -1121,151 +1123,6 @@ const Map = dynamic(() => import('../reusableComponents/Map'), { ssr: false });
       });
   }, [selectedJudet, selectedOras]);
 
-  
-  function random5DigitNumber (){
-    const min = 10000
-    const max = 99999
-
-    return Math.floor(Math.random() * (max - min + 1)) + min 
-  }
-
-  function getDate(){
-    const d = new Date();
-    const day = d.getDate();
-    const month = d.getMonth() + 1; // Adding 1 since months are zero-based
-    const year = d.getFullYear();
-
-    const formattedDate = `${day < 10 ? '0' : ''}${day}.${month < 10 ? '0' : ''}${month}.${year}`;
-
-    return formattedDate;
-  }
-
-  const handleGenerateInvoice = async () => {
-    const pdfDoc = await PDFDocument.create();
-    const page = pdfDoc.addPage([595, 842]);
-
-    
-    const response = await fetch('/api/get-image');
-    const imageArrayBuffer = await response.arrayBuffer();
-    const imageUint8Array = new Uint8Array(imageArrayBuffer);
-
-    const logoPng = await pdfDoc.embedPng(imageUint8Array);
-    const logoDims = logoPng.scale(0.2);
-    
-    const boldFont = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
-
-    const topMargin = 40;
-    
-    page.drawImage(logoPng, {
-      x: page.getWidth() - logoDims.width - topMargin,
-      y: page.getHeight() - logoDims.height - topMargin,
-      width: logoDims.width,
-      height: logoDims.height,
-    });
-
-    page.drawText(`Numar Factura: #MW${random5DigitNumber()}`, {x: page.getWidth() - logoDims.width - 50, y: page.getHeight() - logoDims.height - 60, size: 14});
-    page.drawText(`Data Facturare: ${getDate()}`, {x: page.getWidth() - logoDims.width - 50, y: page.getHeight() - logoDims.height - 80, size: 14});
-    
-    // Add text for company name, products, prices, delivery, and subtotal
-    const streetText = `Str. ${street} Nr. ${streetNo}, Bloc.${block}, Ap.${apartamentNo}, ${selectedJudet.nume}, ${selectedOras}`;
-    const phone = phoneNumber;
-
-    // Calculate the width of streetText in pixels
-    const streetTextWidth = (await pdfDoc.embedFont(StandardFonts.Helvetica)).widthOfTextAtSize(streetText, 12);
-    console.log(streetTextWidth)
-
-    // Calculate the maximum width allowed for the streetText
-    const maxStreetTextWidth = 300;
-
-    // Calculate the Y-coordinate for the phone number text
-    let phoneNumberY;
-
-    if (streetTextWidth > maxStreetTextWidth) {
-        phoneNumberY = page.getHeight() - logoDims.height - 110;
-    } else {
-        phoneNumberY = page.getHeight() - logoDims.height - 100;
-    }
-
-    page.drawText(`Mabis Wood Eko`, { x: topMargin, y: page.getHeight() - logoDims.height + topMargin * 2, size: 18, color: rgb(0, 0, 0), font:boldFont });
-    page.drawText(`Strada Alunis Nr.190B, Comuna Bogati, Judet Arges`, { x: 40, y: 752, size: 12, color: rgb(0, 0, 0) });
-    page.drawText(`www.mabiswood.ro`, { x: 40, y: 732, size: 12, color: rgb(0, 0, 0) });
-    page.drawText(`+40721648424`, { x: 40, y: 712, size: 12, color: rgb(0, 0, 0) });
-
-    page.drawText('Date facturare:', {x: 40, y: page.getHeight() - logoDims.height - 40, size: 12, color: rgb(0,0,0)})
-    page.drawLine({start: {x:40, y:page.getHeight()- logoDims.height - 40 - 5}, end: {x:100 + 50, y:page.getHeight() - logoDims.height - 40 - 5}, thickness: 1, color: rgb(0,0,0)})
-
-    page.drawText(`${firstName} ${lastName} (${email})`, {x: 40, y: page.getHeight() - logoDims.height - 60, size: 12, color: rgb(0,0,0)})
-    page.drawText(streetText, { x: 40, y: page.getHeight() - logoDims.height - 80, size: 12, color: rgb(0, 0, 0), maxWidth: maxStreetTextWidth, lineHeight: 12 });
-    page.drawText(phone, { x: 40, y: phoneNumberY, size: 12, color: rgb(0, 0, 0) });
-
-
-
-  const tableHeaders = ['Produs', 'Cantitate', 'Pret/buc', 'Pret Total'];
-  const headerTextSize = 12;
-  const lineHeight = 20;
-  const tableWidth = page.getWidth() * 0.9; // Set table width to 90% of the page width
-  const startX = (page.getWidth() - tableWidth) / 2;
-  let y = page.getHeight() - logoDims.height - 180; // Adjust this value based on your layout
-
-  // Draw table header row
-  let headerX = startX;
-  for (const header of tableHeaders) {
-    page.drawText(header, { x: headerX, y, size: headerTextSize, color: rgb(0, 0, 0) });
-    headerX += tableWidth / 4; // Divide the table width by the number of columns
-  }
-
-  // Draw horizontal line under the headers
-  const headerLineY = y - 5;
-  page.drawLine({ start: { x: startX, y: headerLineY }, end: { x: startX + tableWidth, y: headerLineY }, thickness: 1, color: rgb(0, 0, 0) });
-
-  y -= lineHeight;
-
-  // Draw table rows for each cart item
-    for (const item of cart) {
-      const { title, quantity, price, kg } = item;
-      const total = quantity * price;
-
-      let rowX = startX;
-      page.drawText(title + `(${kg}KG)`, { x: rowX, y, size: 12, color: rgb(0, 0, 0) });
-      rowX += tableWidth / 4;
-      page.drawText(quantity.toString(), { x: rowX, y, size: 12, color: rgb(0, 0, 0) });
-      rowX += tableWidth / 4;
-      page.drawText(`${price} RON`, { x: rowX, y, size: 12, color: rgb(0, 0, 0) });
-      rowX += tableWidth / 4;
-      page.drawText(`${total} RON`, { x: rowX, y, size: 12, color: rgb(0, 0, 0) });
-
-      // Draw horizontal line under each row
-      const rowLineY = y - 5;
-      page.drawLine({ start: { x: startX, y: rowLineY }, end: { x: startX + tableWidth, y: rowLineY }, thickness: 1, color: rgb(0, 0, 0) });
-
-      y -= lineHeight;
-    }
-
-    const subtotal = cart.reduce((acc, item) => acc + item.quantity * item.price, 0).toFixed(2);
-    
-    page.drawText('Subtotal: ', { x: startX + tableWidth - 150, y, size: 12, font: boldFont, color: rgb(0.55,0.55,0.55) });
-    page.drawText(`${subtotal} RON`, { x: startX + tableWidth - 80, y, size: 12, color: rgb(0, 0, 0) });
-    
-    page.drawText('Livrare: ', { x: startX + tableWidth - 150, y: y - 20, size: 12, font: boldFont, color: rgb(0.55,0.55,0.55) });
-    page.drawText(deliveryKm <= 25 ? 'GRATIS' : `${deliveryPrice.toFixed(2)} RON`, { x: startX + tableWidth - 80 , y: y - 20, size: 12, color: rgb(0, 0, 0) });
-    
-    page.drawLine({start: {x: startX + tableWidth, y: y-5}, end: {x: startX+tableWidth - 90 , y: y-5}, color: rgb(0.55,0.55,0.55)})
-    page.drawLine({start: {x: 350, y: y-25}, end: {x: startX+tableWidth , y: y-25}})
-
-    page.drawText('Pret final: ', { x: 360, y: y - 50, size: 15, font: boldFont, color: rgb(0,0,0) });
-    page.drawText(`${deliveryPrice + Number(subtotal)} RON`, { x: 460, y: y - 50, size: 15, color: rgb(0, 0, 0), font: boldFont });
-    
-    page.drawLine({start: {x: 440, y: y-60}, end: {x: startX+tableWidth , y: y-60}})
-    
-    
-    const pdfBytes = await pdfDoc.save();
-
-    // Create a blob from the PDF bytes and open it in a new tab
-    const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-    const url = URL.createObjectURL(blob);
-    window.open(url);
-  };
-
   const storeAdditionalInvoiceDataInLocalStorage = () => {
       localStorage.setItem('cart', JSON.stringify(cart));
       localStorage.setItem('judet', selectedJudet.nume);
@@ -1311,7 +1168,6 @@ const Map = dynamic(() => import('../reusableComponents/Map'), { ssr: false });
      : loading ? <Loading /> : 
      <>
      <div className='pageHeader'>
-                                              <button onClick={handleGenerateInvoice}>Generate Invoice</button>
    <h1>{language === "FR" ? "Votre panier" :
   language === "RO" ? "Cosul dumneavoastra." :
   language === "DE" ? "Ihr Warenkorb" :
@@ -1798,7 +1654,7 @@ language === 'IT' ? 'Ritiro presso uno dei nostri negozi' :
                  </div>
                
                <button className='checkoutButton' onClick={checkout}>
-                {loadingStripe ? 
+                {/* {loadingStripe ? 
                 (language === 'Romania' ? 'Se încarcă...' :
                 language === 'France' ? 'Chargement...' :
                 language === 'Germany' ? 'Wird geladen...' :
@@ -1810,7 +1666,7 @@ language === 'IT' ? 'Ritiro presso uno dei nostri negozi' :
                 language === 'Germany' ? 'Zur Kasse' :
                 language === 'Italy' ? 'Checkout' :
                 'Checkout')
-                }
+                } */}
               </button>
                
                </div>

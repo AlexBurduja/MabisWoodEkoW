@@ -12,8 +12,7 @@ export default async function handler(req, res) {
       language: 'EN',
     });
 
-    const { invoiceData, browserInfo } = req.body;
-    const ids = crypto.randomUUID();
+    const { invoiceData, browserInfo, uuid } = req.body;
 
     const paymentRequest = {
       config: {
@@ -23,13 +22,13 @@ export default async function handler(req, res) {
       order: {
         posSignature: process.env.NETOPIA_SIGNATURE,
         dateTime: new Date().toISOString(),
-        description: `Comanda ${ids}`,
-        orderID: ids,
+        description: `Comanda ${uuid}`,
+        orderID: uuid,
         amount: invoiceData.amount,
         currency: 'RON',
         billing: {
           email: invoiceData.email,
-          phone: '+407xxxxxxxx',
+          phone: invoiceData.phoneNo,
           firstName: invoiceData.firstName,
           lastName: invoiceData.lastName,
           city: invoiceData.city,
@@ -49,7 +48,7 @@ export default async function handler(req, res) {
           type: 'card',
         },
         data: {
-          customKey: 'customValue', // Optional custom attributes
+          customKey: 'customValue',
         },
       },
     };

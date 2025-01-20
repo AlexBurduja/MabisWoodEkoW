@@ -1,4 +1,4 @@
-import { doc, setDoc } from "firebase/firestore";
+import { addDoc, doc, setDoc, updateDoc } from "firebase/firestore";
 import { db } from "../../../firebase-config";
 
 export async function confirmOrder({ order, payment }) {
@@ -6,7 +6,7 @@ export async function confirmOrder({ order, payment }) {
     console.log('Processing order:', order.orderID);
     console.log('Payment status:', payment.status);
 
-    await setDoc(doc(db, `orders/${order.orderID}`), {
+    await updateDoc(doc(db, `orders/${order.orderID}`), {
         order: order,
         payment: payment
     })

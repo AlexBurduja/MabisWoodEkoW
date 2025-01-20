@@ -5,7 +5,7 @@ import axios from 'axios';
 const PaymentForm = () => {
   const [paymentData, setPaymentData] = useState(null);
 
-  const handleSubmit = async (values) => {
+  const handleNetopia = async (values) => {
     const browserInfo = {
       "BROWSER_SCREEN_WIDTH": window.screen.width,
       "BROWSER_SCREEN_HEIGHT": window.screen.height,
