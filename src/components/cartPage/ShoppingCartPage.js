@@ -1568,7 +1568,7 @@ language === 'IT' ? 'Ritiro presso uno dei nostri negozi' :
 
                {pickUp && (
                 <>
-                <div style={{ width: '100%', height: '300px' }}>
+                {/* <div style={{ width: '100%', height: '300px' }}> */}
                   {/* <MapContainer style={{width: '100%', height: '100%'}} center={center} zoom={zoom} key={center}>
                     <TileLayer
                       url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -1584,8 +1584,8 @@ language === 'IT' ? 'Ritiro presso uno dei nostri negozi' :
                       </Popup>
                     </Marker>
                   </MapContainer> */}
+                  {/* </div> */}
                   <Map />
-                  </div>
                  
                    <div className='googleMapDiv'>
                       <div className='selectionMapDiv'>
