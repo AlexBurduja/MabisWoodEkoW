@@ -20,7 +20,7 @@ export function ProductCardComponent(props) {
   analytics = getAnalytics();
   }
 
-  const { title ,kg, currency,  price, image, description, id, stripeId } = props
+  const { title ,kg, currency,  price, image, description, id } = props
   
 
   const { user, conditional } = useContext(FirebaseAuthContext)
@@ -164,7 +164,6 @@ useEffect(() => {
       price : price,
       currency: currency,
       kg: kg,
-      stripeId : stripeId,
       image : url
     }
 
@@ -209,7 +208,6 @@ useEffect(() => {
       price : price,
       currency: currency,
       kg: kg,
-      stripeId : stripeId,
       image : url
     }
 
@@ -240,7 +238,6 @@ useEffect(() => {
   logEvent(analytics, 'add_to_cart', {
     items: [{
       item_name: title,
-      item_id: stripeId,
       quantity: counter,
       price: price
     }],

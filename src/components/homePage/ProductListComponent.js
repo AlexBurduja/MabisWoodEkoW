@@ -70,7 +70,6 @@ export function ProductListComponent({ filter }) {
               price={product.price}
               image={product.image}
               description={product.description}
-              stripeId={product.stripeId}
               id={product.id}
             />
           ))}

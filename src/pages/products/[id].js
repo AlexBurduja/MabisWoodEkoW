@@ -108,7 +108,6 @@ import { getAnalytics, logEvent } from 'firebase/analytics';
       price : productDetails.price,
       currency: productDetails.currency,
       kg: productDetails.kg,
-      stripeId : productDetails.stripeId,
       image : productDetails.image
     }
 
@@ -152,7 +151,6 @@ import { getAnalytics, logEvent } from 'firebase/analytics';
       price : productDetails.price,
       currency: productDetails.currency,
       kg: productDetails.kg,
-      stripeId : productDetails.stripeId,
       image : productDetails.image
     }
 
@@ -183,7 +181,6 @@ import { getAnalytics, logEvent } from 'firebase/analytics';
   logEvent(analytics, 'add_to_cart', {
     items: [{
       item_name: productDetails.title,
-      item_id: productDetails.stripeId,
       quantity: counter,
       price: productDetails.price
     }],

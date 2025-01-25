@@ -1,7 +1,11 @@
 import axios from "axios";
+import { Attachment, EmailParams, MailerSend, Recipient, Sender } from "mailersend";
+import fs from "fs"
 
 export default async function handler(req, res) {
     if (req.method === "POST") {
+        const order = req.body
+        console.log(order.order.client.firstName)
         try {
             // Create the invoice
             const createInvoiceResponse = await axios.post(
@@ -9,30 +13,27 @@ export default async function handler(req, res) {
                 {
                     "companyVatCode": "RO46728003",
                     "client": {
-                        "name": "Intelligent IT",
-                        "vatCode": "RO12345678",
+                        "name": `${order.order.client.firstName} ${order.order.client.lastName}`,
                         "isTaxPayer": true,
-                        "address": "str. Sperantei, nr. 5",
-                        "city": "Sibiu",
+                        "address": `Str. ${order.order.client.street} Nr.${order.order.client.streetNo}, Bl.${order.order.client.block}, Ap.${order.order.client.apartamentNo}`,
+                        "city": `${order.order.client.city}, ${order.order.client.state}`,
                         "country": "Romania",
-                        "email": "office@intelligent.ro",
+                        "email": `${order.order.client.email}`,
                     },
                     "issueDate": "2021-02-09",
                     "seriesName": "FCT",
                     "dueDate": "2021-02-28",
                     "deliveryDate": "2021-02-28",
-                    "products": [
-                        {
-                            "name": "Peleti20",
-                            "code": "P_20",
-                            "isDiscount": false,
-                            "measuringUnitName": "tona",
-                            "currency": "RON",
-                            "quantity": 10,
-                            "price": 300,
-                            "isService": false,
-                        },
-                    ],
+                    "products": order.order.products.map((item) => ({
+                        name: item.title,
+                        code: item.id,
+                        isDiscount: false,
+                        measuringUnitName: 'tona',
+                        currency: 'RON',
+                        quantity: item.quantity,
+                        price: item.price,
+                        isService: false,
+                    }))
                 },
                 {
                     headers: {
@@ -63,27 +64,49 @@ export default async function handler(req, res) {
                     },
                     headers: {
                         Accept: "application/octet-stream",
-                        Authorization:
-                            "Basic YnVyZHVqYV9hbGV4MTRAeWFob28uY29tOjAwM3wwZThhZDZhODFiZTZiY2U4Y2MzYjllODYwYWI0YTk4Ng==",
+                        Authorization: "Basic YnVyZHVqYV9hbGV4MTRAeWFob28uY29tOjAwM3wwZThhZDZhODFiZTZiY2U4Y2MzYjllODYwYWI0YTk4Ng==",
                     },
-                    responseType: "arraybuffer", // Important to handle binary data
+                    responseType: "arraybuffer",
                 }
             );
 
-            // Set the response headers to send the PDF
-            res.setHeader("Content-Type", "application/pdf");
-            res.setHeader(
-                "Content-Disposition",
-                `attachment; filename=invoice_${seriesName}_${number}.pdf`
-            );
+            const sendMail = async () => {
+                const mailerSend = new MailerSend({
+                    apiKey: 'mlsn.15191c4c92666aeee1b6fc562900c33b42c5094d798b94dd0f548eb2ac3f80ff'
+                })
+    
+                const attachments = [
+                    new Attachment(
+                        Buffer.from(pdfResponse.data, "binary").toString("base64"), // Convert arraybuffer to Base64
+                        `invoice_${seriesName}_${number}.pdf`, // File name
+                        "attachment" // Attachment type
+                    ),
+                ];
+    
+                const recipients =[
+                    new Recipient(`${order.order.client.email}`, `${order.order.client.firstName + '' + order.order.client.lastName}`)
+                ] 
 
-            console.log(pdfResponse.data)
-            res.status(200).send(pdfResponse.data);
+    
+                const sentFrom = new Sender('plm@trial-neqvygmpmjdg0p7w.mlsender.net', "Mabis Wood Eko")
+    
+                const emailParams = new EmailParams()
+                .setFrom(sentFrom)
+                .setTo(recipients)
+                .setReplyTo(sentFrom)
+                .setAttachments(attachments)
+                .setSubject("Mabis Wood Eko Invoice")
+                .setHtml("<strong>This is the HTML content</strong>")
+                .setText("This is the text content")
+    
+                await mailerSend.email.send(emailParams)
+            }
+
+            await sendMail();
+
+            res.status(200).json({message: "Invoice created and email sent successfully!"});
         } catch (error) {
-            console.error(
-                "Error:",
-                error.response?.data || error.message || "Internal Server Error"
-            );
+            console.error(error);
             res.status(500).json({
                 error: error.response?.data || "Internal Server Error",
             });

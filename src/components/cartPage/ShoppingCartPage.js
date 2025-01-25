@@ -757,18 +757,18 @@ const Map = dynamic(() => import('../reusableComponents/Map'), { ssr: false });
 
           }
 
-          cart.forEach(item => {
-            logEvent(analytics, 'purchase', {
-              items: [{
-                item_id: item.stripeId,
-                item_name: item.title,
-                price: item.price,
-                quantity: item.quantity,
-              }],
-              currency: item.currency,
-              value: item.price,
-            });
-          });          
+          // cart.forEach(item => {
+          //   logEvent(analytics, 'purchase', {
+          //     items: [{
+          //       item_id: item.stripeId,
+          //       item_name: item.title,
+          //       price: item.price,
+          //       quantity: item.quantity,
+          //     }],
+          //     currency: item.currency,
+          //     value: item.price,
+          //   });
+          // });          
       }
 
       
