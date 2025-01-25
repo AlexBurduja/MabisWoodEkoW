@@ -5,7 +5,7 @@ import fs from "fs"
 export default async function handler(req, res) {
     if (req.method === "POST") {
         const order = req.body
-        console.log(order.order.client.firstName)
+        const date = new Date();
         try {
             // Create the invoice
             const createInvoiceResponse = await axios.post(
@@ -20,15 +20,15 @@ export default async function handler(req, res) {
                         "country": "Romania",
                         "email": `${order.order.client.email}`,
                     },
-                    "issueDate": "2021-02-09",
+                    "issueDate": `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`,
                     "seriesName": "FCT",
-                    "dueDate": "2021-02-28",
-                    "deliveryDate": "2021-02-28",
+                    // "dueDate": "2021-02-28",
+                    // "deliveryDate": "2021-02-28",
                     "products": order.order.products.map((item) => ({
-                        name: item.title,
+                        name: item.title + ' ' + `${item.kg} KG` ,
                         code: item.id,
                         isDiscount: false,
-                        measuringUnitName: 'tona',
+                        measuringUnitName: 'KG',
                         currency: 'RON',
                         quantity: item.quantity,
                         price: item.price,
@@ -77,9 +77,9 @@ export default async function handler(req, res) {
     
                 const attachments = [
                     new Attachment(
-                        Buffer.from(pdfResponse.data, "binary").toString("base64"), // Convert arraybuffer to Base64
-                        `invoice_${seriesName}_${number}.pdf`, // File name
-                        "attachment" // Attachment type
+                        Buffer.from(pdfResponse.data, "binary").toString("base64"),
+                        `MabisWE_Factura_${order.order.client.firstName}_${order.order.client.lastName}.pdf`,
+                        "attachment"
                     ),
                 ];
     
@@ -96,8 +96,96 @@ export default async function handler(req, res) {
                 .setReplyTo(sentFrom)
                 .setAttachments(attachments)
                 .setSubject("Mabis Wood Eko Invoice")
-                .setHtml("<strong>This is the HTML content</strong>")
-                .setText("This is the text content")
+                .setHtml(`
+                    <!DOCTYPE html>
+                    <html lang="ro">
+                    <head>
+                        <meta charset="UTF-8">
+                        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                        <title>Felicitări pentru Achiziție</title>
+                        <style>
+                            body {
+                                margin: 0;
+                                font-family: 'Arial', sans-serif;
+                                background-color: #f4f4f9;
+                                color: #333;
+                                line-height: 1.6;
+                            }
+            
+                            .email-container {
+                                max-width: 600px;
+                                margin: 0 auto;
+                                background: #ffffff;
+                                border: 1px solid #e0e0e0;
+                                border-radius: 10px;
+                                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                                overflow: hidden;
+                            }
+            
+                            .email-header {
+                                background-color: #3e497a;
+                                color: white;
+                                text-align: center;
+                                padding: 20px;
+                            }
+            
+                            .email-body {
+                                padding: 30px;
+                                text-align: center;
+                            }
+            
+                            .email-body h1 {
+                                font-size: 26px;
+                                color: #3e497a;
+                                margin-bottom: 20px;
+                            }
+            
+                            .email-body p {
+                                font-size: 16px;
+                                margin-bottom: 20px;
+                            }
+            
+                            .email-body .button {
+                                display: inline-block;
+                                background-color: #3e497a;
+                                color: #fff;
+                                padding: 10px 20px;
+                                font-size: 16px;
+                                text-decoration: none;
+                                border-radius: 5px;
+                                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+                            }
+            
+                            .email-footer {
+                                background-color: #f4f4f9;
+                                text-align: center;
+                                padding: 15px;
+                                font-size: 12px;
+                                color: #888;
+                            }
+                        </style>
+                    </head>
+                    <body>
+                        <div class="email-container">
+                            <div class="email-header">
+                                <div class="email-header_left">
+                                    <h2>Mabis Wood Eko</h2>
+                                </div>
+                            </div>
+                            <div class="email-body">
+                                <h1>Felicitări pentru achiziție!</h1>
+                                <p>Dragă <strong>${order.order.client.firstName} ${order.order.client.lastName}</strong>,</p>
+                                <p>Îți mulțumim că ai ales Mabis Wood Eko. Comanda ta a fost procesată cu succes, iar factura este atașată acestui email.</p>
+                                <p>Sperăm că produsele noastre îți vor aduce satisfacție deplină.</p>
+                                <a href="#" class="button">Aveti factura atasata mai jos!</a>
+                            </div>
+                            <div class="email-footer">
+                                <p>© 2025 Mabis Wood Eko. Toate drepturile rezervate.</p>
+                            </div>
+                        </div>
+                    </body>
+                    </html>
+                `)
     
                 await mailerSend.email.send(emailParams)
             }

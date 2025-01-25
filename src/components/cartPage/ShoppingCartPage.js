@@ -40,6 +40,10 @@ const Map = dynamic(() => import('../reusableComponents/Map'), { ssr: false });
     }
   }, []);
 
+
+  const date = new Date();
+  console.log(`${date.getDate()}-${date.getMonth() + 1}-${date.getUTCFullYear()}`)
+
   
   const router = useRouter();
 
