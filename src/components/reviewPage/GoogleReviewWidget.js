@@ -71,7 +71,7 @@ function hoverr(){
     </div>
 
         <div>
-          <span className='boldSpan'>{averageRating}</span> stars  <span className='boldSpan'>| {reviews.length}</span> reviews 
+          <span className='boldSpan'>{averageRating.toFixed(1)}</span> stars  <span className='boldSpan'>| {reviews.length}</span> reviews 
         </div>
       </div>
       </div>

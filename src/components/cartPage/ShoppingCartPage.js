@@ -662,7 +662,7 @@ const Map = dynamic(() => import('../reusableComponents/Map'), { ssr: false });
                   
                   "OS": navigator.platform,
               };
-                
+                console.log(selectedJudet)
                 try {
                   const { data } = await axios.post('/api/payment/start', {
                     invoiceData: {
@@ -684,7 +684,7 @@ const Map = dynamic(() => import('../reusableComponents/Map'), { ssr: false });
                   });
                   
                   if (data.paymentURL) {
-
+                  
                     await setDoc(doc(db, `orders/${finalUuid}`), {
                       products: cart.map((cart) => cart),
                       client: {
@@ -700,10 +700,10 @@ const Map = dynamic(() => import('../reusableComponents/Map'), { ssr: false });
                         apartamentNo: apartamentNo,
                         ...(companyCui && { companyCui: companyCui}),
                         ...(companyName && { companyName: companyName}),
-          
+                        
                       }
                     })
-
+                    
                     console.log(data);
                     window.location.href = data.paymentURL;
                   } else {
@@ -1093,20 +1093,22 @@ const Map = dynamic(() => import('../reusableComponents/Map'), { ssr: false });
   }, []);
 
   useEffect(() => {
-    if (selectedJudet.auto) {
-      fetch(`/api/orase?auto=${encodeURIComponent(selectedJudet.auto)}`)
-        .then((response) => response.json())
-        .then((data) => {
-          setOrase(data.orase);
-          if (data.orase.length > 0) {
-            setSelectedOras(data.orase[0].nume); // Set the first city when orase are fetched
-          }
-        })
-        .catch((error) => {
-          console.error('Error fetching orase:', error);
-        });
-    }
-  }, [selectedJudet]);
+  if (selectedJudet.auto) {
+    fetch(`/api/orase?auto=${encodeURIComponent(selectedJudet.auto)}`)
+      .then((response) => response.json())
+      .then((data) => {
+        const orase = Array.isArray(data.orase) ? data.orase : [];
+        setOrase(orase);
+        if (orase.length > 0) {
+          setSelectedOras(orase[0].nume);
+        }
+      })
+      .catch((error) => {
+        console.error('Error fetching orase:', error);
+      });
+  }
+}, [selectedJudet]);
+
 
 
 
@@ -1657,7 +1659,7 @@ language === 'IT' ? 'Ritiro presso uno dei nostri negozi' :
                  <FaCcApplePay /> <FaGooglePay /> <AiFillCreditCard /> <FaCcMastercard /> <FaCcVisa />
                  </div>
                
-               <button className='checkoutButton' onClick={checkout}>
+               <button className='checkoutButton' onClick={checkout}>Checkout
                 {/* {loadingStripe ? 
                 (language === 'Romania' ? 'Se încarcă...' :
                 language === 'France' ? 'Chargement...' :
